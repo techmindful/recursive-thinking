@@ -99,10 +99,16 @@ view model =
             navBar =
                 ElmUI.none
 
+            -- TODO: Add image element.
             explainer =
-                ElmUI.paragraph
-                    [ ElmUI.centerX ]
-                    [ ElmUI.text model.text ]
+                ElmUI.column
+                    [ ElmUI.height <| ElmUI.maximum 700 <| ElmUI.px 700
+                    , ElmUI.scrollbarY
+                    ]
+                    [ ElmUI.paragraph
+                        [ ElmUI.centerX ]
+                        [ ElmUI.text model.text ]
+                    ]
 
             pageNavButtons =
                 let

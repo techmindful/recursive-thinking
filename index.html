@@ -12251,6 +12251,10 @@ var $mdgriffith$elm_ui$Element$paragraph = F2(
 						attrs))),
 			$mdgriffith$elm_ui$Internal$Model$Unkeyed(children));
 	});
+var $mdgriffith$elm_ui$Internal$Model$Px = function (a) {
+	return {$: 'Px', a: a};
+};
+var $mdgriffith$elm_ui$Element$px = $mdgriffith$elm_ui$Internal$Model$Px;
 var $mdgriffith$elm_ui$Internal$Flag$borderRound = $mdgriffith$elm_ui$Internal$Flag$flag(17);
 var $mdgriffith$elm_ui$Element$Border$rounded = function (radius) {
 	return A2(
@@ -12282,6 +12286,8 @@ var $mdgriffith$elm_ui$Element$row = F2(
 						attrs))),
 			$mdgriffith$elm_ui$Internal$Model$Unkeyed(children));
 	});
+var $mdgriffith$elm_ui$Internal$Flag$overflow = $mdgriffith$elm_ui$Internal$Flag$flag(20);
+var $mdgriffith$elm_ui$Element$scrollbarY = A2($mdgriffith$elm_ui$Internal$Model$Class, $mdgriffith$elm_ui$Internal$Flag$overflow, $mdgriffith$elm_ui$Internal$Style$classes.scrollbarsY);
 var $mdgriffith$elm_ui$Internal$Model$Serif = {$: 'Serif'};
 var $mdgriffith$elm_ui$Element$Font$serif = $mdgriffith$elm_ui$Internal$Model$Serif;
 var $mdgriffith$elm_ui$Element$Font$size = function (i) {
@@ -12421,12 +12427,26 @@ var $author$project$Main$view = function (model) {
 			}();
 			var navBar = $mdgriffith$elm_ui$Element$none;
 			var explainer = A2(
-				$mdgriffith$elm_ui$Element$paragraph,
-				_List_fromArray(
-					[$mdgriffith$elm_ui$Element$centerX]),
+				$mdgriffith$elm_ui$Element$column,
 				_List_fromArray(
 					[
-						$mdgriffith$elm_ui$Element$text(model.text)
+						$mdgriffith$elm_ui$Element$height(
+						A2(
+							$mdgriffith$elm_ui$Element$maximum,
+							700,
+							$mdgriffith$elm_ui$Element$px(700))),
+						$mdgriffith$elm_ui$Element$scrollbarY
+					]),
+				_List_fromArray(
+					[
+						A2(
+						$mdgriffith$elm_ui$Element$paragraph,
+						_List_fromArray(
+							[$mdgriffith$elm_ui$Element$centerX]),
+						_List_fromArray(
+							[
+								$mdgriffith$elm_ui$Element$text(model.text)
+							]))
 					]));
 			var banner = A2(
 				$mdgriffith$elm_ui$Element$textColumn,
