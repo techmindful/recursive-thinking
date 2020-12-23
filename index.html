@@ -6183,7 +6183,7 @@ var $author$project$Main$update = F2(
 				return _Utils_Tuple2(
 					A2($author$project$Main$Model, model.partNum - 1, model.text),
 					$author$project$Main$getExplainer(model.partNum - 1));
-			default:
+			case 'GotExplainer':
 				var result = msg.a;
 				if (result.$ === 'Ok') {
 					var newText = result.a;
@@ -6195,8 +6195,18 @@ var $author$project$Main$update = F2(
 						A2($author$project$Main$Model, model.partNum, 'Error: Failed to fetch explainer text?'),
 						$elm$core$Platform$Cmd$none);
 				}
+			case 'HomePage':
+				return _Utils_Tuple2(
+					A2($author$project$Main$Model, 0, ''),
+					$elm$core$Platform$Cmd$none);
+			default:
+				return _Utils_Tuple2(
+					A2($author$project$Main$Model, 0, ''),
+					$elm$core$Platform$Cmd$none);
 		}
 	});
+var $author$project$Main$CreditsPage = {$: 'CreditsPage'};
+var $author$project$Main$HomePage = {$: 'HomePage'};
 var $author$project$Main$NextPage = {$: 'NextPage'};
 var $author$project$Main$PrevPage = {$: 'PrevPage'};
 var $mdgriffith$elm_ui$Internal$Model$Attr = function (a) {
@@ -12364,8 +12374,6 @@ var $mdgriffith$elm_ui$Element$layout = $mdgriffith$elm_ui$Element$layoutWith(
 	{options: _List_Nil});
 var $author$project$Main$maxPage = 5;
 var $author$project$Main$maxWidthPx = 768;
-var $mdgriffith$elm_ui$Internal$Model$Empty = {$: 'Empty'};
-var $mdgriffith$elm_ui$Element$none = $mdgriffith$elm_ui$Internal$Model$Empty;
 var $mdgriffith$elm_ui$Internal$Model$PaddingStyle = F5(
 	function (a, b, c, d, e) {
 		return {$: 'PaddingStyle', a: a, b: b, c: c, d: d, e: e};
@@ -12383,6 +12391,40 @@ var $mdgriffith$elm_ui$Element$padding = function (x) {
 			f,
 			f,
 			f));
+};
+var $mdgriffith$elm_ui$Internal$Model$paddingName = F4(
+	function (top, right, bottom, left) {
+		return 'pad-' + ($elm$core$String$fromInt(top) + ('-' + ($elm$core$String$fromInt(right) + ('-' + ($elm$core$String$fromInt(bottom) + ('-' + $elm$core$String$fromInt(left)))))));
+	});
+var $mdgriffith$elm_ui$Element$paddingEach = function (_v0) {
+	var top = _v0.top;
+	var right = _v0.right;
+	var bottom = _v0.bottom;
+	var left = _v0.left;
+	if (_Utils_eq(top, right) && (_Utils_eq(top, bottom) && _Utils_eq(top, left))) {
+		var topFloat = top;
+		return A2(
+			$mdgriffith$elm_ui$Internal$Model$StyleClass,
+			$mdgriffith$elm_ui$Internal$Flag$padding,
+			A5(
+				$mdgriffith$elm_ui$Internal$Model$PaddingStyle,
+				'p-' + $elm$core$String$fromInt(top),
+				topFloat,
+				topFloat,
+				topFloat,
+				topFloat));
+	} else {
+		return A2(
+			$mdgriffith$elm_ui$Internal$Model$StyleClass,
+			$mdgriffith$elm_ui$Internal$Flag$padding,
+			A5(
+				$mdgriffith$elm_ui$Internal$Model$PaddingStyle,
+				A4($mdgriffith$elm_ui$Internal$Model$paddingName, top, right, bottom, left),
+				top,
+				right,
+				bottom,
+				left));
+	}
 };
 var $mdgriffith$elm_ui$Internal$Model$Px = function (a) {
 	return {$: 'Px', a: a};
@@ -12516,7 +12558,38 @@ var $author$project$Main$view = function (model) {
 							})
 						]));
 			}();
-			var navBar = $mdgriffith$elm_ui$Element$none;
+			var navBar = function () {
+				var navBarButton = F2(
+					function (msg, str) {
+						return A2(
+							$mdgriffith$elm_ui$Element$Input$button,
+							_List_fromArray(
+								[
+									$mdgriffith$elm_ui$Element$Font$size(24),
+									$mdgriffith$elm_ui$Element$padding(8),
+									$mdgriffith$elm_ui$Element$Border$width(2),
+									$mdgriffith$elm_ui$Element$Border$rounded(6)
+								]),
+							{
+								label: $mdgriffith$elm_ui$Element$text(str),
+								onPress: $elm$core$Maybe$Just(msg)
+							});
+					});
+				return A2(
+					$mdgriffith$elm_ui$Element$row,
+					_List_fromArray(
+						[
+							$mdgriffith$elm_ui$Element$centerX,
+							$mdgriffith$elm_ui$Element$paddingEach(
+							{bottom: 40, left: 0, right: 0, top: 10}),
+							A2($mdgriffith$elm_ui$Element$spacingXY, 40, 0)
+						]),
+					_List_fromArray(
+						[
+							A2(navBarButton, $author$project$Main$HomePage, 'Home'),
+							A2(navBarButton, $author$project$Main$CreditsPage, 'Credits')
+						]));
+			}();
 			var explainer = A2(
 				$mdgriffith$elm_ui$Element$el,
 				_List_fromArray(
@@ -12524,8 +12597,8 @@ var $author$project$Main$view = function (model) {
 						$mdgriffith$elm_ui$Element$height(
 						A2(
 							$mdgriffith$elm_ui$Element$maximum,
-							700,
-							$mdgriffith$elm_ui$Element$px(700))),
+							550,
+							$mdgriffith$elm_ui$Element$px(550))),
 						$mdgriffith$elm_ui$Element$scrollbarY
 					]),
 				function () {

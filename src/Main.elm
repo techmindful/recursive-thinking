@@ -25,6 +25,8 @@ type Msg
     = NextPage
     | PrevPage
     | GotExplainer (Result Http.Error String)
+    | HomePage
+    | CreditsPage
 
 
 type alias AttributeList msg =
@@ -93,6 +95,12 @@ update msg model =
                 Err _ ->
                     ( Model model.partNum "Error: Failed to fetch explainer text?", Cmd.none )
 
+        HomePage ->
+            ( Model 0 "", Cmd.none )
+
+        CreditsPage ->
+            ( Model 0 "", Cmd.none )
+
 
 view : Model -> Html Msg
 view model =
@@ -121,11 +129,31 @@ view model =
                     ]
 
             navBar =
-                ElmUI.none
+                let
+                    navBarButton msg str =
+                        Input.button
+                            [ Font.size 24
+                            , ElmUI.padding 8
+                            , Border.width 2
+                            , Border.rounded 6
+                            ]
+                            { onPress = Just msg
+                            , label = ElmUI.text str
+                            }
+                in
+                ElmUI.row
+                    [ ElmUI.centerX
+                    , ElmUI.paddingEach
+                        { left = 0, right = 0, top = 10, bottom = 40 }
+                    , ElmUI.spacingXY 40 0
+                    ]
+                    [ navBarButton HomePage "Home"
+                    , navBarButton CreditsPage "Credits"
+                    ]
 
             explainer =
                 ElmUI.el
-                    [ ElmUI.height <| ElmUI.maximum 700 <| ElmUI.px 700
+                    [ ElmUI.height <| ElmUI.maximum 550 <| ElmUI.px 550
                     , ElmUI.scrollbarY
                     ]
                 <|
