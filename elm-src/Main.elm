@@ -1,19 +1,21 @@
 module Main exposing (..)
 
 import Browser
+import Http
 import Html exposing (Html)
 import Element as ElmUI
 import Element.Font as Font
 import Element.Input as Input
 import Element.Border as Border
 
-main = Browser.sandbox { init = init, update = update, view = view }
+main = Browser.element { init = init, update = update, view = view, subscriptions = \_ -> Sub.none }
 
-type alias Model = Int
+type alias Model = { partNum : Int, text : String }
 
 type Msg
   = NextPage
   | PrevPage
+  | GotExplainer (Result Http.Error String)
 
 type alias AttributeList msg = List (ElmUI.Attribute msg)
 
@@ -22,14 +24,27 @@ maxWidthPx = 768
 
 disabledColor = ElmUI.rgb255 128 128 128
 
-init : Model
-init = 0
+getExplainer : Int -> Cmd Msg
+getExplainer p =
+  Http.get
+  { url = "/explainer?p=" ++ String.fromInt p
+  , expect = Http.expectString GotExplainer
+  }
 
-update : Msg -> Model -> Model
+init : () -> (Model, Cmd Msg)
+init _ = (Model 0 "", getExplainer 0)
+
+update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
   case msg of
-    NextPage -> model + 1
-    PrevPage -> model - 1
+    NextPage -> (Model (model.partNum + 1) model.text, getExplainer <| model.partNum + 1)
+    PrevPage -> (Model (model.partNum - 1) model.text, getExplainer <| model.partNum - 1)
+    GotExplainer result ->
+      case result of
+        Ok newText ->
+          (Model model.partNum newText, Cmd.none)
+        Err _ ->
+          (Model model.partNum "Error: Failed to fetch explainer text?", Cmd.none)
 
 view : Model -> Html Msg
 view model =
@@ -37,29 +52,24 @@ view model =
   <|
     (let
       banner = ElmUI.textColumn
-        [
-          ElmUI.centerX,
-          ElmUI.padding 60,
-          ElmUI.spacingXY 0 40,
+        [ ElmUI.centerX
+        , ElmUI.padding 60
+        , ElmUI.spacingXY 0 40
 
-          Font.family
-          [
-            Font.typeface "Z003",
-            Font.serif
+        , Font.family
+          [ Font.typeface "Z003"
+          , Font.serif
           ]
         ]
-        [
-          ElmUI.el
-          [
-            Font.center,
-            Font.size 72
+        [ ElmUI.el
+          [ Font.center
+          , Font.size 72
           ]
-          (ElmUI.text "Recursive"),
+          (ElmUI.text "Recursive")
 
-          ElmUI.el
-          [
-            Font.center,
-            Font.size 64
+        , ElmUI.el
+          [ Font.center
+          , Font.size 64
           ]
           (ElmUI.text "Thinking")
         ]
@@ -85,7 +95,7 @@ view model =
             ElmUI.spacingXY 30 0
           ]
           [
-            (if model > 0 then
+            (if model.partNum > 0 then
               Input.button pageNavButtonStyle { onPress = Just PrevPage, label = ElmUI.text "Prev Page" }
             else
               Input.button pageNavButtonStyle_Disabled
@@ -94,9 +104,9 @@ view model =
                 label = ElmUI.el [ Font.color disabledColor ] <| ElmUI.text "Prev Page"
               }),
 
-            ElmUI.text <| String.fromInt model,
+            ElmUI.text <| String.fromInt model.partNum,
 
-            (if model < maxPage then
+            (if model.partNum < maxPage then
               Input.button pageNavButtonStyle { onPress = Just NextPage, label = ElmUI.text "Next Page" }
             else
               Input.button pageNavButtonStyle_Disabled
