@@ -12,6 +12,7 @@ import Http
 import P0 exposing (p0)
 import P1 exposing (p1)
 import P2 exposing (p2)
+import Types exposing (..)
 import Url exposing (Url)
 import Url.Builder
 import Url.Parser exposing ((</>))
@@ -32,24 +33,6 @@ main =
         }
 
 
-type alias Model =
-    { route : Route
-    , navKey : Nav.Key
-    }
-
-
-type Msg
-    = UserClickedLink Browser.UrlRequest
-    | UrlHasChanged Url
-
-
-type Route
-    = Home
-    | Part Int
-    | More
-    | NotFound
-
-
 routeParser : UrlParser (Route -> a) a
 routeParser =
     Url.Parser.oneOf
@@ -64,11 +47,10 @@ getRoute url =
     Maybe.withDefault NotFound <| Url.Parser.parse routeParser url
 
 
-explainerIndex : Dict Int (ElmUI.Element msg)
-explainerIndex =
+explainerIndex : Model -> Dict Int (ElmUI.Element Msg)
+explainerIndex model =
     Dict.fromList
-        [ ( 0, p0 )
-        , ( 1, p1 )
+        [ ( 1, p1 model )
         , ( 2, p2 )
         ]
 
@@ -85,7 +67,7 @@ errPara errMsg =
 
 
 homeUrlStr =
-    "/home"
+    "/"
 
 
 moreUrlStr =
@@ -110,7 +92,7 @@ disabledColor =
 
 init : () -> Url -> Nav.Key -> ( Model, Cmd Msg )
 init () url navKey =
-    ( Model (getRoute url) navKey, Cmd.none )
+    ( Model (getRoute url) navKey Pending, Cmd.none )
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -126,6 +108,9 @@ update msg model =
 
         UrlHasChanged url ->
             ( { model | route = getRoute url }, Cmd.none )
+
+        P1_RecvInput p1_Option ->
+            ( { model | p1_UserChoice = p1_Option }, Cmd.none )
 
 
 view : Model -> Browser.Document Msg
@@ -193,7 +178,7 @@ view model =
                         , ElmUI.scrollbarY
                         ]
                     <|
-                        case Dict.get currentPartNum explainerIndex of
+                        case Dict.get currentPartNum <| explainerIndex model of
                             Just e ->
                                 e
 
@@ -216,7 +201,7 @@ view model =
                         , ElmUI.padding 20
                         , ElmUI.spacingXY 30 0
                         ]
-                        [ if currentPartNum > 0 then
+                        [ if currentPartNum > 1 then
                             ElmUI.link pageNavButtonStyle
                                 { url = explainerUrlStrHead ++ String.fromInt (currentPartNum - 1)
                                 , label = ElmUI.text "Prev Page"
@@ -251,13 +236,19 @@ view model =
                 , navBar
                 ]
                     ++ (case model.route of
+                            Home ->
+                                [ p0 ]
+
                             Part p ->
                                 [ explainer
                                 , pageNavButtons
                                 ]
 
+                            More ->
+                                [ ElmUI.text "More" ]
+
                             _ ->
-                                []
+                                [ ElmUI.text "Route error" ]
                        )
         ]
     }
