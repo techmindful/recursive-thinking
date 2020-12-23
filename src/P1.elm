@@ -6,13 +6,15 @@ import Element.Border as Border
 import Element.Font as Font
 import Element.Input as Input
 import Html
+import PageNavButtons exposing (..)
 import Types exposing (..)
 
 
 p1 : Model -> ElmUI.Element Msg
 p1 model =
     ElmUI.column []
-        [ ElmUI.textColumn
+        [ ElmUI.el [ ElmUI.paddingXY 0 20 ] <| prevPageButton model
+        , ElmUI.textColumn
             [ ElmUI.spacingXY 0 15 ]
             [ ElmUI.paragraph []
                 [ ElmUI.text "The simplest example to explain recursion is factorial. The factorial of a number n, denoted by n!, is just n * (n - 1) * (n - 2) * ... * 1. So the factorial of 4, which is 4!, equals to 24, because 4 * 3 * 2 * 1 = 24." ]
@@ -64,14 +66,5 @@ p1 model =
                     QuizNoInput ->
                         ""
             ]
-        , ElmUI.text <|
-            case model.p1_QuizStatus.sub of
-                QuizSel 2 ->
-                    "Correct sub"
-
-                QuizSel n ->
-                    "Wrong sub " ++ String.fromInt n
-
-                _ ->
-                    "Other"
+        , nextPageButton model
         ]

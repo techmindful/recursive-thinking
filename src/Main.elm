@@ -159,6 +159,11 @@ view model =
                     ElmUI.el
                         [ ElmUI.centerX
                         , ElmUI.height <| ElmUI.maximum 550 <| ElmUI.px 550
+
+                        -- This padding prevents the left side of the highlighted border of
+                        -- Page nav buttons to be half-clipped when clicked.
+                        -- But it also causes explainer to be 20px bigger than max width.
+                        , ElmUI.padding 10
                         , ElmUI.scrollbarY
                         ]
                     <|
@@ -168,48 +173,6 @@ view model =
 
                             Nothing ->
                                 errPara "p exceeds boundary of explainerIndex."
-
-                pageNavButtons =
-                    let
-                        pageNavButtonStyle =
-                            [ ElmUI.centerX
-                            , ElmUI.padding 5
-                            , Border.width 2
-                            , Border.rounded 6
-                            ]
-
-                        pageNavButtonStyle_Disabled =
-                            pageNavButtonStyle ++ [ Border.color disabledColor ]
-                    in
-                    ElmUI.row
-                        [ ElmUI.centerX
-                        , ElmUI.padding 20
-                        , ElmUI.spacingXY 30 0
-                        ]
-                        [ if currentPartNum > 1 then
-                            ElmUI.link pageNavButtonStyle
-                                { url = explainerUrlStrHead ++ String.fromInt (currentPartNum - 1)
-                                , label = ElmUI.text "Prev Page"
-                                }
-
-                          else
-                            Input.button pageNavButtonStyle_Disabled
-                                { onPress = Nothing
-                                , label = ElmUI.el [ Font.color disabledColor ] <| ElmUI.text "Prev Page"
-                                }
-                        , ElmUI.text <| String.fromInt currentPartNum
-                        , if currentPartNum < maxPage then
-                            ElmUI.link pageNavButtonStyle
-                                { url = explainerUrlStrHead ++ String.fromInt (currentPartNum + 1)
-                                , label = ElmUI.text "Next Page"
-                                }
-
-                          else
-                            Input.button pageNavButtonStyle_Disabled
-                                { onPress = Nothing
-                                , label = ElmUI.el [ Font.color disabledColor ] <| ElmUI.text "Next Page"
-                                }
-                        ]
             in
             ElmUI.column
                 -- Constrain everything in middle.
@@ -225,9 +188,7 @@ view model =
                                 [ p0 ]
 
                             Part p ->
-                                [ explainer
-                                , pageNavButtons
-                                ]
+                                [ explainer ]
 
                             More ->
                                 [ ElmUI.text "More" ]
