@@ -3,6 +3,7 @@ module P1 exposing (p1)
 import Consts exposing (..)
 import Element as ElmUI
 import Element.Border as Border
+import Element.Font as Font
 import Element.Input as Input
 import Html
 import Types exposing (..)
@@ -24,9 +25,8 @@ p1 model =
             ]
             { onChange = \option -> P1_RecvInput { sel = option, sub = model.p1_QuizStatus.sub }
             , options =
-                [ Input.option (QuizSel 1) <| ElmUI.text "Wrong answer"
-                , Input.option (QuizSel 2) <| ElmUI.text "Correct answer"
-                , Input.option (QuizSel 3) <| ElmUI.text "Wrong answer 2"
+                [ Input.option (QuizSel 1) <| ElmUI.text "n! = n * (n - 1)! * (n - 2)! * ... * 1!"
+                , Input.option (QuizSel 2) <| ElmUI.text "n! = n * (n - 1)!"
                 ]
             , selected = Just model.p1_QuizStatus.sel
             , label = Input.labelAbove [] <| ElmUI.text ""
@@ -39,16 +39,31 @@ p1 model =
             { onPress = Just <| P1_RecvInput { sel = model.p1_QuizStatus.sel, sub = model.p1_QuizStatus.sel }
             , label = ElmUI.text "Submit"
             }
-        , ElmUI.text <|
-            case model.p1_QuizStatus.sel of
-                QuizSel 2 ->
-                    "Correct sel"
+        , ElmUI.paragraph
+            [ ElmUI.width <| ElmUI.maximum maxWidthPx <| ElmUI.px maxWidthPx
+            , ElmUI.paddingXY 0 15
+            , Font.color <|
+                case model.p1_QuizStatus.sub of
+                    QuizSel 2 ->
+                        quizCorrectColor
 
-                QuizSel n ->
-                    "Wrong sel " ++ String.fromInt n
+                    _ ->
+                        quizWrongColor
+            ]
+            [ ElmUI.text <|
+                case model.p1_QuizStatus.sub of
+                    QuizSel 2 ->
+                        "That is correct!"
 
-                _ ->
-                    "Other"
+                    QuizSel _ ->
+                        "That is incorrect. On paper, you can try to expand n!, (n - 1)!, and other terms, for a better comparison."
+
+                    QuizPass ->
+                        "Sure thing, go to the next page to see the answer."
+
+                    QuizNoInput ->
+                        ""
+            ]
         , ElmUI.text <|
             case model.p1_QuizStatus.sub of
                 QuizSel 2 ->

@@ -25,3 +25,11 @@ maxWidthPx =
 
 disabledColor =
     ElmUI.rgb255 128 128 128
+
+
+quizCorrectColor =
+    ElmUI.rgb255 0 0 255
+
+
+quizWrongColor =
+    ElmUI.rgb255 255 0 0

@@ -11901,6 +11901,15 @@ var $mdgriffith$elm_ui$Element$Input$Label = F3(
 		return {$: 'Label', a: a, b: b, c: c};
 	});
 var $mdgriffith$elm_ui$Element$Input$labelAbove = $mdgriffith$elm_ui$Element$Input$Label($mdgriffith$elm_ui$Element$Input$Above);
+var $author$project$Consts$maxWidthPx = 768;
+var $mdgriffith$elm_ui$Internal$Model$Max = F2(
+	function (a, b) {
+		return {$: 'Max', a: a, b: b};
+	});
+var $mdgriffith$elm_ui$Element$maximum = F2(
+	function (i, l) {
+		return A2($mdgriffith$elm_ui$Internal$Model$Max, i, l);
+	});
 var $mdgriffith$elm_ui$Element$Input$Option = F2(
 	function (a, b) {
 		return {$: 'Option', a: a, b: b};
@@ -12064,6 +12073,37 @@ var $mdgriffith$elm_ui$Element$padding = function (x) {
 			f,
 			f));
 };
+var $mdgriffith$elm_ui$Element$paddingXY = F2(
+	function (x, y) {
+		if (_Utils_eq(x, y)) {
+			var f = x;
+			return A2(
+				$mdgriffith$elm_ui$Internal$Model$StyleClass,
+				$mdgriffith$elm_ui$Internal$Flag$padding,
+				A5(
+					$mdgriffith$elm_ui$Internal$Model$PaddingStyle,
+					'p-' + $elm$core$String$fromInt(x),
+					f,
+					f,
+					f,
+					f));
+		} else {
+			var yFloat = y;
+			var xFloat = x;
+			return A2(
+				$mdgriffith$elm_ui$Internal$Model$StyleClass,
+				$mdgriffith$elm_ui$Internal$Flag$padding,
+				A5(
+					$mdgriffith$elm_ui$Internal$Model$PaddingStyle,
+					'p-' + ($elm$core$String$fromInt(x) + ('-' + $elm$core$String$fromInt(y))),
+					yFloat,
+					xFloat,
+					yFloat,
+					xFloat));
+		}
+	});
+var $author$project$Consts$quizCorrectColor = A3($mdgriffith$elm_ui$Element$rgb255, 0, 0, 255);
+var $author$project$Consts$quizWrongColor = A3($mdgriffith$elm_ui$Element$rgb255, 255, 0, 0);
 var $mdgriffith$elm_ui$Element$Input$Column = {$: 'Column'};
 var $mdgriffith$elm_ui$Element$Input$AfterFound = {$: 'AfterFound'};
 var $mdgriffith$elm_ui$Element$Input$BeforeFound = {$: 'BeforeFound'};
@@ -12476,14 +12516,6 @@ var $mdgriffith$elm_ui$Element$spacingXY = F2(
 	});
 var $mdgriffith$elm_ui$Internal$Model$AsTextColumn = {$: 'AsTextColumn'};
 var $mdgriffith$elm_ui$Internal$Model$asTextColumn = $mdgriffith$elm_ui$Internal$Model$AsTextColumn;
-var $mdgriffith$elm_ui$Internal$Model$Max = F2(
-	function (a, b) {
-		return {$: 'Max', a: a, b: b};
-	});
-var $mdgriffith$elm_ui$Element$maximum = F2(
-	function (i, l) {
-		return A2($mdgriffith$elm_ui$Internal$Model$Max, i, l);
-	});
 var $mdgriffith$elm_ui$Internal$Model$Min = F2(
 	function (a, b) {
 		return {$: 'Min', a: a, b: b};
@@ -12558,15 +12590,11 @@ var $author$project$P1$p1 = function (model) {
 							A2(
 							$mdgriffith$elm_ui$Element$Input$option,
 							$author$project$Types$QuizSel(1),
-							$mdgriffith$elm_ui$Element$text('Wrong answer')),
+							$mdgriffith$elm_ui$Element$text('n! = n * (n - 1)! * (n - 2)! * ... * 1!')),
 							A2(
 							$mdgriffith$elm_ui$Element$Input$option,
 							$author$project$Types$QuizSel(2),
-							$mdgriffith$elm_ui$Element$text('Correct answer')),
-							A2(
-							$mdgriffith$elm_ui$Element$Input$option,
-							$author$project$Types$QuizSel(3),
-							$mdgriffith$elm_ui$Element$text('Wrong answer 2'))
+							$mdgriffith$elm_ui$Element$text('n! = n * (n - 1)!'))
 						]),
 					selected: $elm$core$Maybe$Just(model.p1_QuizStatus.sel)
 				}),
@@ -12584,28 +12612,53 @@ var $author$project$P1$p1 = function (model) {
 						$author$project$Types$P1_RecvInput(
 							{sel: model.p1_QuizStatus.sel, sub: model.p1_QuizStatus.sel}))
 				}),
+				A2(
+				$mdgriffith$elm_ui$Element$paragraph,
+				_List_fromArray(
+					[
+						$mdgriffith$elm_ui$Element$width(
+						A2(
+							$mdgriffith$elm_ui$Element$maximum,
+							$author$project$Consts$maxWidthPx,
+							$mdgriffith$elm_ui$Element$px($author$project$Consts$maxWidthPx))),
+						A2($mdgriffith$elm_ui$Element$paddingXY, 0, 15),
+						$mdgriffith$elm_ui$Element$Font$color(
+						function () {
+							var _v0 = model.p1_QuizStatus.sub;
+							if ((_v0.$ === 'QuizSel') && (_v0.a === 2)) {
+								return $author$project$Consts$quizCorrectColor;
+							} else {
+								return $author$project$Consts$quizWrongColor;
+							}
+						}())
+					]),
+				_List_fromArray(
+					[
+						$mdgriffith$elm_ui$Element$text(
+						function () {
+							var _v1 = model.p1_QuizStatus.sub;
+							switch (_v1.$) {
+								case 'QuizSel':
+									if (_v1.a === 2) {
+										return 'That is correct!';
+									} else {
+										return 'That is incorrect. On paper, you can try to expand n!, (n - 1)!, and other terms, for a better comparison.';
+									}
+								case 'QuizPass':
+									return 'Sure thing, go to the next page to see the answer.';
+								default:
+									return '';
+							}
+						}())
+					])),
 				$mdgriffith$elm_ui$Element$text(
 				function () {
-					var _v0 = model.p1_QuizStatus.sel;
-					if (_v0.$ === 'QuizSel') {
-						if (_v0.a === 2) {
-							return 'Correct sel';
-						} else {
-							var n = _v0.a;
-							return 'Wrong sel ' + $elm$core$String$fromInt(n);
-						}
-					} else {
-						return 'Other';
-					}
-				}()),
-				$mdgriffith$elm_ui$Element$text(
-				function () {
-					var _v1 = model.p1_QuizStatus.sub;
-					if (_v1.$ === 'QuizSel') {
-						if (_v1.a === 2) {
+					var _v2 = model.p1_QuizStatus.sub;
+					if (_v2.$ === 'QuizSel') {
+						if (_v2.a === 2) {
 							return 'Correct sub';
 						} else {
-							var n = _v1.a;
+							var n = _v2.a;
 							return 'Wrong sub ' + $elm$core$String$fromInt(n);
 						}
 					} else {
@@ -12945,37 +12998,7 @@ var $mdgriffith$elm_ui$Element$link = F2(
 					[label])));
 	});
 var $author$project$Consts$maxPage = 5;
-var $author$project$Consts$maxWidthPx = 768;
 var $author$project$Consts$moreUrlStr = '/more';
-var $mdgriffith$elm_ui$Element$paddingXY = F2(
-	function (x, y) {
-		if (_Utils_eq(x, y)) {
-			var f = x;
-			return A2(
-				$mdgriffith$elm_ui$Internal$Model$StyleClass,
-				$mdgriffith$elm_ui$Internal$Flag$padding,
-				A5(
-					$mdgriffith$elm_ui$Internal$Model$PaddingStyle,
-					'p-' + $elm$core$String$fromInt(x),
-					f,
-					f,
-					f,
-					f));
-		} else {
-			var yFloat = y;
-			var xFloat = x;
-			return A2(
-				$mdgriffith$elm_ui$Internal$Model$StyleClass,
-				$mdgriffith$elm_ui$Internal$Flag$padding,
-				A5(
-					$mdgriffith$elm_ui$Internal$Model$PaddingStyle,
-					'p-' + ($elm$core$String$fromInt(x) + ('-' + $elm$core$String$fromInt(y))),
-					yFloat,
-					xFloat,
-					yFloat,
-					xFloat));
-		}
-	});
 var $mdgriffith$elm_ui$Element$Font$size = function (i) {
 	return A2(
 		$mdgriffith$elm_ui$Internal$Model$StyleClass,
