@@ -32,13 +32,16 @@ explainer queryItems =
       "Bad query. It should be ?p=<int>"
 
     parseQuery [(key, Just val)] =
-      let p = readMaybe $ Char8.unpack val :: Maybe Int
+      let
+        v = Char8.unpack val
+        p = readMaybe v :: Maybe Int
       in
-        if Char8.unpack key == "p" && p /= Nothing then
-          responseLBS
-            status400
+        if Char8.unpack key == "p" && p /= Nothing then  -- "p" is key name, p is actual val.
+          responseFile
+            status200
             [("Content-Type", "text/plain")]
-            "Good query."
+            ("static/explainers/p" ++ v ++ ".txt")
+            Nothing
         else
           respBadQuery
     parseQuery _ = respBadQuery
