@@ -1,6 +1,7 @@
 module Main exposing (..)
 
 import Browser
+import Browser.Navigation as Nav
 import Dict exposing (Dict)
 import Element as ElmUI
 import Element.Border as Border
@@ -11,38 +12,56 @@ import Http
 import P0 exposing (p0)
 import P1 exposing (p1)
 import P2 exposing (p2)
+import Url exposing (Url)
+import Url.Builder
+import Url.Parser exposing ((</>))
+
+
+type alias UrlParser a b =
+    Url.Parser.Parser a b
 
 
 main =
-    Browser.element { init = init, update = update, view = view, subscriptions = \_ -> Sub.none }
+    Browser.application
+        { init = init
+        , update = update
+        , view = view
+        , subscriptions = \_ -> Sub.none
+        , onUrlRequest = UserClickedLink
+        , onUrlChange = UrlHasChanged
+        }
 
 
 type alias Model =
-    { partNum : Int, text : String }
+    { route : Route
+    , navKey : Nav.Key
+    }
 
 
 type Msg
-    = NextPage
-    | PrevPage
-    | GotExplainer (Result Http.Error String)
-    | HomePage
-    | CreditsPage
+    = UserClickedLink Browser.UrlRequest
+    | UrlHasChanged Url
 
 
-type alias AttributeList msg =
-    List (ElmUI.Attribute msg)
+type Route
+    = Home
+    | Part Int
+    | More
+    | NotFound
 
 
-maxPage =
-    5
+routeParser : UrlParser (Route -> a) a
+routeParser =
+    Url.Parser.oneOf
+        [ Url.Parser.map Home Url.Parser.top
+        , Url.Parser.map Part (Url.Parser.s "part" </> Url.Parser.int)
+        , Url.Parser.map More (Url.Parser.s "more")
+        ]
 
 
-maxWidthPx =
-    768
-
-
-disabledColor =
-    ElmUI.rgb255 128 128 128
+getRoute : Url -> Route
+getRoute url =
+    Maybe.withDefault NotFound <| Url.Parser.parse routeParser url
 
 
 explainerIndex : Dict Int (ElmUI.Element msg)
@@ -65,146 +84,180 @@ errPara errMsg =
         ]
 
 
-getExplainer : Int -> Cmd Msg
-getExplainer p =
-    Http.get
-        { url = "/explainer?p=" ++ String.fromInt p
-        , expect = Http.expectString GotExplainer
-        }
+homeUrlStr =
+    "/home"
 
 
-init : () -> ( Model, Cmd Msg )
-init _ =
-    ( Model 0 "", getExplainer 0 )
+moreUrlStr =
+    "/more"
+
+
+explainerUrlStrHead =
+    "/part/"
+
+
+maxPage =
+    5
+
+
+maxWidthPx =
+    768
+
+
+disabledColor =
+    ElmUI.rgb255 128 128 128
+
+
+init : () -> Url -> Nav.Key -> ( Model, Cmd Msg )
+init () url navKey =
+    ( Model (getRoute url) navKey, Cmd.none )
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        NextPage ->
-            ( Model (model.partNum + 1) model.text, getExplainer <| model.partNum + 1 )
+        UserClickedLink req ->
+            case req of
+                Browser.Internal url ->
+                    ( model, Nav.pushUrl model.navKey <| Url.toString url )
 
-        PrevPage ->
-            ( Model (model.partNum - 1) model.text, getExplainer <| model.partNum - 1 )
+                Browser.External url ->
+                    ( model, Nav.load url )
 
-        GotExplainer result ->
-            case result of
-                Ok newText ->
-                    ( Model model.partNum newText, Cmd.none )
-
-                Err _ ->
-                    ( Model model.partNum "Error: Failed to fetch explainer text?", Cmd.none )
-
-        HomePage ->
-            ( Model 0 "", Cmd.none )
-
-        CreditsPage ->
-            ( Model 0 "", Cmd.none )
+        UrlHasChanged url ->
+            ( { model | route = getRoute url }, Cmd.none )
 
 
-view : Model -> Html Msg
+view : Model -> Browser.Document Msg
 view model =
-    ElmUI.layout [] <|
-        let
-            banner =
-                ElmUI.textColumn
-                    [ ElmUI.centerX
-                    , ElmUI.padding 60
-                    , ElmUI.spacingXY 0 40
-                    , Font.family
-                        [ Font.typeface "Z003"
-                        , Font.serif
+    { title = "Recursive Thinking"
+    , body =
+        [ ElmUI.layout [] <|
+            let
+                banner =
+                    ElmUI.textColumn
+                        [ ElmUI.centerX
+                        , ElmUI.padding 60
+                        , ElmUI.spacingXY 0 40
+                        , Font.family
+                            [ Font.typeface "Z003"
+                            , Font.serif
+                            ]
                         ]
-                    ]
-                    [ ElmUI.el
-                        [ Font.center
-                        , Font.size 72
+                        [ ElmUI.el
+                            [ Font.center
+                            , Font.size 72
+                            ]
+                            (ElmUI.text "Recursive")
+                        , ElmUI.el
+                            [ Font.center
+                            , Font.size 64
+                            ]
+                            (ElmUI.text "Thinking")
                         ]
-                        (ElmUI.text "Recursive")
-                    , ElmUI.el
-                        [ Font.center
-                        , Font.size 64
-                        ]
-                        (ElmUI.text "Thinking")
-                    ]
 
-            navBar =
-                let
-                    navBarButton msg str =
-                        Input.button
-                            [ Font.size 24
-                            , ElmUI.padding 8
+                navBar =
+                    let
+                        navBarButton urlStr labelStr =
+                            ElmUI.link
+                                [ Font.size 24
+                                , ElmUI.padding 8
+                                , Border.width 2
+                                , Border.rounded 6
+                                ]
+                                { url = urlStr
+                                , label = ElmUI.text labelStr
+                                }
+                    in
+                    ElmUI.row
+                        [ ElmUI.centerX
+                        , ElmUI.paddingEach
+                            { left = 0, right = 0, top = 10, bottom = 40 }
+                        , ElmUI.spacingXY 40 0
+                        ]
+                        [ navBarButton homeUrlStr "Home"
+                        , navBarButton moreUrlStr "More"
+                        ]
+
+                currentPartNum =
+                    case model.route of
+                        Part p ->
+                            p
+
+                        _ ->
+                            -1
+
+                explainer =
+                    ElmUI.el
+                        [ ElmUI.height <| ElmUI.maximum 550 <| ElmUI.px 550
+                        , ElmUI.scrollbarY
+                        ]
+                    <|
+                        case Dict.get currentPartNum explainerIndex of
+                            Just e ->
+                                e
+
+                            Nothing ->
+                                errPara "p exceeds boundary of explainerIndex."
+
+                pageNavButtons =
+                    let
+                        pageNavButtonStyle =
+                            [ ElmUI.padding 5
                             , Border.width 2
                             , Border.rounded 6
                             ]
-                            { onPress = Just msg
-                            , label = ElmUI.text str
-                            }
-                in
-                ElmUI.row
-                    [ ElmUI.centerX
-                    , ElmUI.paddingEach
-                        { left = 0, right = 0, top = 10, bottom = 40 }
-                    , ElmUI.spacingXY 40 0
-                    ]
-                    [ navBarButton HomePage "Home"
-                    , navBarButton CreditsPage "Credits"
-                    ]
 
-            explainer =
-                ElmUI.el
-                    [ ElmUI.height <| ElmUI.maximum 550 <| ElmUI.px 550
-                    , ElmUI.scrollbarY
-                    ]
-                <|
-                    case Dict.get model.partNum explainerIndex of
-                        Just e ->
-                            e
-
-                        Nothing ->
-                            errPara "p exceeds boundary of explainerIndex."
-
-            pageNavButtons =
-                let
-                    pageNavButtonStyle =
-                        [ ElmUI.padding 5
-                        , Border.width 2
-                        , Border.rounded 6
+                        pageNavButtonStyle_Disabled =
+                            pageNavButtonStyle ++ [ Border.color disabledColor ]
+                    in
+                    ElmUI.row
+                        [ ElmUI.centerX
+                        , ElmUI.padding 20
+                        , ElmUI.spacingXY 30 0
                         ]
+                        [ if currentPartNum > 0 then
+                            ElmUI.link pageNavButtonStyle
+                                { url = explainerUrlStrHead ++ String.fromInt (currentPartNum - 1)
+                                , label = ElmUI.text "Prev Page"
+                                }
 
-                    pageNavButtonStyle_Disabled =
-                        pageNavButtonStyle ++ [ Border.color disabledColor ]
-                in
-                ElmUI.row
-                    [ ElmUI.centerX
-                    , ElmUI.padding 20
-                    , ElmUI.spacingXY 30 0
-                    ]
-                    [ if model.partNum > 0 then
-                        Input.button pageNavButtonStyle { onPress = Just PrevPage, label = ElmUI.text "Prev Page" }
+                          else
+                            Input.button pageNavButtonStyle_Disabled
+                                { onPress = Nothing
+                                , label = ElmUI.el [ Font.color disabledColor ] <| ElmUI.text "Prev Page"
+                                }
+                        , ElmUI.text <| String.fromInt currentPartNum
+                        , if currentPartNum < maxPage then
+                            ElmUI.link pageNavButtonStyle
+                                { url = explainerUrlStrHead ++ String.fromInt (currentPartNum + 1)
+                                , label = ElmUI.text "Next Page"
+                                }
 
-                      else
-                        Input.button pageNavButtonStyle_Disabled
-                            { onPress = Nothing
-                            , label = ElmUI.el [ Font.color disabledColor ] <| ElmUI.text "Prev Page"
-                            }
-                    , ElmUI.text <| String.fromInt model.partNum
-                    , if model.partNum < maxPage then
-                        Input.button pageNavButtonStyle { onPress = Just NextPage, label = ElmUI.text "Next Page" }
+                          else
+                            Input.button pageNavButtonStyle_Disabled
+                                { onPress = Nothing
+                                , label = ElmUI.el [ Font.color disabledColor ] <| ElmUI.text "Next Page"
+                                }
+                        ]
+            in
+            ElmUI.column
+                -- Constrain everything in middle.
+                [ ElmUI.centerX
+                , ElmUI.width <| ElmUI.maximum maxWidthPx <| ElmUI.fill
+                ]
+            <|
+                [ banner
+                , navBar
+                ]
+                    ++ (case model.route of
+                            Part p ->
+                                [ explainer
+                                , pageNavButtons
+                                ]
 
-                      else
-                        Input.button pageNavButtonStyle_Disabled
-                            { onPress = Nothing
-                            , label = ElmUI.el [ Font.color disabledColor ] <| ElmUI.text "Next Page"
-                            }
-                    ]
-        in
-        ElmUI.column
-            [ ElmUI.centerX
-            , ElmUI.width <| ElmUI.maximum maxWidthPx <| ElmUI.fill
-            ]
-            [ banner
-            , navBar
-            , explainer
-            , pageNavButtons
-            ]
+                            _ ->
+                                []
+                       )
+        ]
+    }
