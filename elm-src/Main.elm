@@ -1,12 +1,16 @@
 module Main exposing (..)
 
 import Browser
+import Dict exposing (Dict)
 import Element as ElmUI
 import Element.Border as Border
 import Element.Font as Font
 import Element.Input as Input
 import Html exposing (Html)
 import Http
+import P0 exposing (p0)
+import P1 exposing (p1)
+import P2 exposing (p2)
 
 
 main =
@@ -37,6 +41,26 @@ maxWidthPx =
 
 disabledColor =
     ElmUI.rgb255 128 128 128
+
+
+explainerIndex : Dict Int (ElmUI.Element msg)
+explainerIndex =
+    Dict.fromList
+        [ ( 0, p0 )
+        , ( 1, p1 )
+        , ( 2, p2 )
+        ]
+
+
+errPara : String -> ElmUI.Element m
+errPara errMsg =
+    ElmUI.paragraph []
+        [ ElmUI.text <|
+            "Error: I made a mistake when making this website. I was about to blame javascript but I remembered I'm using Elm.. Can you contact me about this? "
+                ++ "ErrMsg: \""
+                ++ errMsg
+                ++ "\""
+        ]
 
 
 getExplainer : Int -> Cmd Msg
@@ -99,16 +123,18 @@ view model =
             navBar =
                 ElmUI.none
 
-            -- TODO: Add image element.
             explainer =
-                ElmUI.column
+                ElmUI.el
                     [ ElmUI.height <| ElmUI.maximum 700 <| ElmUI.px 700
                     , ElmUI.scrollbarY
                     ]
-                    [ ElmUI.paragraph
-                        [ ElmUI.centerX ]
-                        [ ElmUI.text model.text ]
-                    ]
+                <|
+                    case Dict.get model.partNum explainerIndex of
+                        Just e ->
+                            e
+
+                        Nothing ->
+                            errPara "p exceeds boundary of explainerIndex."
 
             pageNavButtons =
                 let
@@ -123,6 +149,7 @@ view model =
                 in
                 ElmUI.row
                     [ ElmUI.centerX
+                    , ElmUI.padding 20
                     , ElmUI.spacingXY 30 0
                     ]
                     [ if model.partNum > 0 then

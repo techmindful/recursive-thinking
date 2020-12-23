@@ -1,0 +1,3 @@
+Hi there, welcome! Here on this website, I'm going to show you the concept of recursive thinking, a.k.a. recursion.
+A great number of people are entertained by the idea of recursion, because it's a meta and funky concept. They are also confused and intimidated by the same idea, because it's seemingly mind-twisting. 
+
