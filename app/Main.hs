@@ -1,12 +1,19 @@
 {-# LANGUAGE OverloadedStrings #-}
+
 import Network.Wai
 import Network.HTTP.Types
 import Network.Wai.Handler.Warp (run)
 
+import qualified Data.ByteString as ByteStr
+import qualified Data.ByteString.Char8 as Char8
+import qualified Data.ByteString.Lazy as LzByteStr
+import qualified Data.Binary.Builder as BinBuilder
+import Text.Read (readMaybe)
+
 app :: Application
 app request respond = respond $ case rawPathInfo request of
   "/" -> index
-  "/raw/" -> plainIndex
+  "/explainer" -> explainer $ queryString request
   _ -> notFound
 
 index :: Response
@@ -16,12 +23,28 @@ index = responseFile
   "index.html"
   Nothing
 
-plainIndex :: Response
-plainIndex = responseFile
-  status200
-  [("Content-Type", "text/plain")]
-  "index.html"
-  Nothing
+explainer :: [QueryItem] -> Response
+explainer queryItems =
+  let
+    respBadQuery = responseLBS
+      status400
+      [("Content-Type", "text/plain")]
+      "Bad query. It should be ?p=<int>"
+
+    parseQuery [(key, Just val)] =
+      let p = readMaybe $ Char8.unpack val :: Maybe Int
+      in
+        if Char8.unpack key == "p" && p /= Nothing then
+          responseLBS
+            status400
+            [("Content-Type", "text/plain")]
+            "Good query."
+        else
+          respBadQuery
+    parseQuery _ = respBadQuery
+  in
+    parseQuery queryItems
+    
 
 notFound :: Response
 notFound = responseLBS
