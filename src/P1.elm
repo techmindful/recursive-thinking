@@ -42,8 +42,7 @@ p1 model =
             , label = ElmUI.text "Submit"
             }
         , ElmUI.paragraph
-            [ ElmUI.width <| ElmUI.maximum maxWidthPx <| ElmUI.px maxWidthPx
-            , ElmUI.paddingXY 0 15
+            [ ElmUI.paddingXY 0 15
             , Font.color <|
                 case model.p1_QuizStatus.sub of
                     QuizSel 2 ->
@@ -66,5 +65,10 @@ p1 model =
                     QuizNoInput ->
                         ""
             ]
-        , nextPageButton model
+        , case model.p1_QuizStatus.sub of
+            QuizSel 2 ->
+                nextPageButton model
+
+            _ ->
+                ElmUI.none
         ]

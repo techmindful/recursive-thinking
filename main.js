@@ -11881,15 +11881,6 @@ var $mdgriffith$elm_ui$Element$Input$Label = F3(
 		return {$: 'Label', a: a, b: b, c: c};
 	});
 var $mdgriffith$elm_ui$Element$Input$labelAbove = $mdgriffith$elm_ui$Element$Input$Label($mdgriffith$elm_ui$Element$Input$Above);
-var $author$project$Consts$maxWidthPx = 768;
-var $mdgriffith$elm_ui$Internal$Model$Max = F2(
-	function (a, b) {
-		return {$: 'Max', a: a, b: b};
-	});
-var $mdgriffith$elm_ui$Element$maximum = F2(
-	function (i, l) {
-		return A2($mdgriffith$elm_ui$Internal$Model$Max, i, l);
-	});
 var $mdgriffith$elm_ui$Internal$Model$Rgba = F4(
 	function (a, b, c, d) {
 		return {$: 'Rgba', a: a, b: b, c: c, d: d};
@@ -12066,6 +12057,8 @@ var $author$project$PageNavButtons$nextPageButton = function (model) {
 		return $author$project$PageNavButtons$illPlacedButton;
 	}
 };
+var $mdgriffith$elm_ui$Internal$Model$Empty = {$: 'Empty'};
+var $mdgriffith$elm_ui$Element$none = $mdgriffith$elm_ui$Internal$Model$Empty;
 var $mdgriffith$elm_ui$Element$Input$Option = F2(
 	function (a, b) {
 		return {$: 'Option', a: a, b: b};
@@ -12083,8 +12076,6 @@ var $mdgriffith$elm_ui$Element$Background$color = function (clr) {
 			'background-color',
 			clr));
 };
-var $mdgriffith$elm_ui$Internal$Model$Empty = {$: 'Empty'};
-var $mdgriffith$elm_ui$Element$none = $mdgriffith$elm_ui$Internal$Model$Empty;
 var $mdgriffith$elm_ui$Internal$Model$Px = function (a) {
 	return {$: 'Px', a: a};
 };
@@ -12636,6 +12627,14 @@ var $mdgriffith$elm_ui$Element$spacingXY = F2(
 	});
 var $mdgriffith$elm_ui$Internal$Model$AsTextColumn = {$: 'AsTextColumn'};
 var $mdgriffith$elm_ui$Internal$Model$asTextColumn = $mdgriffith$elm_ui$Internal$Model$AsTextColumn;
+var $mdgriffith$elm_ui$Internal$Model$Max = F2(
+	function (a, b) {
+		return {$: 'Max', a: a, b: b};
+	});
+var $mdgriffith$elm_ui$Element$maximum = F2(
+	function (i, l) {
+		return A2($mdgriffith$elm_ui$Internal$Model$Max, i, l);
+	});
 var $mdgriffith$elm_ui$Internal$Model$Min = F2(
 	function (a, b) {
 		return {$: 'Min', a: a, b: b};
@@ -12743,11 +12742,6 @@ var $author$project$P1$p1 = function (model) {
 				$mdgriffith$elm_ui$Element$paragraph,
 				_List_fromArray(
 					[
-						$mdgriffith$elm_ui$Element$width(
-						A2(
-							$mdgriffith$elm_ui$Element$maximum,
-							$author$project$Consts$maxWidthPx,
-							$mdgriffith$elm_ui$Element$px($author$project$Consts$maxWidthPx))),
 						A2($mdgriffith$elm_ui$Element$paddingXY, 0, 15),
 						$mdgriffith$elm_ui$Element$Font$color(
 						function () {
@@ -12778,7 +12772,14 @@ var $author$project$P1$p1 = function (model) {
 							}
 						}())
 					])),
-				$author$project$PageNavButtons$nextPageButton(model)
+				function () {
+				var _v2 = model.p1_QuizStatus.sub;
+				if ((_v2.$ === 'QuizSel') && (_v2.a === 2)) {
+					return $author$project$PageNavButtons$nextPageButton(model);
+				} else {
+					return $mdgriffith$elm_ui$Element$none;
+				}
+			}()
 			]));
 };
 var $author$project$P2$p2 = A2(
@@ -13073,6 +13074,7 @@ var $mdgriffith$elm_ui$Element$layoutWith = F3(
 	});
 var $mdgriffith$elm_ui$Element$layout = $mdgriffith$elm_ui$Element$layoutWith(
 	{options: _List_Nil});
+var $author$project$Consts$maxWidthPx = 768;
 var $author$project$Consts$moreUrlStr = '/more';
 var $mdgriffith$elm_ui$Element$Font$size = function (i) {
 	return A2(
