@@ -11806,7 +11806,7 @@ var $mdgriffith$elm_ui$Element$rgb255 = F3(
 	function (red, green, blue) {
 		return A4($mdgriffith$elm_ui$Internal$Model$Rgba, red / 255, green / 255, blue / 255, 1);
 	});
-var $author$project$Main$disabledColor = A3($mdgriffith$elm_ui$Element$rgb255, 128, 128, 128);
+var $author$project$Consts$disabledColor = A3($mdgriffith$elm_ui$Element$rgb255, 128, 128, 128);
 var $mdgriffith$elm_ui$Element$el = F2(
 	function (attrs, child) {
 		return A4(
@@ -12601,7 +12601,7 @@ var $author$project$Main$explainerIndex = function (model) {
 				_Utils_Tuple2(2, $author$project$P2$p2)
 			]));
 };
-var $author$project$Main$explainerUrlStrHead = '/part/';
+var $author$project$Consts$explainerUrlStrHead = '/part/';
 var $mdgriffith$elm_ui$Internal$Model$FontFamily = F2(
 	function (a, b) {
 		return {$: 'FontFamily', a: a, b: b};
@@ -12655,7 +12655,7 @@ var $mdgriffith$elm_ui$Element$Font$family = function (families) {
 			A3($elm$core$List$foldl, $mdgriffith$elm_ui$Internal$Model$renderFontClassName, 'ff-', families),
 			families));
 };
-var $author$project$Main$homeUrlStr = '/';
+var $author$project$Consts$homeUrlStr = '/';
 var $mdgriffith$elm_ui$Internal$Model$OnlyDynamic = F2(
 	function (a, b) {
 		return {$: 'OnlyDynamic', a: a, b: b};
@@ -12905,9 +12905,9 @@ var $mdgriffith$elm_ui$Element$link = F2(
 				_List_fromArray(
 					[label])));
 	});
-var $author$project$Main$maxPage = 5;
-var $author$project$Main$maxWidthPx = 768;
-var $author$project$Main$moreUrlStr = '/more';
+var $author$project$Consts$maxPage = 5;
+var $author$project$Consts$maxWidthPx = 768;
+var $author$project$Consts$moreUrlStr = '/more';
 var $mdgriffith$elm_ui$Element$paddingXY = F2(
 	function (x, y) {
 		if (_Utils_eq(x, y)) {
@@ -13052,8 +13052,9 @@ var $author$project$Main$view = function (model) {
 									$mdgriffith$elm_ui$Element$link,
 									_List_fromArray(
 										[
-											$mdgriffith$elm_ui$Element$Font$size(24),
+											$mdgriffith$elm_ui$Element$centerX,
 											$mdgriffith$elm_ui$Element$padding(8),
+											$mdgriffith$elm_ui$Element$Font$size(24),
 											$mdgriffith$elm_ui$Element$Border$width(2),
 											$mdgriffith$elm_ui$Element$Border$rounded(6)
 										]),
@@ -13073,8 +13074,8 @@ var $author$project$Main$view = function (model) {
 								]),
 							_List_fromArray(
 								[
-									A2(navBarButton, $author$project$Main$homeUrlStr, 'Home'),
-									A2(navBarButton, $author$project$Main$moreUrlStr, 'More')
+									A2(navBarButton, $author$project$Consts$homeUrlStr, 'Home'),
+									A2(navBarButton, $author$project$Consts$moreUrlStr, 'More')
 								]));
 					}();
 					var currentPartNum = function () {
@@ -13090,6 +13091,7 @@ var $author$project$Main$view = function (model) {
 						$mdgriffith$elm_ui$Element$el,
 						_List_fromArray(
 							[
+								$mdgriffith$elm_ui$Element$centerX,
 								$mdgriffith$elm_ui$Element$height(
 								A2(
 									$mdgriffith$elm_ui$Element$maximum,
@@ -13112,6 +13114,7 @@ var $author$project$Main$view = function (model) {
 					var pageNavButtons = function () {
 						var pageNavButtonStyle = _List_fromArray(
 							[
+								$mdgriffith$elm_ui$Element$centerX,
 								$mdgriffith$elm_ui$Element$padding(5),
 								$mdgriffith$elm_ui$Element$Border$width(2),
 								$mdgriffith$elm_ui$Element$Border$rounded(6)
@@ -13120,7 +13123,7 @@ var $author$project$Main$view = function (model) {
 							pageNavButtonStyle,
 							_List_fromArray(
 								[
-									$mdgriffith$elm_ui$Element$Border$color($author$project$Main$disabledColor)
+									$mdgriffith$elm_ui$Element$Border$color($author$project$Consts$disabledColor)
 								]));
 						return A2(
 							$mdgriffith$elm_ui$Element$row,
@@ -13138,7 +13141,7 @@ var $author$project$Main$view = function (model) {
 									{
 										label: $mdgriffith$elm_ui$Element$text('Prev Page'),
 										url: _Utils_ap(
-											$author$project$Main$explainerUrlStrHead,
+											$author$project$Consts$explainerUrlStrHead,
 											$elm$core$String$fromInt(currentPartNum - 1))
 									}) : A2(
 									$mdgriffith$elm_ui$Element$Input$button,
@@ -13148,20 +13151,20 @@ var $author$project$Main$view = function (model) {
 											$mdgriffith$elm_ui$Element$el,
 											_List_fromArray(
 												[
-													$mdgriffith$elm_ui$Element$Font$color($author$project$Main$disabledColor)
+													$mdgriffith$elm_ui$Element$Font$color($author$project$Consts$disabledColor)
 												]),
 											$mdgriffith$elm_ui$Element$text('Prev Page')),
 										onPress: $elm$core$Maybe$Nothing
 									}),
 									$mdgriffith$elm_ui$Element$text(
 									$elm$core$String$fromInt(currentPartNum)),
-									(_Utils_cmp(currentPartNum, $author$project$Main$maxPage) < 0) ? A2(
+									(_Utils_cmp(currentPartNum, $author$project$Consts$maxPage) < 0) ? A2(
 									$mdgriffith$elm_ui$Element$link,
 									pageNavButtonStyle,
 									{
 										label: $mdgriffith$elm_ui$Element$text('Next Page'),
 										url: _Utils_ap(
-											$author$project$Main$explainerUrlStrHead,
+											$author$project$Consts$explainerUrlStrHead,
 											$elm$core$String$fromInt(currentPartNum + 1))
 									}) : A2(
 									$mdgriffith$elm_ui$Element$Input$button,
@@ -13171,7 +13174,7 @@ var $author$project$Main$view = function (model) {
 											$mdgriffith$elm_ui$Element$el,
 											_List_fromArray(
 												[
-													$mdgriffith$elm_ui$Element$Font$color($author$project$Main$disabledColor)
+													$mdgriffith$elm_ui$Element$Font$color($author$project$Consts$disabledColor)
 												]),
 											$mdgriffith$elm_ui$Element$text('Next Page')),
 										onPress: $elm$core$Maybe$Nothing
@@ -13217,7 +13220,7 @@ var $author$project$Main$view = function (model) {
 							[
 								$mdgriffith$elm_ui$Element$centerX,
 								$mdgriffith$elm_ui$Element$width(
-								A2($mdgriffith$elm_ui$Element$maximum, $author$project$Main$maxWidthPx, $mdgriffith$elm_ui$Element$fill))
+								A2($mdgriffith$elm_ui$Element$maximum, $author$project$Consts$maxWidthPx, $mdgriffith$elm_ui$Element$fill))
 							]),
 						_Utils_ap(
 							_List_fromArray(

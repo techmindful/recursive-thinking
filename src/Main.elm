@@ -2,6 +2,7 @@ module Main exposing (..)
 
 import Browser
 import Browser.Navigation as Nav
+import Consts exposing (..)
 import Dict exposing (Dict)
 import Element as ElmUI
 import Element.Border as Border
@@ -66,30 +67,6 @@ errPara errMsg =
         ]
 
 
-homeUrlStr =
-    "/"
-
-
-moreUrlStr =
-    "/more"
-
-
-explainerUrlStrHead =
-    "/part/"
-
-
-maxPage =
-    5
-
-
-maxWidthPx =
-    768
-
-
-disabledColor =
-    ElmUI.rgb255 128 128 128
-
-
 init : () -> Url -> Nav.Key -> ( Model, Cmd Msg )
 init () url navKey =
     ( Model (getRoute url) navKey Pending, Cmd.none )
@@ -145,8 +122,9 @@ view model =
                     let
                         navBarButton urlStr labelStr =
                             ElmUI.link
-                                [ Font.size 24
+                                [ ElmUI.centerX
                                 , ElmUI.padding 8
+                                , Font.size 24
                                 , Border.width 2
                                 , Border.rounded 6
                                 ]
@@ -174,7 +152,8 @@ view model =
 
                 explainer =
                     ElmUI.el
-                        [ ElmUI.height <| ElmUI.maximum 550 <| ElmUI.px 550
+                        [ ElmUI.centerX
+                        , ElmUI.height <| ElmUI.maximum 550 <| ElmUI.px 550
                         , ElmUI.scrollbarY
                         ]
                     <|
@@ -188,7 +167,8 @@ view model =
                 pageNavButtons =
                     let
                         pageNavButtonStyle =
-                            [ ElmUI.padding 5
+                            [ ElmUI.centerX
+                            , ElmUI.padding 5
                             , Border.width 2
                             , Border.rounded 6
                             ]

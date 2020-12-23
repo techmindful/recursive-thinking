@@ -1,5 +1,6 @@
 module P1 exposing (p1)
 
+import Consts exposing (..)
 import Element as ElmUI
 import Element.Input as Input
 import Html
