@@ -8,14 +8,14 @@ import Url exposing (Url)
 type alias Model =
     { route : Route
     , navKey : Nav.Key
-    , p1_UserChoice : P1_Option
+    , p1_QuizStatus : QuizStatus
     }
 
 
 type Msg
     = UserClickedLink Browser.UrlRequest
     | UrlHasChanged Url
-    | P1_RecvInput P1_Option
+    | P1_RecvInput QuizStatus
 
 
 type Route
@@ -25,8 +25,11 @@ type Route
     | NotFound
 
 
-type P1_Option
-    = Pending
-    | Correct
-    | Wrong1
-    | Wrong2
+type QuizInput
+    = QuizNoInput
+    | QuizPass
+    | QuizSel Int
+
+
+type alias QuizStatus =
+    { sel : QuizInput, sub : QuizInput }

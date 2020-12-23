@@ -5204,11 +5204,7 @@ var $elm$core$Task$perform = F2(
 				A2($elm$core$Task$map, toMessage, task)));
 	});
 var $elm$browser$Browser$application = _Browser_application;
-var $author$project$Types$Model = F3(
-	function (route, navKey, p1_UserChoice) {
-		return {navKey: navKey, p1_UserChoice: p1_UserChoice, route: route};
-	});
-var $author$project$Types$Pending = {$: 'Pending'};
+var $author$project$Types$QuizNoInput = {$: 'QuizNoInput'};
 var $author$project$Types$NotFound = {$: 'NotFound'};
 var $elm$url$Url$Parser$State = F5(
 	function (visited, unvisited, params, frag, value) {
@@ -6025,11 +6021,11 @@ var $elm$core$Platform$Cmd$none = $elm$core$Platform$Cmd$batch(_List_Nil);
 var $author$project$Main$init = F3(
 	function (_v0, url, navKey) {
 		return _Utils_Tuple2(
-			A3(
-				$author$project$Types$Model,
-				$author$project$Main$getRoute(url),
-				navKey,
-				$author$project$Types$Pending),
+			{
+				navKey: navKey,
+				p1_QuizStatus: {sel: $author$project$Types$QuizNoInput, sub: $author$project$Types$QuizNoInput},
+				route: $author$project$Main$getRoute(url)
+			},
 			$elm$core$Platform$Cmd$none);
 	});
 var $elm$core$Platform$Sub$batch = _Platform_batch;
@@ -6113,7 +6109,7 @@ var $author$project$Main$update = F2(
 				return _Utils_Tuple2(
 					_Utils_update(
 						model,
-						{p1_UserChoice: p1_Option}),
+						{p1_QuizStatus: p1_Option}),
 					$elm$core$Platform$Cmd$none);
 		}
 	});
@@ -11893,12 +11889,12 @@ var $elm$core$Dict$fromList = function (assocs) {
 		$elm$core$Dict$empty,
 		assocs);
 };
-var $author$project$Types$Correct = {$: 'Correct'};
 var $author$project$Types$P1_RecvInput = function (a) {
 	return {$: 'P1_RecvInput', a: a};
 };
-var $author$project$Types$Wrong1 = {$: 'Wrong1'};
-var $author$project$Types$Wrong2 = {$: 'Wrong2'};
+var $author$project$Types$QuizSel = function (a) {
+	return {$: 'QuizSel', a: a};
+};
 var $mdgriffith$elm_ui$Element$Input$Above = {$: 'Above'};
 var $mdgriffith$elm_ui$Element$Input$Label = F3(
 	function (a, b, c) {
@@ -12545,8 +12541,8 @@ var $author$project$P1$p1 = function (model) {
 				$mdgriffith$elm_ui$Element$Input$radio,
 				_List_fromArray(
 					[
-						$mdgriffith$elm_ui$Element$padding(10),
-						$mdgriffith$elm_ui$Element$spacing(20)
+						$mdgriffith$elm_ui$Element$padding(20),
+						$mdgriffith$elm_ui$Element$spacing(10)
 					]),
 				{
 					label: A2(
@@ -12554,25 +12550,68 @@ var $author$project$P1$p1 = function (model) {
 						_List_Nil,
 						$mdgriffith$elm_ui$Element$text('')),
 					onChange: function (option) {
-						return $author$project$Types$P1_RecvInput(option);
+						return $author$project$Types$P1_RecvInput(
+							{sel: option, sub: model.p1_QuizStatus.sub});
 					},
 					options: _List_fromArray(
 						[
 							A2(
 							$mdgriffith$elm_ui$Element$Input$option,
-							$author$project$Types$Correct,
+							$author$project$Types$QuizSel(1),
+							$mdgriffith$elm_ui$Element$text('Wrong answer')),
+							A2(
+							$mdgriffith$elm_ui$Element$Input$option,
+							$author$project$Types$QuizSel(2),
 							$mdgriffith$elm_ui$Element$text('Correct answer')),
 							A2(
 							$mdgriffith$elm_ui$Element$Input$option,
-							$author$project$Types$Wrong1,
-							$mdgriffith$elm_ui$Element$text('Wrong answer 1')),
-							A2(
-							$mdgriffith$elm_ui$Element$Input$option,
-							$author$project$Types$Wrong2,
+							$author$project$Types$QuizSel(3),
 							$mdgriffith$elm_ui$Element$text('Wrong answer 2'))
 						]),
-					selected: $elm$core$Maybe$Just(model.p1_UserChoice)
-				})
+					selected: $elm$core$Maybe$Just(model.p1_QuizStatus.sel)
+				}),
+				A2(
+				$mdgriffith$elm_ui$Element$Input$button,
+				_List_fromArray(
+					[
+						$mdgriffith$elm_ui$Element$padding(6),
+						$mdgriffith$elm_ui$Element$Border$width(2),
+						$mdgriffith$elm_ui$Element$Border$rounded(6)
+					]),
+				{
+					label: $mdgriffith$elm_ui$Element$text('Submit'),
+					onPress: $elm$core$Maybe$Just(
+						$author$project$Types$P1_RecvInput(
+							{sel: model.p1_QuizStatus.sel, sub: model.p1_QuizStatus.sel}))
+				}),
+				$mdgriffith$elm_ui$Element$text(
+				function () {
+					var _v0 = model.p1_QuizStatus.sel;
+					if (_v0.$ === 'QuizSel') {
+						if (_v0.a === 2) {
+							return 'Correct sel';
+						} else {
+							var n = _v0.a;
+							return 'Wrong sel ' + $elm$core$String$fromInt(n);
+						}
+					} else {
+						return 'Other';
+					}
+				}()),
+				$mdgriffith$elm_ui$Element$text(
+				function () {
+					var _v1 = model.p1_QuizStatus.sub;
+					if (_v1.$ === 'QuizSel') {
+						if (_v1.a === 2) {
+							return 'Correct sub';
+						} else {
+							var n = _v1.a;
+							return 'Wrong sub ' + $elm$core$String$fromInt(n);
+						}
+					} else {
+						return 'Other';
+					}
+				}())
 			]));
 };
 var $author$project$P2$p2 = A2(

@@ -69,7 +69,12 @@ errPara errMsg =
 
 init : () -> Url -> Nav.Key -> ( Model, Cmd Msg )
 init () url navKey =
-    ( Model (getRoute url) navKey Pending, Cmd.none )
+    ( { route = getRoute url
+      , navKey = navKey
+      , p1_QuizStatus = { sel = QuizNoInput, sub = QuizNoInput }
+      }
+    , Cmd.none
+    )
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -87,7 +92,7 @@ update msg model =
             ( { model | route = getRoute url }, Cmd.none )
 
         P1_RecvInput p1_Option ->
-            ( { model | p1_UserChoice = p1_Option }, Cmd.none )
+            ( { model | p1_QuizStatus = p1_Option }, Cmd.none )
 
 
 view : Model -> Browser.Document Msg
