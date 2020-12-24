@@ -12794,22 +12794,30 @@ var $author$project$P1$p1 = function (model) {
 				$author$project$Types$QuizSel(2)) || _Utils_eq(model.p1_QuizStatus.sub, $author$project$Types$QuizPass)) ? $author$project$PageNavButtons$nextPageButton(model) : $mdgriffith$elm_ui$Element$none
 			]));
 };
-var $author$project$P2$p2 = A2(
-	$mdgriffith$elm_ui$Element$textColumn,
-	_List_fromArray(
-		[
-			A2($mdgriffith$elm_ui$Element$spacingXY, 0, 15)
-		]),
-	_List_fromArray(
-		[
-			A2(
-			$mdgriffith$elm_ui$Element$paragraph,
-			_List_Nil,
-			_List_fromArray(
-				[
-					$mdgriffith$elm_ui$Element$text('Third part of explainer.')
-				]))
-		]));
+var $author$project$P2$p2 = function (model) {
+	return A2(
+		$mdgriffith$elm_ui$Element$column,
+		_List_Nil,
+		_List_fromArray(
+			[
+				A2(
+				$mdgriffith$elm_ui$Element$textColumn,
+				_List_fromArray(
+					[
+						A2($mdgriffith$elm_ui$Element$spacingXY, 0, 15)
+					]),
+				_List_fromArray(
+					[
+						A2(
+						$mdgriffith$elm_ui$Element$paragraph,
+						_List_Nil,
+						_List_fromArray(
+							[
+								$mdgriffith$elm_ui$Element$text('Part 2 of explainer.Third part of explainer.Third part of explainer.Third part of explainer.Third part of explainer.Third part of explainer.Third part of explainer.Third part of explainer.Third part of explainer.Third part of explainer.Third part of explainer.Third part of explainer.Third part of explainer.Third part of explainer.Third part of explainer.Third part of explainer.Third part of explainer.Third part of explainer.Third part of explainer.Third part of explainer.Third part of explainer.')
+							]))
+					]))
+			]));
+};
 var $author$project$Main$explainerIndex = function (model) {
 	return $elm$core$Dict$fromList(
 		_List_fromArray(
@@ -12817,7 +12825,9 @@ var $author$project$Main$explainerIndex = function (model) {
 				_Utils_Tuple2(
 				1,
 				$author$project$P1$p1(model)),
-				_Utils_Tuple2(2, $author$project$P2$p2)
+				_Utils_Tuple2(
+				2,
+				$author$project$P2$p2(model))
 			]));
 };
 var $mdgriffith$elm_ui$Internal$Model$FontFamily = F2(

@@ -52,7 +52,7 @@ explainerIndex : Model -> Dict Int (ElmUI.Element Msg)
 explainerIndex model =
     Dict.fromList
         [ ( 1, p1 model )
-        , ( 2, p2 )
+        , ( 2, p2 model )
         ]
 
 
