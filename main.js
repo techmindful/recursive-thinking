@@ -11700,6 +11700,7 @@ var $elm$core$Dict$fromList = function (assocs) {
 var $author$project$Types$P1_RecvInput = function (a) {
 	return {$: 'P1_RecvInput', a: a};
 };
+var $author$project$Types$QuizPass = {$: 'QuizPass'};
 var $author$project$Types$QuizSel = function (a) {
 	return {$: 'QuizSel', a: a};
 };
@@ -12213,7 +12214,8 @@ var $author$project$PageNavButtons$prevPageButton = function (model) {
 		return $author$project$PageNavButtons$illPlacedButton;
 	}
 };
-var $author$project$Consts$quizCorrectColor = A3($mdgriffith$elm_ui$Element$rgb255, 0, 0, 255);
+var $author$project$Consts$quizCorrectColor = A3($mdgriffith$elm_ui$Element$rgb255, 0, 255, 0);
+var $author$project$Consts$quizPassColor = A3($mdgriffith$elm_ui$Element$rgb255, 0, 0, 255);
 var $author$project$Consts$quizWrongColor = A3($mdgriffith$elm_ui$Element$rgb255, 255, 0, 0);
 var $mdgriffith$elm_ui$Element$Input$Column = {$: 'Column'};
 var $mdgriffith$elm_ui$Element$Input$AfterFound = {$: 'AfterFound'};
@@ -12715,6 +12717,10 @@ var $author$project$P1$p1 = function (model) {
 						[
 							A2(
 							$mdgriffith$elm_ui$Element$Input$option,
+							$author$project$Types$QuizPass,
+							$mdgriffith$elm_ui$Element$text('I\'ll pass.')),
+							A2(
+							$mdgriffith$elm_ui$Element$Input$option,
 							$author$project$Types$QuizSel(1),
 							$mdgriffith$elm_ui$Element$text('n! = n * (n - 1)! * (n - 2)! * ... * 1!')),
 							A2(
@@ -12746,11 +12752,22 @@ var $author$project$P1$p1 = function (model) {
 						$mdgriffith$elm_ui$Element$Font$color(
 						function () {
 							var _v0 = model.p1_QuizStatus.sub;
-							if ((_v0.$ === 'QuizSel') && (_v0.a === 2)) {
-								return $author$project$Consts$quizCorrectColor;
-							} else {
-								return $author$project$Consts$quizWrongColor;
+							_v0$2:
+							while (true) {
+								switch (_v0.$) {
+									case 'QuizSel':
+										if (_v0.a === 2) {
+											return $author$project$Consts$quizCorrectColor;
+										} else {
+											break _v0$2;
+										}
+									case 'QuizPass':
+										return $author$project$Consts$quizPassColor;
+									default:
+										break _v0$2;
+								}
 							}
+							return $author$project$Consts$quizWrongColor;
 						}())
 					]),
 				_List_fromArray(
@@ -12772,14 +12789,9 @@ var $author$project$P1$p1 = function (model) {
 							}
 						}())
 					])),
-				function () {
-				var _v2 = model.p1_QuizStatus.sub;
-				if ((_v2.$ === 'QuizSel') && (_v2.a === 2)) {
-					return $author$project$PageNavButtons$nextPageButton(model);
-				} else {
-					return $mdgriffith$elm_ui$Element$none;
-				}
-			}()
+				(_Utils_eq(
+				model.p1_QuizStatus.sub,
+				$author$project$Types$QuizSel(2)) || _Utils_eq(model.p1_QuizStatus.sub, $author$project$Types$QuizPass)) ? $author$project$PageNavButtons$nextPageButton(model) : $mdgriffith$elm_ui$Element$none
 			]));
 };
 var $author$project$P2$p2 = A2(

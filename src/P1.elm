@@ -27,7 +27,8 @@ p1 model =
             ]
             { onChange = \option -> P1_RecvInput { sel = option, sub = model.p1_QuizStatus.sub }
             , options =
-                [ Input.option (QuizSel 1) <| ElmUI.text "n! = n * (n - 1)! * (n - 2)! * ... * 1!"
+                [ Input.option QuizPass <| ElmUI.text "I'll pass."
+                , Input.option (QuizSel 1) <| ElmUI.text "n! = n * (n - 1)! * (n - 2)! * ... * 1!"
                 , Input.option (QuizSel 2) <| ElmUI.text "n! = n * (n - 1)!"
                 ]
             , selected = Just model.p1_QuizStatus.sel
@@ -48,6 +49,9 @@ p1 model =
                     QuizSel 2 ->
                         quizCorrectColor
 
+                    QuizPass ->
+                        quizPassColor
+
                     _ ->
                         quizWrongColor
             ]
@@ -65,10 +69,9 @@ p1 model =
                     QuizNoInput ->
                         ""
             ]
-        , case model.p1_QuizStatus.sub of
-            QuizSel 2 ->
-                nextPageButton model
+        , if model.p1_QuizStatus.sub == QuizSel 2 || model.p1_QuizStatus.sub == QuizPass then
+            nextPageButton model
 
-            _ ->
-                ElmUI.none
+          else
+            ElmUI.none
         ]

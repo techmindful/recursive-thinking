@@ -28,8 +28,12 @@ disabledColor =
 
 
 quizCorrectColor =
-    ElmUI.rgb255 0 0 255
+    ElmUI.rgb255 0 255 0
 
 
 quizWrongColor =
     ElmUI.rgb255 255 0 0
+
+
+quizPassColor =
+    ElmUI.rgb255 0 0 255
