@@ -158,13 +158,11 @@ view model =
                 explainer =
                     ElmUI.el
                         [ ElmUI.centerX
-                        , ElmUI.height <| ElmUI.maximum 550 <| ElmUI.px 550
 
                         -- This padding prevents the left side of the highlighted border of
                         -- Page nav buttons to be half-clipped when clicked.
                         -- But it also causes explainer to be 20px bigger than max width.
                         , ElmUI.padding 10
-                        , ElmUI.scrollbarY
                         ]
                     <|
                         case Dict.get currentPartNum <| explainerIndex model of
