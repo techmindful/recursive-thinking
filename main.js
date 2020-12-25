@@ -11882,6 +11882,56 @@ var $mdgriffith$elm_ui$Element$Input$Label = F3(
 		return {$: 'Label', a: a, b: b, c: c};
 	});
 var $mdgriffith$elm_ui$Element$Input$labelAbove = $mdgriffith$elm_ui$Element$Input$Label($mdgriffith$elm_ui$Element$Input$Above);
+var $mdgriffith$elm_ui$Internal$Model$PaddingStyle = F5(
+	function (a, b, c, d, e) {
+		return {$: 'PaddingStyle', a: a, b: b, c: c, d: d, e: e};
+	});
+var $mdgriffith$elm_ui$Internal$Flag$padding = $mdgriffith$elm_ui$Internal$Flag$flag(2);
+var $mdgriffith$elm_ui$Element$paddingXY = F2(
+	function (x, y) {
+		if (_Utils_eq(x, y)) {
+			var f = x;
+			return A2(
+				$mdgriffith$elm_ui$Internal$Model$StyleClass,
+				$mdgriffith$elm_ui$Internal$Flag$padding,
+				A5(
+					$mdgriffith$elm_ui$Internal$Model$PaddingStyle,
+					'p-' + $elm$core$String$fromInt(x),
+					f,
+					f,
+					f,
+					f));
+		} else {
+			var yFloat = y;
+			var xFloat = x;
+			return A2(
+				$mdgriffith$elm_ui$Internal$Model$StyleClass,
+				$mdgriffith$elm_ui$Internal$Flag$padding,
+				A5(
+					$mdgriffith$elm_ui$Internal$Model$PaddingStyle,
+					'p-' + ($elm$core$String$fromInt(x) + ('-' + $elm$core$String$fromInt(y))),
+					yFloat,
+					xFloat,
+					yFloat,
+					xFloat));
+		}
+	});
+var $mdgriffith$elm_ui$Internal$Model$FontSize = function (a) {
+	return {$: 'FontSize', a: a};
+};
+var $mdgriffith$elm_ui$Internal$Flag$fontSize = $mdgriffith$elm_ui$Internal$Flag$flag(4);
+var $mdgriffith$elm_ui$Element$Font$size = function (i) {
+	return A2(
+		$mdgriffith$elm_ui$Internal$Model$StyleClass,
+		$mdgriffith$elm_ui$Internal$Flag$fontSize,
+		$mdgriffith$elm_ui$Internal$Model$FontSize(i));
+};
+var $author$project$Consts$mathExpStyle = _List_fromArray(
+	[
+		$mdgriffith$elm_ui$Element$Font$center,
+		A2($mdgriffith$elm_ui$Element$paddingXY, 0, 36),
+		$mdgriffith$elm_ui$Element$Font$size(24)
+	]);
 var $mdgriffith$elm_ui$Internal$Model$Rgba = F4(
 	function (a, b, c, d) {
 		return {$: 'Rgba', a: a, b: b, c: c, d: d};
@@ -11902,11 +11952,6 @@ var $mdgriffith$elm_ui$Element$Border$color = function (clr) {
 			'border-color',
 			clr));
 };
-var $mdgriffith$elm_ui$Internal$Model$PaddingStyle = F5(
-	function (a, b, c, d, e) {
-		return {$: 'PaddingStyle', a: a, b: b, c: c, d: d, e: e};
-	});
-var $mdgriffith$elm_ui$Internal$Flag$padding = $mdgriffith$elm_ui$Internal$Flag$flag(2);
 var $mdgriffith$elm_ui$Element$padding = function (x) {
 	var f = x;
 	return A2(
@@ -12175,35 +12220,6 @@ var $mdgriffith$elm_ui$Element$Input$option = F2(
 			$mdgriffith$elm_ui$Element$Input$Option,
 			val,
 			$mdgriffith$elm_ui$Element$Input$defaultRadioOption(txt));
-	});
-var $mdgriffith$elm_ui$Element$paddingXY = F2(
-	function (x, y) {
-		if (_Utils_eq(x, y)) {
-			var f = x;
-			return A2(
-				$mdgriffith$elm_ui$Internal$Model$StyleClass,
-				$mdgriffith$elm_ui$Internal$Flag$padding,
-				A5(
-					$mdgriffith$elm_ui$Internal$Model$PaddingStyle,
-					'p-' + $elm$core$String$fromInt(x),
-					f,
-					f,
-					f,
-					f));
-		} else {
-			var yFloat = y;
-			var xFloat = x;
-			return A2(
-				$mdgriffith$elm_ui$Internal$Model$StyleClass,
-				$mdgriffith$elm_ui$Internal$Flag$padding,
-				A5(
-					$mdgriffith$elm_ui$Internal$Model$PaddingStyle,
-					'p-' + ($elm$core$String$fromInt(x) + ('-' + $elm$core$String$fromInt(y))),
-					yFloat,
-					xFloat,
-					yFloat,
-					xFloat));
-		}
 	});
 var $author$project$PageNavButtons$prevPageButton = function (model) {
 	var partNum = $author$project$PageNavButtons$getPartNum(model);
@@ -12665,134 +12681,187 @@ var $author$project$P1$p1 = function (model) {
 	return A2(
 		$mdgriffith$elm_ui$Element$column,
 		_List_Nil,
-		_List_fromArray(
-			[
-				A2(
-				$mdgriffith$elm_ui$Element$el,
-				_List_fromArray(
-					[
-						A2($mdgriffith$elm_ui$Element$paddingXY, 0, 20)
-					]),
-				$author$project$PageNavButtons$prevPageButton(model)),
-				A2(
-				$mdgriffith$elm_ui$Element$textColumn,
-				_List_fromArray(
-					[
-						A2($mdgriffith$elm_ui$Element$spacingXY, 0, 15)
-					]),
-				_List_fromArray(
-					[
-						A2(
-						$mdgriffith$elm_ui$Element$paragraph,
-						_List_Nil,
-						_List_fromArray(
-							[
-								$mdgriffith$elm_ui$Element$text('The simplest example to explain recursion is factorial. The factorial of a number n, denoted by n!, is just n * (n - 1) * (n - 2) * ... * 1. So the factorial of 4, which is 4!, equals to 24, because 4 * 3 * 2 * 1 = 24.')
-							])),
-						A2(
-						$mdgriffith$elm_ui$Element$paragraph,
-						_List_Nil,
-						_List_fromArray(
-							[
-								$mdgriffith$elm_ui$Element$text('The traditional, iterative way to calculate the n! is to just write out n, n - 1, n - 2... Until we reach 1. Then we multiply them together. The recursive way however, calculates factorial with a factorial. Do you want to figure out which of the following equation is the correct one?')
-							]))
-					])),
-				A2(
-				$mdgriffith$elm_ui$Element$Input$radio,
-				_List_fromArray(
-					[
-						$mdgriffith$elm_ui$Element$padding(20),
-						$mdgriffith$elm_ui$Element$spacing(10)
-					]),
-				{
-					label: A2(
-						$mdgriffith$elm_ui$Element$Input$labelAbove,
-						_List_Nil,
-						$mdgriffith$elm_ui$Element$text('')),
-					onChange: function (option) {
-						return $author$project$Types$P1_RecvInput(
-							{sel: option, sub: model.p1_QuizStatus.sub});
-					},
-					options: _List_fromArray(
+		_Utils_ap(
+			_List_fromArray(
+				[
+					A2(
+					$mdgriffith$elm_ui$Element$el,
+					_List_fromArray(
+						[
+							A2($mdgriffith$elm_ui$Element$paddingXY, 0, 20)
+						]),
+					$author$project$PageNavButtons$prevPageButton(model)),
+					A2(
+					$mdgriffith$elm_ui$Element$textColumn,
+					_List_fromArray(
+						[
+							A2($mdgriffith$elm_ui$Element$spacingXY, 0, 15)
+						]),
+					_List_fromArray(
 						[
 							A2(
-							$mdgriffith$elm_ui$Element$Input$option,
-							$author$project$Types$QuizPass,
-							$mdgriffith$elm_ui$Element$text('I\'ll pass.')),
+							$mdgriffith$elm_ui$Element$paragraph,
+							_List_Nil,
+							_List_fromArray(
+								[
+									$mdgriffith$elm_ui$Element$text('The simplest example to explain recursion is factorial. The factorial of a number n, denoted by n!, is just n * (n - 1) * (n - 2) * ... * 1. So the factorial of 4, which is 4!, equals to 24, because 4 * 3 * 2 * 1 = 24.')
+								])),
 							A2(
-							$mdgriffith$elm_ui$Element$Input$option,
-							$author$project$Types$QuizSel(1),
-							$mdgriffith$elm_ui$Element$text('n! = n * (n - 1)! * (n - 2)! * ... * 1!')),
-							A2(
-							$mdgriffith$elm_ui$Element$Input$option,
-							$author$project$Types$QuizSel(2),
-							$mdgriffith$elm_ui$Element$text('n! = n * (n - 1)!'))
+							$mdgriffith$elm_ui$Element$paragraph,
+							_List_Nil,
+							_List_fromArray(
+								[
+									$mdgriffith$elm_ui$Element$text('The traditional, iterative way to calculate the n! is to just write out n, n - 1, n - 2... Until we reach 1. Then we multiply them together. The recursive way however, calculates factorial with a factorial. Do you want to figure out which of the following equation is the correct one?')
+								]))
+						])),
+					A2(
+					$mdgriffith$elm_ui$Element$Input$radio,
+					_List_fromArray(
+						[
+							$mdgriffith$elm_ui$Element$padding(20),
+							$mdgriffith$elm_ui$Element$spacing(10)
 						]),
-					selected: $elm$core$Maybe$Just(model.p1_QuizStatus.sel)
-				}),
-				A2(
-				$mdgriffith$elm_ui$Element$Input$button,
-				_List_fromArray(
-					[
-						$mdgriffith$elm_ui$Element$padding(6),
-						$mdgriffith$elm_ui$Element$Border$width(2),
-						$mdgriffith$elm_ui$Element$Border$rounded(6)
-					]),
-				{
-					label: $mdgriffith$elm_ui$Element$text('Submit'),
-					onPress: $elm$core$Maybe$Just(
-						$author$project$Types$P1_RecvInput(
-							{sel: model.p1_QuizStatus.sel, sub: model.p1_QuizStatus.sel}))
-				}),
-				A2(
-				$mdgriffith$elm_ui$Element$paragraph,
-				_List_fromArray(
-					[
-						A2($mdgriffith$elm_ui$Element$paddingXY, 0, 15),
-						$mdgriffith$elm_ui$Element$Font$color(
-						function () {
-							var _v0 = model.p1_QuizStatus.sub;
-							_v0$2:
-							while (true) {
-								switch (_v0.$) {
-									case 'QuizSel':
-										if (_v0.a === 2) {
-											return $author$project$Consts$quizCorrectColor;
-										} else {
+					{
+						label: A2(
+							$mdgriffith$elm_ui$Element$Input$labelAbove,
+							_List_Nil,
+							$mdgriffith$elm_ui$Element$text('')),
+						onChange: function (option) {
+							return $author$project$Types$P1_RecvInput(
+								{sel: option, sub: model.p1_QuizStatus.sub});
+						},
+						options: _List_fromArray(
+							[
+								A2(
+								$mdgriffith$elm_ui$Element$Input$option,
+								$author$project$Types$QuizPass,
+								$mdgriffith$elm_ui$Element$text('I\'ll pass.')),
+								A2(
+								$mdgriffith$elm_ui$Element$Input$option,
+								$author$project$Types$QuizSel(1),
+								$mdgriffith$elm_ui$Element$text('n! = n * (n - 1)! * (n - 2)! * ... * 1!')),
+								A2(
+								$mdgriffith$elm_ui$Element$Input$option,
+								$author$project$Types$QuizSel(2),
+								$mdgriffith$elm_ui$Element$text('n! = n * (n - 1)!'))
+							]),
+						selected: $elm$core$Maybe$Just(model.p1_QuizStatus.sel)
+					}),
+					A2(
+					$mdgriffith$elm_ui$Element$Input$button,
+					_List_fromArray(
+						[
+							$mdgriffith$elm_ui$Element$padding(6),
+							$mdgriffith$elm_ui$Element$Border$width(2),
+							$mdgriffith$elm_ui$Element$Border$rounded(6)
+						]),
+					{
+						label: $mdgriffith$elm_ui$Element$text('Submit'),
+						onPress: $elm$core$Maybe$Just(
+							$author$project$Types$P1_RecvInput(
+								{sel: model.p1_QuizStatus.sel, sub: model.p1_QuizStatus.sel}))
+					}),
+					A2(
+					$mdgriffith$elm_ui$Element$paragraph,
+					_List_fromArray(
+						[
+							A2($mdgriffith$elm_ui$Element$paddingXY, 0, 15),
+							$mdgriffith$elm_ui$Element$Font$color(
+							function () {
+								var _v0 = model.p1_QuizStatus.sub;
+								_v0$2:
+								while (true) {
+									switch (_v0.$) {
+										case 'QuizSel':
+											if (_v0.a === 2) {
+												return $author$project$Consts$quizCorrectColor;
+											} else {
+												break _v0$2;
+											}
+										case 'QuizPass':
+											return $author$project$Consts$quizPassColor;
+										default:
 											break _v0$2;
+									}
+								}
+								return $author$project$Consts$quizWrongColor;
+							}())
+						]),
+					_List_fromArray(
+						[
+							$mdgriffith$elm_ui$Element$text(
+							function () {
+								var _v1 = model.p1_QuizStatus.sub;
+								switch (_v1.$) {
+									case 'QuizSel':
+										if (_v1.a === 2) {
+											return 'That is correct!';
+										} else {
+											return 'That is incorrect. On paper, you can try to expand n!, (n - 1)!, and other terms, for a better comparison.';
 										}
 									case 'QuizPass':
-										return $author$project$Consts$quizPassColor;
+										return 'No problem, here\'s the explanation:';
 									default:
-										break _v0$2;
+										return '';
 								}
-							}
-							return $author$project$Consts$quizWrongColor;
-						}())
-					]),
-				_List_fromArray(
-					[
-						$mdgriffith$elm_ui$Element$text(
-						function () {
-							var _v1 = model.p1_QuizStatus.sub;
-							switch (_v1.$) {
-								case 'QuizSel':
-									if (_v1.a === 2) {
-										return 'That is correct!';
-									} else {
-										return 'That is incorrect. On paper, you can try to expand n!, (n - 1)!, and other terms, for a better comparison.';
-									}
-								case 'QuizPass':
-									return 'Sure thing, go to the next page to see the answer.';
-								default:
-									return '';
-							}
-						}())
-					])),
-				(_Utils_eq(
+							}())
+						]))
+				]),
+			((!_Utils_eq(
 				model.p1_QuizStatus.sub,
-				$author$project$Types$QuizSel(2)) || _Utils_eq(model.p1_QuizStatus.sub, $author$project$Types$QuizPass)) ? $author$project$PageNavButtons$nextPageButton(model) : $mdgriffith$elm_ui$Element$none
-			]));
+				$author$project$Types$QuizSel(2))) && (!_Utils_eq(model.p1_QuizStatus.sub, $author$project$Types$QuizPass))) ? _List_fromArray(
+				[$mdgriffith$elm_ui$Element$none]) : _List_fromArray(
+				[
+					A2(
+					$mdgriffith$elm_ui$Element$textColumn,
+					_List_Nil,
+					_List_fromArray(
+						[
+							A2(
+							$mdgriffith$elm_ui$Element$paragraph,
+							_List_Nil,
+							_List_fromArray(
+								[
+									$mdgriffith$elm_ui$Element$text('Observe that by definition of factorial:')
+								])),
+							A2(
+							$mdgriffith$elm_ui$Element$paragraph,
+							$author$project$Consts$mathExpStyle,
+							_List_fromArray(
+								[
+									$mdgriffith$elm_ui$Element$text('(n - 1)! = (n - 1) * (n - 2) * ... * 1.')
+								])),
+							A2(
+							$mdgriffith$elm_ui$Element$paragraph,
+							_List_Nil,
+							_List_fromArray(
+								[
+									$mdgriffith$elm_ui$Element$text('If we multiply by n at both sides, we get:')
+								])),
+							A2(
+							$mdgriffith$elm_ui$Element$paragraph,
+							$author$project$Consts$mathExpStyle,
+							_List_fromArray(
+								[
+									$mdgriffith$elm_ui$Element$text('n * (n - 1)! = n * (n - 1) * (n - 2) * ... * 1.')
+								])),
+							A2(
+							$mdgriffith$elm_ui$Element$paragraph,
+							_List_Nil,
+							_List_fromArray(
+								[
+									$mdgriffith$elm_ui$Element$text('The right side is actually just n!. So we conclude:')
+								])),
+							A2(
+							$mdgriffith$elm_ui$Element$paragraph,
+							$author$project$Consts$mathExpStyle,
+							_List_fromArray(
+								[
+									$mdgriffith$elm_ui$Element$text('n! = n * (n - 1)!')
+								]))
+						])),
+					$author$project$PageNavButtons$nextPageButton(model)
+				])));
 };
 var $author$project$P2$p2 = function (model) {
 	return A2(
@@ -13028,14 +13097,10 @@ var $mdgriffith$elm_ui$Internal$Model$renderRoot = F3(
 					_List_fromArray(
 						[child]))));
 	});
-var $mdgriffith$elm_ui$Internal$Model$FontSize = function (a) {
-	return {$: 'FontSize', a: a};
-};
 var $mdgriffith$elm_ui$Internal$Model$SansSerif = {$: 'SansSerif'};
 var $mdgriffith$elm_ui$Internal$Model$Typeface = function (a) {
 	return {$: 'Typeface', a: a};
 };
-var $mdgriffith$elm_ui$Internal$Flag$fontSize = $mdgriffith$elm_ui$Internal$Flag$flag(4);
 var $mdgriffith$elm_ui$Internal$Model$rootStyle = function () {
 	var families = _List_fromArray(
 		[
@@ -13098,12 +13163,6 @@ var $mdgriffith$elm_ui$Element$layout = $mdgriffith$elm_ui$Element$layoutWith(
 	{options: _List_Nil});
 var $author$project$Consts$maxWidthPx = 768;
 var $author$project$Consts$moreUrlStr = '/more';
-var $mdgriffith$elm_ui$Element$Font$size = function (i) {
-	return A2(
-		$mdgriffith$elm_ui$Internal$Model$StyleClass,
-		$mdgriffith$elm_ui$Internal$Flag$fontSize,
-		$mdgriffith$elm_ui$Internal$Model$FontSize(i));
-};
 var $author$project$P0$p0 = A2(
 	$mdgriffith$elm_ui$Element$column,
 	_List_Nil,

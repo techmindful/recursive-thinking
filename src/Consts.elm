@@ -1,6 +1,7 @@
 module Consts exposing (..)
 
 import Element as ElmUI
+import Element.Font as Font
 
 
 homeUrlStr =
@@ -21,6 +22,13 @@ maxPage =
 
 maxWidthPx =
     768
+
+
+mathExpStyle =
+    [ Font.center
+    , ElmUI.paddingXY 0 36
+    , Font.size 24
+    ]
 
 
 disabledColor =

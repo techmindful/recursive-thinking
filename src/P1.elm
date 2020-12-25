@@ -12,7 +12,7 @@ import Types exposing (..)
 
 p1 : Model -> ElmUI.Element Msg
 p1 model =
-    ElmUI.column []
+    ElmUI.column [] <|
         [ ElmUI.el [ ElmUI.paddingXY 0 20 ] <| prevPageButton model
         , ElmUI.textColumn
             [ ElmUI.spacingXY 0 15 ]
@@ -64,14 +64,39 @@ p1 model =
                         "That is incorrect. On paper, you can try to expand n!, (n - 1)!, and other terms, for a better comparison."
 
                     QuizPass ->
-                        "Sure thing, go to the next page to see the answer."
+                        "No problem, here's the explanation:"
 
                     QuizNoInput ->
                         ""
             ]
-        , if model.p1_QuizStatus.sub == QuizSel 2 || model.p1_QuizStatus.sub == QuizPass then
-            nextPageButton model
-
-          else
-            ElmUI.none
         ]
+            -- Display nothing unless user answers correctly, or passes.
+            ++ (if model.p1_QuizStatus.sub /= QuizSel 2 && model.p1_QuizStatus.sub /= QuizPass then
+                    [ ElmUI.none ]
+
+                else
+                    -- Quiz solution
+                    [ ElmUI.textColumn
+                        []
+                        [ ElmUI.paragraph
+                            []
+                            [ ElmUI.text "Observe that by definition of factorial:" ]
+                        , ElmUI.paragraph
+                            mathExpStyle
+                            [ ElmUI.text "(n - 1)! = (n - 1) * (n - 2) * ... * 1." ]
+                        , ElmUI.paragraph
+                            []
+                            [ ElmUI.text "If we multiply by n at both sides, we get:" ]
+                        , ElmUI.paragraph
+                            mathExpStyle
+                            [ ElmUI.text "n * (n - 1)! = n * (n - 1) * (n - 2) * ... * 1." ]
+                        , ElmUI.paragraph
+                            []
+                            [ ElmUI.text "The right side is actually just n!. So we conclude:" ]
+                        , ElmUI.paragraph
+                            mathExpStyle
+                            [ ElmUI.text "n! = n * (n - 1)!" ]
+                        ]
+                    , nextPageButton model
+                    ]
+               )
