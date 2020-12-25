@@ -72,6 +72,7 @@ init () url navKey =
     ( { route = getRoute url
       , navKey = navKey
       , p1_QuizStatus = { sel = QuizNoInput, sub = QuizNoInput }
+      , p2_QuizStatus = { sel = QuizNoInput, sub = QuizNoInput }
       }
     , Cmd.none
     )
@@ -93,6 +94,9 @@ update msg model =
 
         P1_RecvInput p1_Option ->
             ( { model | p1_QuizStatus = p1_Option }, Cmd.none )
+
+        P2_RecvInput p2_Option ->
+            ( { model | p2_QuizStatus = p2_Option }, Cmd.none )
 
 
 view : Model -> Browser.Document Msg
@@ -189,7 +193,7 @@ view model =
                                 [ explainer ]
 
                             More ->
-                                [ ElmUI.text "More" ]
+                                [ ElmUI.paragraph [ lineSpacing ] [ ElmUI.text "MoreMoreMoreMoreMoreMoreMoreMoreMoreMoreMoreMoreMoreMoreMoreMoreMoreMoreMoreMoreMoreMoreMoreMoreMoreMoreMoreMoreMoreMoreMoreMoreMoreMoreMoreMoreMoreMoreMoreMoreMoreMoreMoreMoreMoreMoreMoreMoreMoreMoreMoreMoreMoreMoreMoreMoreMoreMoreMoreMoreMoreMoreMoreMoreMoreMoreMoreMoreMoreMoreMoreMoreMoreMoreMoreMoreMoreMore" ] ]
 
                             _ ->
                                 [ ElmUI.text "Route error" ]

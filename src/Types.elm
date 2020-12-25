@@ -9,6 +9,7 @@ type alias Model =
     { route : Route
     , navKey : Nav.Key
     , p1_QuizStatus : QuizStatus
+    , p2_QuizStatus : QuizStatus
     }
 
 
@@ -16,6 +17,7 @@ type Msg
     = UserClickedLink Browser.UrlRequest
     | UrlHasChanged Url
     | P1_RecvInput QuizStatus
+    | P2_RecvInput QuizStatus
 
 
 type Route

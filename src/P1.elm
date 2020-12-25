@@ -16,15 +16,23 @@ p1 model =
         [ ElmUI.el [ ElmUI.paddingXY 0 20 ] <| prevPageButton model
         , ElmUI.textColumn
             [ ElmUI.spacingXY 0 15 ]
-            [ ElmUI.paragraph []
-                [ ElmUI.text "The simplest example to explain recursion is factorial. The factorial of a number n, denoted by n!, is just n * (n - 1) * (n - 2) * ... * 1. So the factorial of 4, which is 4!, equals to 24, because 4 * 3 * 2 * 1 = 24." ]
+            [ ElmUI.paragraph [{- defaultLineSpacing -}]
+                [ ElmUI.text "The simplest example to explain recursion is factorial. Here's the traditional, \"iterative\" definition of what a factorial is:" ]
+            , ElmUI.paragraph
+                [ ElmUI.paddingXY 40 5
+                , Font.italic
+                ]
+                [ ElmUI.text "The factorial of a positive integer n, denoted by n! , is the product of all the integers between n and 1. For example the factorial of 4, which is 4! , is just 4 * 3 * 2 * 1 = 24." ]
             , ElmUI.paragraph []
-                [ ElmUI.text "The traditional, iterative way to calculate the n! is to just write out n, n - 1, n - 2... Until we reach 1. Then we multiply them together. The recursive way however, calculates factorial with a factorial. Do you want to figure out which of the following equation is the correct one?" ]
+                [ ElmUI.text "To put it in a mathematical equation:" ]
+            , ElmUI.paragraph
+                mathExpStyle
+                [ ElmUI.text "n! = n * (n - 1) * (n - 2) * ... * 1" ]
+            , ElmUI.paragraph []
+                [ ElmUI.text "Now that we know what a factorial is, we can actually define it with a new, recursive way. The recursive definition will define factorial with a factorial. Do you want to figure out which of the following equation is the correct one?" ]
             ]
         , Input.radio
-            [ ElmUI.padding 20
-            , ElmUI.spacing 10
-            ]
+            quizRadioStyle
             { onChange = \option -> P1_RecvInput { sel = option, sub = model.p1_QuizStatus.sub }
             , options =
                 [ Input.option QuizPass <| ElmUI.text "I'll pass."
@@ -34,26 +42,10 @@ p1 model =
             , selected = Just model.p1_QuizStatus.sel
             , label = Input.labelAbove [] <| ElmUI.text ""
             }
-        , Input.button
-            [ ElmUI.padding 6
-            , Border.width 2
-            , Border.rounded 6
-            ]
-            { onPress = Just <| P1_RecvInput { sel = model.p1_QuizStatus.sel, sub = model.p1_QuizStatus.sel }
-            , label = ElmUI.text "Submit"
-            }
+        , quizSubmitButton P1_RecvInput model.p1_QuizStatus "Submit"
         , ElmUI.paragraph
             [ ElmUI.paddingXY 0 15
-            , Font.color <|
-                case model.p1_QuizStatus.sub of
-                    QuizSel 2 ->
-                        quizCorrectColor
-
-                    QuizPass ->
-                        quizPassColor
-
-                    _ ->
-                        quizWrongColor
+            , quizRespColor model.p1_QuizStatus 2
             ]
             [ ElmUI.text <|
                 case model.p1_QuizStatus.sub of
@@ -76,25 +68,21 @@ p1 model =
 
                 else
                     -- Quiz solution
-                    [ ElmUI.textColumn
-                        []
-                        [ ElmUI.paragraph
-                            []
-                            [ ElmUI.text "Observe that by definition of factorial:" ]
-                        , ElmUI.paragraph
-                            mathExpStyle
+                    [ ElmUI.textColumn []
+                        [ ElmUI.paragraph []
+                            [ ElmUI.text "According to the traditional definition of factorial:" ]
+                        , ElmUI.paragraph mathExpStyle
                             [ ElmUI.text "(n - 1)! = (n - 1) * (n - 2) * ... * 1." ]
-                        , ElmUI.paragraph
-                            []
+                        , ElmUI.paragraph []
                             [ ElmUI.text "If we multiply by n at both sides, we get:" ]
-                        , ElmUI.paragraph
-                            mathExpStyle
+                        , ElmUI.paragraph mathExpStyle
                             [ ElmUI.text "n * (n - 1)! = n * (n - 1) * (n - 2) * ... * 1." ]
+                        , ElmUI.paragraph []
+                            [ ElmUI.text "The right side is actually just n! ." ]
                         , ElmUI.paragraph
-                            []
-                            [ ElmUI.text "The right side is actually just n!. So we conclude:" ]
-                        , ElmUI.paragraph
-                            mathExpStyle
+                            [ ElmUI.paddingEach { top = 10, left = 0, right = 0, bottom = 0 } ]
+                            [ ElmUI.text "So we conclude:" ]
+                        , ElmUI.paragraph mathExpStyle
                             [ ElmUI.text "n! = n * (n - 1)!" ]
                         ]
                     , nextPageButton model
