@@ -59,9 +59,19 @@ explainerIndex model =
 
 init : () -> Url -> Nav.Key -> ( Model, Cmd Msg )
 init () url navKey =
+    let
+        partRoutes =
+            List.map Part <| List.range 1 maxPage
+
+        allQuizIDs =
+            List.map2 Tuple.pair partRoutes <| List.range 1 100
+
+        allQuizStatuses =
+            List.map2 Tuple.pair allQuizIDs <| List.singleton { sel = QuizNoInput, sub = QuizNoInput }
+    in
     ( { route = getRoute url
       , navKey = navKey
-      , quizStatuses = AssocList.empty
+      , quizStatuses = AssocList.fromList allQuizStatuses
       }
     , Cmd.none
     )
