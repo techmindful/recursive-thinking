@@ -1,23 +1,24 @@
 module Types exposing (..)
 
+import AssocList
 import Browser
 import Browser.Navigation as Nav
+import List
 import Url exposing (Url)
 
 
 type alias Model =
     { route : Route
     , navKey : Nav.Key
-    , p1_QuizStatus : QuizStatus
-    , p2_QuizStatus : QuizStatus
+    , quizStatuses : AssocList.Dict QuizID QuizStatus
     }
 
 
 type Msg
     = UserClickedLink Browser.UrlRequest
     | UrlHasChanged Url
-    | P1_RecvInput QuizStatus
-    | P2_RecvInput QuizStatus
+    | QuizRecvInput QuizID QuizStatus
+    | QuizErr
 
 
 type Route
@@ -25,6 +26,15 @@ type Route
     | Part Int
     | More
     | NotFound
+
+
+{-| A quiz can be identified by the route and order.
+
+E.g. The 3rd quiz of /part/2
+
+-}
+type alias QuizID =
+    ( Route, Int )
 
 
 type QuizInput

@@ -1,5 +1,6 @@
 module Main exposing (..)
 
+import AssocList
 import Browser
 import Browser.Navigation as Nav
 import Consts exposing (..)
@@ -56,23 +57,11 @@ explainerIndex model =
         ]
 
 
-errPara : String -> ElmUI.Element m
-errPara errMsg =
-    ElmUI.paragraph []
-        [ ElmUI.text <|
-            "Error: I made a mistake when making this website. I was about to blame javascript but I remembered I'm using Elm.. Can you contact me about this? "
-                ++ "ErrMsg: \""
-                ++ errMsg
-                ++ "\""
-        ]
-
-
 init : () -> Url -> Nav.Key -> ( Model, Cmd Msg )
 init () url navKey =
     ( { route = getRoute url
       , navKey = navKey
-      , p1_QuizStatus = { sel = QuizNoInput, sub = QuizNoInput }
-      , p2_QuizStatus = { sel = QuizNoInput, sub = QuizNoInput }
+      , quizStatuses = AssocList.empty
       }
     , Cmd.none
     )
@@ -92,11 +81,16 @@ update msg model =
         UrlHasChanged url ->
             ( { model | route = getRoute url }, Cmd.none )
 
-        P1_RecvInput p1_Option ->
-            ( { model | p1_QuizStatus = p1_Option }, Cmd.none )
+        QuizRecvInput quizID quizStatus ->
+            ( { model
+                | quizStatuses =
+                    AssocList.update quizID (\_ -> Just quizStatus) model.quizStatuses
+              }
+            , Cmd.none
+            )
 
-        P2_RecvInput p2_Option ->
-            ( { model | p2_QuizStatus = p2_Option }, Cmd.none )
+        QuizErr ->
+            ( model, Cmd.none )
 
 
 view : Model -> Browser.Document Msg

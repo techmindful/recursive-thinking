@@ -4,6 +4,7 @@ import Element as ElmUI
 import Element.Border as Border
 import Element.Font as Font
 import Element.Input as Input
+import Tuple
 import Types exposing (..)
 
 
@@ -56,14 +57,14 @@ Then takes the current QuizStatus, and label string, to make and return a submit
     quizSubmitButton P1_RecvInput model.p1_QuizStatus "Submit"
 
 -}
-quizSubmitButton : (QuizStatus -> Msg) -> QuizStatus -> String -> ElmUI.Element Msg
-quizSubmitButton recvInput qStatus labelStr =
+quizSubmitButton : Msg -> String -> ElmUI.Element Msg
+quizSubmitButton msg labelStr =
     Input.button
         [ ElmUI.padding 6
         , Border.width 2
         , Border.rounded 6
         ]
-        { onPress = Just <| recvInput { sel = qStatus.sel, sub = qStatus.sel }
+        { onPress = Just msg
         , label = ElmUI.text labelStr
         }
 
@@ -106,3 +107,29 @@ quizRespColor qStatus correctOp =
 
             _ ->
                 quizWrongColor
+
+
+errGetQuizStatusPara : ElmUI.Element Msg
+errGetQuizStatusPara =
+    errPara "Error getting QuizStatus."
+
+
+quizElOrErr : QuizID -> Maybe QuizStatus -> ElmUI.Element Msg -> ElmUI.Element Msg
+quizElOrErr id maybeStatus el =
+    case maybeStatus of
+        Just s ->
+            el
+
+        Nothing ->
+            errGetQuizStatusPara
+
+
+errPara : String -> ElmUI.Element m
+errPara errMsg =
+    ElmUI.paragraph []
+        [ ElmUI.text <|
+            "Error: I made a mistake when making this website. I was about to blame javascript but I remembered I'm using Elm.. Can you contact me about this? "
+                ++ "ErrMsg: \""
+                ++ errMsg
+                ++ "\""
+        ]

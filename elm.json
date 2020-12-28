@@ -11,7 +11,9 @@
             "elm/html": "1.0.0",
             "elm/http": "2.0.0",
             "elm/url": "1.0.0",
-            "mdgriffith/elm-ui": "1.1.8"
+            "elm-community/list-extra": "8.2.4",
+            "mdgriffith/elm-ui": "1.1.8",
+            "pzp1997/assoc-list": "1.0.0"
         },
         "indirect": {
             "elm/bytes": "1.0.8",
