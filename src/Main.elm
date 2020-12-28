@@ -11,6 +11,7 @@ import Element.Font as Font
 import Element.Input as Input
 import Html exposing (Html)
 import Http
+import List.Extra as List
 import P0 exposing (p0)
 import P1 exposing (p1)
 import P2 exposing (p2)
@@ -60,14 +61,14 @@ explainerIndex model =
 init : () -> Url -> Nav.Key -> ( Model, Cmd Msg )
 init () url navKey =
     let
-        partRoutes =
+        allPartRoutes =
             List.map Part <| List.range 1 maxPage
 
         allQuizIDs =
-            List.map2 Tuple.pair partRoutes <| List.range 1 100
+            List.lift2 Tuple.pair allPartRoutes <| List.range 1 10
 
         allQuizStatuses =
-            List.map2 Tuple.pair allQuizIDs <| List.singleton { sel = QuizNoInput, sub = QuizNoInput }
+            List.lift2 Tuple.pair allQuizIDs <| List.singleton { sel = QuizNoInput, sub = QuizNoInput }
     in
     ( { route = getRoute url
       , navKey = navKey

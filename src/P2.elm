@@ -43,7 +43,11 @@ p2 model =
                     , selected = Just quizOneStatus.sel
                     , label = Input.labelAbove [] <| ElmUI.text ""
                     }
-                , quizSubmitButton (QuizRecvInput ( Part 2, 1 ) quizOneStatus) "Submit"
+                , quizSubmitButton
+                    (QuizRecvInput ( Part 2, 1 )
+                        { sel = quizOneStatus.sel, sub = quizOneStatus.sel }
+                    )
+                    "Submit"
                 , ElmUI.paragraph
                     [ ElmUI.paddingXY 0 15
                     , quizRespColor quizOneStatus 1
