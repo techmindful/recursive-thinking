@@ -59,11 +59,11 @@ quizRadioStyle =
 {-| Takes a Msg constructor. The constructor takes a QuizStatus and returns a Msg.
 Then takes the current QuizStatus, and label string, to make and return a submit button.
 
-    quizSubmitButton P1_RecvInput model.p1_QuizStatus "Submit"
+    mkQuizSubmitButton P1_RecvInput model.p1_QuizStatus "Submit"
 
 -}
-quizSubmitButton : Msg -> String -> ElmUI.Element Msg
-quizSubmitButton msg labelStr =
+mkQuizSubmitButton : Msg -> String -> ElmUI.Element Msg
+mkQuizSubmitButton msg labelStr =
     Input.button
         [ ElmUI.padding 6
         , Border.width 2

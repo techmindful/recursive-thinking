@@ -1,4 +1,4 @@
-module PageNavButtons exposing (nextPageButton, prevPageButton)
+module PageNavButtons exposing (mkNextPageButton, mkPrevPageButton)
 
 import Consts exposing (..)
 import Element as ElmUI
@@ -60,8 +60,8 @@ disabledButton labelStr =
         }
 
 
-prevPageButton : Model -> ElmUI.Element Msg
-prevPageButton model =
+mkPrevPageButton : Model -> ElmUI.Element Msg
+mkPrevPageButton model =
     let
         partNum =
             getPartNum model
@@ -78,7 +78,7 @@ prevPageButton model =
             illPlacedButton
 
 
-nextPageButton model =
+mkNextPageButton model =
     let
         partNum =
             getPartNum model

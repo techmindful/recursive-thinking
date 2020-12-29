@@ -23,7 +23,7 @@ p1 model =
 
         Just quizOneStatus ->
             ElmUI.column [] <|
-                [ ElmUI.el [ ElmUI.paddingXY 0 20 ] <| prevPageButton model
+                [ ElmUI.el [ ElmUI.paddingXY 0 20 ] <| mkPrevPageButton model
                 , ElmUI.paragraph []
                     [ ElmUI.text "The simplest example to explain recursion is factorial. Here's the traditional, \"iterative\" definition of what a factorial is:" ]
                 , ElmUI.paragraph
@@ -51,7 +51,7 @@ p1 model =
                     , selected = Just quizOneStatus.sel
                     , label = Input.labelAbove [] <| ElmUI.text ""
                     }
-                , quizSubmitButton
+                , mkQuizSubmitButton
                     (QuizRecvInput ( Part 1, 1 )
                         { sel = quizOneStatus.sel, sub = quizOneStatus.sel }
                     )
@@ -98,6 +98,6 @@ p1 model =
                                 , ElmUI.paragraph mathExpStyle
                                     [ ElmUI.text "n! = n * (n - 1)!" ]
                                 ]
-                            , nextPageButton model
+                            , mkNextPageButton model
                             ]
                        )
