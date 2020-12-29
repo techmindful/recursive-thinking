@@ -134,10 +134,72 @@ p2 model =
                 , label = Input.labelAbove [] <| ElmUI.text ""
                 }
 
+        quiz2_SubmitButton quizTwoStatus =
+            mkQuizSubmitButton
+                (QuizRecvInput
+                    ( Part 2, 2 )
+                    { sel = quizTwoStatus.sel, sub = quizTwoStatus.sel }
+                )
+                "Submit"
+
+        quiz2_Resp quizTwoStatus =
+            ElmUI.textColumn
+                [ ElmUI.paddingXY 0 15
+                , quizRespColor quizTwoStatus 3
+                ]
+                [ case quizTwoStatus.sub of
+                    QuizSel 3 ->
+                        ElmUI.text "That is correct!"
+
+                    QuizSel 1 ->
+                        ElmUI.paragraph
+                            []
+                            [ ElmUI.text "That won't do. If that's added to the definition, the computation will be left with no answer when it reaches 1! = 1 * 0! ." ]
+
+                    QuizSel 2 ->
+                        ElmUI.textColumn
+                            []
+                            [ ElmUI.paragraph
+                                []
+                                [ ElmUI.text "Not quite. If 0! = 0, then" ]
+                            , ElmUI.textColumn
+                                [ ElmUI.paddingXY 40 20
+                                , ElmUI.spacingXY 0 10
+                                ]
+                                [ ElmUI.paragraph
+                                    []
+                                    [ ElmUI.text "1! = 1 * 0! = 1 * 0 = 0" ]
+                                , ElmUI.paragraph
+                                    []
+                                    [ ElmUI.text "2! = 2 * 1! = 2 * 0 = 0" ]
+                                , ElmUI.paragraph
+                                    []
+                                    [ ElmUI.text "3! = 3 * 2! = 3 * 0 = 0" ]
+                                , ElmUI.paragraph
+                                    []
+                                    [ ElmUI.text "4! = 4 * 3! = 4 * 0 = 0" ]
+                                , ElmUI.paragraph
+                                    []
+                                    [ ElmUI.text "..." ]
+                                , ElmUI.paragraph
+                                    []
+                                    [ ElmUI.text "Every factorial will equal to 0." ]
+                                ]
+                            ]
+
+                    QuizPass ->
+                        ElmUI.text "No problem. Solution is on the next page."
+
+                    _ ->
+                        ElmUI.none
+                ]
+
         quiz2 quizTwoStatus =
             ElmUI.column
                 []
                 [ quiz2_RadioButtons quizTwoStatus
+                , quiz2_SubmitButton quizTwoStatus
+                , quiz2_Resp quizTwoStatus
                 ]
 
         afterQuiz1 =
@@ -154,6 +216,11 @@ p2 model =
                         []
                         [ preQuiz2
                         , quiz2 quizTwoStatus
+                        , if quizTwoStatus.sub == QuizSel 3 || quizTwoStatus.sub == QuizPass then
+                            mkNextPageButton model
+
+                          else
+                            ElmUI.none
                         ]
     in
     ElmUI.column
