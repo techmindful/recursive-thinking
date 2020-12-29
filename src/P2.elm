@@ -21,7 +21,7 @@ p2 model =
             errGetQuizStatusPara
 
         Just quizOneStatus ->
-            ElmUI.column []
+            ElmUI.column [] <|
                 [ ElmUI.el [ ElmUI.paddingXY 0 20 ] <| prevPageButton model
                 , ElmUI.textColumn
                     [ ElmUI.spacingXY 0 15 ]
@@ -61,9 +61,22 @@ p2 model =
                                 "Simplicity doesn't mean incapability. Quite often simplicity is actually preferred in math and computer science!"
 
                             QuizPass ->
-                                "No problem, here's the explanation:"
+                                "No problem. Second option is correct. Here's why:"
 
                             QuizNoInput ->
                                 ""
                     ]
                 ]
+                    ++ (if quizOneStatus.sub == QuizSel 2 || quizOneStatus.sub == QuizNoInput then
+                            []
+
+                        else
+                            [ ElmUI.paragraph []
+                                [ ElmUI.text "If the entirety of the definition is just" ]
+                            , ElmUI.paragraph
+                                mathExpStyle
+                                [ ElmUI.text "n! = n * (n - 1)!" ]
+                            , ElmUI.paragraph []
+                                [ ElmUI.text "Then imagine if we try to compute 4! ." ]
+                            ]
+                       )
