@@ -24,23 +24,20 @@ p1 model =
         Just quizOneStatus ->
             ElmUI.column [] <|
                 [ ElmUI.el [ ElmUI.paddingXY 0 20 ] <| prevPageButton model
-                , ElmUI.textColumn
-                    [ ElmUI.spacingXY 0 15 ]
-                    [ ElmUI.paragraph [{- defaultLineSpacing -}]
-                        [ ElmUI.text "The simplest example to explain recursion is factorial. Here's the traditional, \"iterative\" definition of what a factorial is:" ]
-                    , ElmUI.paragraph
-                        [ ElmUI.paddingXY 40 5
-                        , Font.italic
-                        ]
-                        [ ElmUI.text "The factorial of a positive integer n, denoted by n! , is the product of all the integers between n and 1. For example the factorial of 4, which is 4! , is just 4 * 3 * 2 * 1 = 24." ]
-                    , ElmUI.paragraph []
-                        [ ElmUI.text "To put it in a mathematical equation:" ]
-                    , ElmUI.paragraph
-                        mathExpStyle
-                        [ ElmUI.text "n! = n * (n - 1) * (n - 2) * ... * 1" ]
-                    , ElmUI.paragraph []
-                        [ ElmUI.text "Now that we know what a factorial is, we can actually define it with a new, recursive way. The recursive definition will define factorial with a factorial. Do you want to figure out which of the following equation is the correct one?" ]
+                , ElmUI.paragraph []
+                    [ ElmUI.text "The simplest example to explain recursion is factorial. Here's the traditional, \"iterative\" definition of what a factorial is:" ]
+                , ElmUI.paragraph
+                    [ ElmUI.paddingXY 40 20
+                    , Font.italic
                     ]
+                    [ ElmUI.text "The factorial of a positive integer n, denoted by n! , is the product of all the integers between n and 1. For example the factorial of 4, which is 4! , is just 4 * 3 * 2 * 1 = 24." ]
+                , ElmUI.paragraph []
+                    [ ElmUI.text "To put it in a mathematical equation:" ]
+                , ElmUI.paragraph
+                    mathExpStyle
+                    [ ElmUI.text "n! = n * (n - 1) * (n - 2) * ... * 1" ]
+                , ElmUI.paragraph []
+                    [ ElmUI.text "Now that we know what a factorial is, we can actually define it with a new, recursive way. The recursive definition will define factorial with a factorial. Do you want to figure out which of the following equation is the correct one?" ]
                 , Input.radio
                     quizRadioStyle
                     { onChange =

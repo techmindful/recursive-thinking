@@ -38,6 +38,11 @@ lineSpacing =
     ElmUI.spacingXY 0 24
 
 
+paraSpacing : ElmUI.Attribute Msg
+paraSpacing =
+    ElmUI.spacingXY 0 15
+
+
 mathExpStyle =
     [ Font.center
     , ElmUI.paddingXY 0 36
