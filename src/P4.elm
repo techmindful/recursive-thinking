@@ -27,5 +27,13 @@ p4 model =
             , ElmUI.paragraph
                 []
                 [ ElmUI.text "Let me present you the problem named \"Heathrow to London\". Imagine that you've just arrived at the Heathrow airport, and you need to drive to London. Below is the street map:" ]
+            , ElmUI.image
+                [ ElmUI.width ElmUI.fill ]
+                { src = "/static/img/heathrow-to-london.png"
+                , description = "WIP text for assistive technology"
+                }
+            , ElmUI.paragraph
+                []
+                [ ElmUI.text "Heathrow is at the side of A and B. You can choose to start at either A or B. London is at the side of J and K. Arriving at either J or K completes the trip." ]
             ]
         ]
