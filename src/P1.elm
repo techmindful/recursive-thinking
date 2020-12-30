@@ -23,7 +23,7 @@ p1 model =
 
         Just quizOneStatus ->
             ElmUI.column [] <|
-                [ ElmUI.el [ ElmUI.paddingXY 0 20 ] <| mkPrevPageButton model
+                [ ElmUI.el defaultPrevPageBtnStyle <| mkPrevPageButton model
                 , ElmUI.paragraph []
                     [ ElmUI.text "The simplest example to explain recursion is factorial. Here's the traditional, \"iterative\" definition of what a factorial is:" ]
                 , ElmUI.paragraph

@@ -1,4 +1,4 @@
-module PageNavButtons exposing (mkNextPageButton, mkPrevPageButton)
+module PageNavButtons exposing (defaultPrevPageBtnStyle, mkNextPageButton, mkPrevPageButton)
 
 import Consts exposing (..)
 import Element as ElmUI
@@ -93,3 +93,8 @@ mkNextPageButton model =
 
         Nothing ->
             illPlacedButton
+
+
+defaultPrevPageBtnStyle : List (ElmUI.Attribute Msg)
+defaultPrevPageBtnStyle =
+    [ ElmUI.paddingXY 0 20 ]

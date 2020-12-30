@@ -15,6 +15,7 @@ import List.Extra as List
 import P0 exposing (p0)
 import P1 exposing (p1)
 import P2 exposing (p2)
+import P3 exposing (p3)
 import Types exposing (..)
 import Url exposing (Url)
 import Url.Builder
@@ -55,6 +56,7 @@ explainerIndex model =
     Dict.fromList
         [ ( 1, p1 model )
         , ( 2, p2 model )
+        , ( 3, p3 model )
         ]
 
 

@@ -14,7 +14,7 @@ p2 : Model -> ElmUI.Element Msg
 p2 model =
     let
         prevPageButton =
-            ElmUI.el [ ElmUI.paddingXY 0 20 ] <| mkPrevPageButton model
+            ElmUI.el defaultPrevPageBtnStyle <| mkPrevPageButton model
 
         preQuiz1 =
             ElmUI.textColumn
