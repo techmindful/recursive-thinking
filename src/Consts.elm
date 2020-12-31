@@ -28,6 +28,13 @@ maxWidthPx =
     768
 
 
+plainPara : String -> ElmUI.Element Msg
+plainPara str =
+    ElmUI.paragraph
+        []
+        [ ElmUI.text str ]
+
+
 {-| Apply this spacing in Element.paragraph for line spacing.
 
     Element.paragraph [ defaultLineSpacing, ... ] [ ... ]

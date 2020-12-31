@@ -33,8 +33,8 @@ p2 model =
                         QuizRecvInput ( Part 2, 1 ) { sel = option, sub = quizOneStatus.sub }
                 , options =
                     [ Input.option QuizPass <| ElmUI.text "I'll pass."
-                    , Input.option (QuizSel 1) <| ElmUI.paragraph [] [ ElmUI.text "Every time it answers what the factorial of an integer n is, a new question will be raised about what the factorial of (n - 1) is." ]
-                    , Input.option (QuizSel 2) <| ElmUI.paragraph [] [ ElmUI.text "It's too simple and can't describe a complicated computation like factorial, which can involve a lot of numbers and multiplications." ]
+                    , Input.option (QuizSel 1) <| plainPara "Every time it answers what the factorial of an integer n is, a new question will be raised about what the factorial of (n - 1) is."
+                    , Input.option (QuizSel 2) <| plainPara "It's too simple and can't describe a complicated computation like factorial, which can involve a lot of numbers and multiplications."
                     ]
                 , selected = Just quizOneStatus.sel
                 , label = Input.labelAbove [] <| ElmUI.text ""
@@ -79,35 +79,25 @@ p2 model =
         preQuiz2 =
             ElmUI.column
                 []
-                [ ElmUI.paragraph
-                    []
-                    [ ElmUI.text "If the entirety of the definition is just" ]
+                [ plainPara "If the entirety of the definition is just"
                 , ElmUI.paragraph
                     mathExpStyle
                     [ ElmUI.text "n! = n * (n - 1)!" ]
-                , ElmUI.paragraph []
-                    [ ElmUI.text "Then imagine if we try to compute 4! ." ]
+                , plainPara "Then imagine if we try to compute 4! ."
                 , ElmUI.textColumn
                     [ ElmUI.paddingXY 40 20
                     , ElmUI.spacingXY 0 10
                     ]
-                    [ ElmUI.paragraph []
-                        [ ElmUI.text "4! = 4 * 3! . But what does 3! equal to?" ]
-                    , ElmUI.paragraph []
-                        [ ElmUI.text "3! = 3 * 2! . But what does 2! equal to?" ]
-                    , ElmUI.paragraph []
-                        [ ElmUI.text "2! = 2 * 1! . But what does 1! equal to?" ]
-                    , ElmUI.paragraph []
-                        [ ElmUI.text "1! = 1 * 0! . But what does 0! equal to?" ]
-                    , ElmUI.paragraph []
-                        [ ElmUI.text "0! = 0 * (-1)! . But what does..." ]
+                    [ plainPara "4! = 4 * 3! . But what does 3! equal to?"
+                    , plainPara "3! = 3 * 2! . But what does 2! equal to?"
+                    , plainPara "2! = 2 * 1! . But what does 1! equal to?"
+                    , plainPara "1! = 1 * 0! . But what does 0! equal to?"
+                    , plainPara "0! = 0 * (-1)! . But what does..."
                     ]
                 , ElmUI.textColumn
                     [ paraSpacing ]
-                    [ ElmUI.paragraph []
-                        [ ElmUI.text "Such a definition will be useless, because it never terminates. It's also incorrect in some sense. We will be multiplying negative numbers. And at the 5th step shown above, a 0 shows up in the multiplication, which means the result of any factorial will just be 0." ]
-                    , ElmUI.paragraph []
-                        [ ElmUI.text "But we can fix it with just one addition to our definition. Do you want to figure out what it is?" ]
+                    [ plainPara "Such a definition will be useless, because it never terminates. It's also incorrect in some sense. We will be multiplying negative numbers. And at the 5th step shown above, a 0 shows up in the multiplication, which means the result of any factorial will just be 0."
+                    , plainPara "But we can fix it with just one addition to our definition. Do you want to figure out what it is?"
                     ]
                 ]
 
@@ -152,38 +142,22 @@ p2 model =
                         ElmUI.text "That is correct!"
 
                     QuizSel 1 ->
-                        ElmUI.paragraph
-                            []
-                            [ ElmUI.text "That won't do. If that's added to the definition, the computation will be left with no answer when it reaches 1! = 1 * 0! ." ]
+                        plainPara "That won't do. If that's added to the definition, the computation will be left with no answer when it reaches 1! = 1 * 0! ."
 
                     QuizSel 2 ->
                         ElmUI.textColumn
                             []
-                            [ ElmUI.paragraph
-                                []
-                                [ ElmUI.text "Not quite. If 0! = 0, then" ]
+                            [ plainPara "Not quite. If 0! = 0, then"
                             , ElmUI.textColumn
                                 [ ElmUI.paddingXY 40 20
                                 , ElmUI.spacingXY 0 10
                                 ]
-                                [ ElmUI.paragraph
-                                    []
-                                    [ ElmUI.text "1! = 1 * 0! = 1 * 0 = 0" ]
-                                , ElmUI.paragraph
-                                    []
-                                    [ ElmUI.text "2! = 2 * 1! = 2 * 0 = 0" ]
-                                , ElmUI.paragraph
-                                    []
-                                    [ ElmUI.text "3! = 3 * 2! = 3 * 0 = 0" ]
-                                , ElmUI.paragraph
-                                    []
-                                    [ ElmUI.text "4! = 4 * 3! = 4 * 0 = 0" ]
-                                , ElmUI.paragraph
-                                    []
-                                    [ ElmUI.text "..." ]
-                                , ElmUI.paragraph
-                                    []
-                                    [ ElmUI.text "Every factorial will equal to 0." ]
+                                [ plainPara "1! = 1 * 0! = 1 * 0 = 0"
+                                , plainPara "2! = 2 * 1! = 2 * 0 = 0"
+                                , plainPara "3! = 3 * 2! = 3 * 0 = 0"
+                                , plainPara "4! = 4 * 3! = 4 * 0 = 0"
+                                , plainPara "..."
+                                , plainPara "Every factorial will equal to 0."
                                 ]
                             ]
 

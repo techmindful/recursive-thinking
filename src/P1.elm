@@ -24,20 +24,17 @@ p1 model =
         Just quizOneStatus ->
             ElmUI.column [] <|
                 [ ElmUI.el defaultPrevPageBtnStyle <| mkPrevPageButton model
-                , ElmUI.paragraph []
-                    [ ElmUI.text "The simplest example to explain recursion is factorial. Here's the traditional, \"iterative\" definition of what a factorial is:" ]
+                , plainPara "The simplest example to explain recursion is factorial. Here's the traditional, \"iterative\" definition of what a factorial is:"
                 , ElmUI.paragraph
                     [ ElmUI.paddingXY 40 20
                     , Font.italic
                     ]
                     [ ElmUI.text "The factorial of a positive integer n, denoted by n! , is the product of all the integers between n and 1. For example the factorial of 4, which is 4! , is just 4 * 3 * 2 * 1 = 24." ]
-                , ElmUI.paragraph []
-                    [ ElmUI.text "To put it in a mathematical equation:" ]
+                , plainPara "To put it in a mathematical equation:"
                 , ElmUI.paragraph
                     mathExpStyle
                     [ ElmUI.text "n! = n * (n - 1) * (n - 2) * ... * 1" ]
-                , ElmUI.paragraph []
-                    [ ElmUI.text "Now that we know what a factorial is, we can actually define it with a new, recursive way. The recursive definition will define factorial with a factorial. Do you want to figure out which of the following equation is the correct one?" ]
+                , plainPara "Now that we know what a factorial is, we can actually define it with a new, recursive way. The recursive definition will define factorial with a factorial. Do you want to figure out which of the following equation is the correct one?"
                 , Input.radio
                     quizRadioStyle
                     { onChange =
@@ -82,16 +79,13 @@ p1 model =
                         else
                             -- Quiz solution
                             [ ElmUI.textColumn []
-                                [ ElmUI.paragraph []
-                                    [ ElmUI.text "According to the traditional definition of factorial:" ]
+                                [ plainPara "According to the traditional definition of factorial:"
                                 , ElmUI.paragraph mathExpStyle
                                     [ ElmUI.text "(n - 1)! = (n - 1) * (n - 2) * ... * 1." ]
-                                , ElmUI.paragraph []
-                                    [ ElmUI.text "If we multiply by n at both sides, we get:" ]
+                                , plainPara "If we multiply by n at both sides, we get:"
                                 , ElmUI.paragraph mathExpStyle
                                     [ ElmUI.text "n * (n - 1)! = n * (n - 1) * (n - 2) * ... * 1." ]
-                                , ElmUI.paragraph []
-                                    [ ElmUI.text "The right side is actually just n! ." ]
+                                , plainPara "The right side is actually just n! ."
                                 , ElmUI.paragraph
                                     [ ElmUI.paddingEach { top = 10, left = 0, right = 0, bottom = 0 } ]
                                     [ ElmUI.text "So we conclude:" ]
