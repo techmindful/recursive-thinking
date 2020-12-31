@@ -56,4 +56,13 @@ p4 model =
         , ElmUI.paragraph
             [ ElmUI.paddingEach { top = 20, left = 0, right = 0, bottom = 40 } ]
             [ ElmUI.text "Feel free to try to solve this problem on your own for a bit, if you so desire. You can explore both recursive and iterative (non-recursive) approaches. When you're ready, the guide below will step you through the recursive solution." ]
+        , ElmUI.textColumn
+            [ paraSpacing ]
+            [ ElmUI.paragraph
+                []
+                [ ElmUI.text "When I saw this problem, I first attempted to solve it without recursion. And I wasn't even able to figure out where to start. The only thing I could think of is to just brute-force it, exhaust every possible path, and pick the one whose time sums up the least. That is to calculate the time needed of path A->C->E->G->J, and A->C->E->G->H->K, and A->C->E->F->H->K... And do the same again but starting at B. I felt like I need to be an algorithmic genius to come up with a better solution." ]
+            , ElmUI.paragraph
+                []
+                [ ElmUI.text "But with recursion, I don't have to be a genius. I get to be the opposite of a genius, and solve it in a rather lazy way. Let's try the recursive approach together. As mentioned before, typically it's easier to figure out the base case in a recursion first, as it's usually also the most trivial case. What is the base case in this scenario?" ]
+            ]
         ]
