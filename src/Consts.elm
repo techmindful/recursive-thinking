@@ -121,6 +121,13 @@ quizRespColor qStatus correctOp =
                 quizWrongColor
 
 
+{-| Used in the unlikely case where model.quizStatuses look up fails
+-}
+dummyQuizStatus : QuizStatus
+dummyQuizStatus =
+    { sel = QuizNoInput, sub = QuizNoInput }
+
+
 errGetQuizStatusPara : ElmUI.Element Msg
 errGetQuizStatusPara =
     errPara "Error getting QuizStatus."

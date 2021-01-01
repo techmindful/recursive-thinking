@@ -25,14 +25,54 @@ p4 model =
                     \option ->
                         QuizRecvInput ( Part 4, 1 ) { sel = option, sub = quizOneStatus.sub }
                 , options =
-                    [ Input.option (QuizSel 1) <| ElmUI.paragraph [] <| [ ElmUI.text "Figuring out how you should decide between driving forward and reach London, versus driving across middle street, then forward and reach London, when you are at the last intersection." ]
-                    , Input.option (QuizSel 2) <| ElmUI.paragraph [] <| [ ElmUI.text "Figuring out how you should decide between driving forward, versus driving across middle street, then forward, when you are at the starting point." ]
-                    , Input.option (QuizSel 3) <| ElmUI.paragraph [] <| [ ElmUI.text "Figuring out how you should decide between starting at A, versus starting at B." ]
-                    , Input.option QuizNoInput <| ElmUI.text "I'll pass."
+                    [ Input.option (QuizSel 1) <| ElmUI.paragraph [] <| [ ElmUI.text "Figuring out how to decide between driving forward and reach London, versus driving across middle street, then forward and reach London, when you are at the last intersection." ]
+                    , Input.option (QuizSel 2) <| ElmUI.paragraph [] <| [ ElmUI.text "Figuring out how to decide between driving forward, versus driving across middle street, then forward, when you are at the starting point." ]
+                    , Input.option (QuizSel 3) <| ElmUI.paragraph [] <| [ ElmUI.text "Figuring out how to decide between starting at A, versus starting at B." ]
+                    , Input.option QuizPass <| ElmUI.text "I'll pass."
                     ]
                 , selected = Just quizOneStatus.sel
                 , label = Input.labelAbove [] <| ElmUI.text ""
                 }
+
+        quiz1_SubmitButton quizOneStatus =
+            mkQuizSubmitButton
+                (QuizRecvInput
+                    ( Part 4, 1 )
+                    { sel = quizOneStatus.sel, sub = quizOneStatus.sel }
+                )
+                "Submit"
+
+        quiz1_Resp quizOneStatus =
+            ElmUI.paragraph
+                [ ElmUI.paddingXY 0 15
+                , quizRespColor quizOneStatus 1
+                ]
+                [ case quizOneStatus.sub of
+                    QuizSel 1 ->
+                        ElmUI.text "That is correct!"
+
+                    QuizSel _ ->
+                        plainPara "Think again. It's not trivial to have this figured out. Remember that the base case is usually the most trivial (easiest) case. It's also usually the last step in the recursion."
+
+                    QuizPass ->
+                        plainPara "No problem. The first option is correct. Here's why:"
+
+                    QuizNoInput ->
+                        ElmUI.none
+                ]
+
+        quiz1 =
+            let
+                quizOneStatus =
+                    Maybe.withDefault dummyQuizStatus <|
+                        AssocList.get ( Part 4, 1 ) model.quizStatuses
+            in
+            ElmUI.column
+                []
+                [ quiz1_RadioButtons quizOneStatus
+                , quiz1_SubmitButton quizOneStatus
+                , quiz1_Resp quizOneStatus
+                ]
     in
     ElmUI.column
         []
@@ -67,4 +107,5 @@ p4 model =
             [ plainPara "When I saw this problem, I first attempted to solve it without recursion. And I wasn't even able to figure out where to start. The only thing I could think of is to just brute-force it, exhaust every possible path, and pick the one whose time sums up the least. That is to calculate the time needed of path A->C->E->G->J, and A->C->E->G->H->K, and A->C->E->F->H->K... And do the same again but starting at B. I felt like I need to be an algorithmic genius to come up with a better solution."
             , plainPara "But with recursion, I don't have to be a genius. I get to be the opposite of a genius, and solve it in a rather lazy way. Let's try the recursive approach together. As mentioned before, typically it's easier to figure out the base case in a recursion first, as it's usually also the most trivial case. What is the base case in this scenario?"
             ]
+        , quiz1
         ]
