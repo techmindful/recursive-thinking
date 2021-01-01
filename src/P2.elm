@@ -7,6 +7,7 @@ import Element as ElmUI
 import Element.Input as Input
 import Html
 import PageNavButtons exposing (..)
+import Quiz exposing (..)
 import Types exposing (..)
 
 
