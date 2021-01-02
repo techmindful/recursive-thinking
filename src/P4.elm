@@ -111,6 +111,11 @@ p4 model =
                 []
                 [ preQuiz2
                 , quiz2
+                , if quizTwoStatus.sub == QuizSel 2 then
+                    postQuiz2
+
+                  else
+                    ElmUI.none
                 ]
 
         preQuiz2 =
@@ -135,10 +140,37 @@ p4 model =
         quiz2_SubmitButton qStatus =
             mkQuizSubmitButton ( Part 4, 2 ) qStatus "Submit"
 
+        quiz2_Resp qStatus =
+            ElmUI.paragraph
+                [ ElmUI.paddingXY 0 15
+                , quizRespColor qStatus 2
+                ]
+                [ case qStatus.sub of
+                    QuizSel 1 ->
+                        plainPara "Don't be tricked here! Imagine if segment GJ takes 50 minutes, rather than just 10. Then it's much quicker to cross the middle street, then go forward on the other side, as it only takes 25 + 8 = 33 minutes."
+
+                    QuizSel 2 ->
+                        plainPara "Precisely!"
+
+                    _ ->
+                        ElmUI.none
+                ]
+
         quiz2 =
             ElmUI.column
                 []
-                [ quiz2_RadioButtons quizTwoStatus ]
+                [ quiz2_RadioButtons quizTwoStatus
+                , quiz2_SubmitButton quizTwoStatus
+                , quiz2_Resp quizTwoStatus
+                ]
+
+        postQuiz2 =
+            ElmUI.column
+                []
+                [ preQuiz3 ]
+
+        preQuiz3 =
+            plainPara "preQuiz3"
     in
     ElmUI.column
         []
