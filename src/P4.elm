@@ -216,21 +216,59 @@ p4 model =
                     [ Input.option (QuizSel 1) <|
                         ElmUI.textColumn
                             [ ElmUI.spacingXY 0 5 ]
+                            [ plainPara "m + min("
+                            , ElmUI.text "    l + f(LeftSide, rem),"
+                            , plainPara ""
+                            , ElmUI.text "    r + f(RightSide, rem),"
+                            , plainPara ")"
+                            ]
+                    , Input.option (QuizSel 2) <|
+                        ElmUI.textColumn
+                            [ ElmUI.spacingXY 0 5 ]
                             [ plainPara "min("
                             , ElmUI.text "    l + f(LeftSide, rem),"
                             , plainPara ""
                             , ElmUI.text "    m + r + f(RightSide, rem)"
                             , plainPara ")"
                             ]
+                    , Input.option (QuizSel 3) <| plainPara "min(l, m + r) + f(LeftSide, rem)"
+                    , Input.option QuizPass <| plainPara "I'll pass."
                     ]
                 , selected = Just qStatus.sel
                 , label = Input.labelAbove [] <| ElmUI.none
                 }
 
+        quiz3_SubmitButton qStatus =
+            mkQuizSubmitButton ( Part 4, 3 ) qStatus "Submit"
+
+        quiz3_Resp qStatus =
+            ElmUI.paragraph
+                [ ElmUI.paddingXY 0 15
+                , quizRespColor qStatus 2
+                ]
+                [ case qStatus.sub of
+                    QuizSel 2 ->
+                        ElmUI.text "That's correct!"
+
+                    QuizSel 1 ->
+                        ElmUI.text "This option is close, but it's not making sense. Since we are on LeftSide, adding m means going through the middle segment, and reaching RightSide. If the result of min is l + f(LeftSide, rem), it'd look like we are then teleporting back to LeftSide somehow."
+
+                    QuizSel 3 ->
+                        ElmUI.text "Not quite. This option doesn't make sense. If the result of min is m + r, it means we will be going through the middle segment, and then the right segment. But then f(LeftSide, rem) is added, which means we are teleporting back to LeftSide."
+
+                    QuizPass ->
+                        ElmUI.text "Don't worry. This sure is a tough one. With practice, recursive thinking will be a second nature."
+
+                    _ ->
+                        ElmUI.none
+                ]
+
         quiz3 =
             ElmUI.column
                 []
                 [ quiz3_RadioButtons quizThreeStatus
+                , quiz3_SubmitButton quizThreeStatus
+                , quiz3_Resp quizThreeStatus
                 ]
     in
     ElmUI.column
