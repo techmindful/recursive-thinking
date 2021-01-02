@@ -41,13 +41,8 @@ p2 model =
                 , label = Input.labelAbove [] <| ElmUI.text ""
                 }
 
-        quiz1_SubmitButton quizOneStatus =
-            mkQuizSubmitButton
-                (QuizRecvInput
-                    ( Part 2, 1 )
-                    { sel = quizOneStatus.sel, sub = quizOneStatus.sel }
-                )
-                "Submit"
+        quiz1_SubmitButton qStatus =
+            mkQuizSubmitButton ( Part 2, 1 ) qStatus "Submit"
 
         quiz1_Resp quizOneStatus =
             ElmUI.paragraph
@@ -125,13 +120,8 @@ p2 model =
                 , label = Input.labelAbove [] <| ElmUI.text ""
                 }
 
-        quiz2_SubmitButton quizTwoStatus =
-            mkQuizSubmitButton
-                (QuizRecvInput
-                    ( Part 2, 2 )
-                    { sel = quizTwoStatus.sel, sub = quizTwoStatus.sel }
-                )
-                "Submit"
+        quiz2_SubmitButton qStatus =
+            mkQuizSubmitButton ( Part 2, 2 ) qStatus "Submit"
 
         quiz2_Resp quizTwoStatus =
             ElmUI.textColumn

@@ -16,14 +16,14 @@ Then takes the current QuizStatus, and label string, to make and return a submit
     mkQuizSubmitButton P1_RecvInput model.p1_QuizStatus "Submit"
 
 -}
-mkQuizSubmitButton : Msg -> String -> ElmUI.Element Msg
-mkQuizSubmitButton msg labelStr =
+mkQuizSubmitButton : QuizID -> QuizStatus -> String -> ElmUI.Element Msg
+mkQuizSubmitButton quizID qStatus labelStr =
     Input.button
         [ ElmUI.padding 6
         , Border.width 2
         , Border.rounded 6
         ]
-        { onPress = Just msg
+        { onPress = Just <| QuizRecvInput quizID { sel = qStatus.sel, sub = qStatus.sel }
         , label = ElmUI.text labelStr
         }
 

@@ -19,6 +19,9 @@ p4 model =
         quizOneStatus =
             getQuizStatus model ( Part 4, 1 )
 
+        quizTwoStatus =
+            getQuizStatus model ( Part 4, 2 )
+
         prevPageButton =
             ElmUI.el defaultPrevPageBtnStyle <| mkPrevPageButton model
 
@@ -74,12 +77,7 @@ p4 model =
                 }
 
         quiz1_SubmitButton qStatus =
-            mkQuizSubmitButton
-                (QuizRecvInput
-                    ( Part 4, 1 )
-                    { sel = qStatus.sel, sub = qStatus.sel }
-                )
-                "Submit"
+            mkQuizSubmitButton ( Part 4, 1 ) qStatus "Submit"
 
         quiz1_Resp qStatus =
             ElmUI.paragraph
@@ -111,12 +109,36 @@ p4 model =
         postQuiz1 =
             ElmUI.column
                 []
-                [ preQuiz2 ]
+                [ preQuiz2
+                , quiz2
+                ]
 
         preQuiz2 =
             ElmUI.column
                 []
-                [ plainPara "Despite the whole problem being difficult, when you've reached the last intersection (either G or H), the one last choice you need to make is fairly simple. How should you make this choice?" ]
+                [ plainPara "Despite the whole problem being difficult, when we've reached the last intersection (either G or H), the one last choice we need to make is fairly simple. If we are already at G, then we should just go along segment GJ, which will take us 10 minutes. If we are already at H, then we should just go along HK, which will take us 8 minutes. What's the reasoning behind this strategy?" ]
+
+        quiz2_RadioButtons qStatus =
+            Input.radio
+                quizRadioStyle
+                { onChange =
+                    \option ->
+                        QuizRecvInput ( Part 4, 2 ) { sel = option, sub = qStatus.sub }
+                , options =
+                    [ Input.option (QuizSel 1) <| plainPara "In either case, the destination is just straight ahead. No need to cross the middle street."
+                    , Input.option (QuizSel 2) <| plainPara "In either case, it takes more time to cross the middle street and go forward on the other side, than to go forward on the current side."
+                    ]
+                , selected = Just qStatus.sel
+                , label = Input.labelAbove [] ElmUI.none
+                }
+
+        quiz2_SubmitButton qStatus =
+            mkQuizSubmitButton ( Part 4, 2 ) qStatus "Submit"
+
+        quiz2 =
+            ElmUI.column
+                []
+                [ quiz2_RadioButtons quizTwoStatus ]
     in
     ElmUI.column
         []
