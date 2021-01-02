@@ -50,9 +50,18 @@ paraSpacing =
     ElmUI.spacingXY 0 15
 
 
+mathExpStyle : List (ElmUI.Attribute Msg)
 mathExpStyle =
     [ Font.center
     , ElmUI.paddingXY 0 36
+    , Font.size 24
+    ]
+
+
+multiMathExpStyle : List (ElmUI.Attribute Msg)
+multiMathExpStyle =
+    [ ElmUI.paddingXY 40 36
+    , ElmUI.spacingXY 0 10
     , Font.size 24
     ]
 

@@ -22,6 +22,9 @@ p4 model =
         quizTwoStatus =
             getQuizStatus model ( Part 4, 2 )
 
+        quizThreeStatus =
+            getQuizStatus model ( Part 4, 3 )
+
         prevPageButton =
             ElmUI.el defaultPrevPageBtnStyle <| mkPrevPageButton model
 
@@ -167,14 +170,71 @@ p4 model =
         postQuiz2 =
             ElmUI.column
                 []
-                [ preQuiz3 ]
+                [ preQuiz3
+                , quiz3
+                ]
 
         preQuiz3 =
-            plainPara "preQuiz3"
+            ElmUI.column
+                []
+                [ ElmUI.textColumn
+                    [ paraSpacing ]
+                    [ plainPara "Now let's think of it this way: We're writing the solution of this problem as a function called f. If we tell f our current point, f should be able to tell us the least time needed to reach London from where we are."
+                    , plainPara "To give f the complete information regarding a point, we need to specify the side of that point, and the time lengths of the remaining segments ahead of that point. So point G can be described with \"LeftSide, [10, 25, 8]\", point F can be described with \"RightSide, [40, 20, 2, 10, 25, 8]\", and so on."
+                    , plainPara "Since we have already figured out the base case of the problem, let's write down the base case for f:"
+                    ]
+                , ElmUI.textColumn
+                    [ ElmUI.paddingXY 40 36
+                    , ElmUI.spacingXY 0 30
+                    , Font.size 24
+                    ]
+                    [ plainPara "f(LeftSide, [l, m, r]) = min(l, m + r)"
+                    , plainPara "f(RightSide, [l, m, r]) = min(r, m + l)"
+                    ]
+                , ElmUI.textColumn
+                    [ paraSpacing ]
+                    [ plainPara "Let me explain: The base case is really the case where there are only 3 segments left. The segment on the left is denoted as l, the one in the middle as m, the one on the right as r. min(a, b) means \"the minimum between a and b\". From the previous quiz, if we are on LeftSide (like point G), the least time is the minimum between left segment l, versus the sum of the middle segment and the right segment. Similar reasoning for RightSide."
+                    , plainPara "Now let's tackle the more general, recursive case. This will enable us to solve the problem at any point on the map. Let's start at LeftSide. I'm going to write the expression as:"
+                    ]
+                , ElmUI.paragraph
+                    multiMathExpStyle
+                    [ ElmUI.text "f(LeftSide, [l, m, r ||| rem])" ]
+                , ElmUI.textColumn
+                    [ paraSpacing ]
+                    [ plainPara "Where l, m, r are the left, middle, right segments right in front of us. And all of the remaining segments further ahead of us, are abbreviated as rem."
+                    , plainPara "What does it equal to?"
+                    ]
+                ]
+
+        quiz3_RadioButtons qStatus =
+            Input.radio
+                quizRadioStyle
+                { onChange =
+                    \option ->
+                        QuizRecvInput ( Part 4, 3 ) { sel = option, sub = qStatus.sub }
+                , options =
+                    [ Input.option (QuizSel 1) <|
+                        ElmUI.textColumn
+                            [ ElmUI.spacingXY 0 5 ]
+                            [ plainPara "min("
+                            , ElmUI.text "    l + f(LeftSide, rem),"
+                            , plainPara ""
+                            , ElmUI.text "    m + r + f(RightSide, rem)"
+                            , plainPara ")"
+                            ]
+                    ]
+                , selected = Just qStatus.sel
+                , label = Input.labelAbove [] <| ElmUI.none
+                }
+
+        quiz3 =
+            ElmUI.column
+                []
+                [ quiz3_RadioButtons quizThreeStatus
+                ]
     in
     ElmUI.column
         []
-    <|
         [ preQuiz1
         , quiz1
         , if quizOneStatus.sub == QuizSel 1 || quizOneStatus.sub == QuizPass then
