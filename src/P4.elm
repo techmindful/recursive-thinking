@@ -25,6 +25,9 @@ p4 model =
         quizThreeStatus =
             getQuizStatus model ( Part 4, 3 )
 
+        quizFourStatus =
+            getQuizStatus model ( Part 4, 4 )
+
         prevPageButton =
             ElmUI.el defaultPrevPageBtnStyle <| mkPrevPageButton model
 
@@ -172,9 +175,101 @@ p4 model =
                 []
                 [ preQuiz3
                 , quiz3
+                , if quizThreeStatus.sub == QuizSel 1 || quizThreeStatus.sub == QuizPass then
+                    postQuiz3
+
+                  else
+                    ElmUI.none
                 ]
 
         preQuiz3 =
+            ElmUI.textColumn
+                [ paraSpacing ]
+                [ plainPara "Let's verbalize this strategy: At the last intersection, if we are on the left side, the quickest path is whichever of these two takes less time: Going through left segment, versus going through middle segment, then right segment."
+                , plainPara "And it's similar if we are on the right side. The quickest path is whichever of these two takes less time: Going through right segment, versus going through middle segment, then left segment."
+                , plainPara "(It seems like it's going to be quite verbally convoluted to describe our strategies. So don't worry if the following verbalization isn't immediately making sense. Feel free to pass. The mathematic, or even coding representation later may be clearer to you.)"
+                , plainPara "Now let's tackle the more general, recursive case. With the solution of the base case at hand, can you answer the question \"At any intersection, what's the quickest path from there to reach London\"? Remember that in recursion, you can answer a question with a question!"
+                ]
+
+        quiz3_RadioButtons qStatus =
+            let
+                optionStyle =
+                    ElmUI.textColumn
+                        [ ElmUI.padding 15
+                        , ElmUI.spacingXY 0 5
+                        , Border.width 2
+                        , Border.rounded 6
+                        ]
+            in
+            Input.radio
+                quizRadioStyle
+                { onChange =
+                    \option ->
+                        QuizRecvInput ( Part 4, 3 ) { sel = option, sub = qStatus.sub }
+                , options =
+                    [ Input.option (QuizSel 1) <|
+                        optionStyle
+                            [ plainPara "If we are at an intersection on the left side, then the quickest path from there is whichever of the following two is quicker:"
+                            , ElmUI.paragraph [ ElmUI.paddingXY 20 0 ] [ ElmUI.text "1. Going through left segment to reach the next intersection, and then going through \"the quickest path from that intersection to reach London\"." ]
+                            , ElmUI.paragraph [ ElmUI.paddingXY 20 0 ] [ ElmUI.text "2. Going through middle segment, then right segment, to reach the next intersection, and then going through \"the quickest path from that intersection to reach London\"." ]
+                            , plainPara "It's similar if we are on the right side."
+                            ]
+                    , Input.option (QuizSel 2) <|
+                        optionStyle
+                            [ plainPara "If we are at an intersection on the left side, then the quickest path from there is going through the middle segment first, and then going through whichever of the following two is quicker:"
+                            , ElmUI.paragraph [ ElmUI.paddingXY 20 0 ] [ ElmUI.text "1. Going through left segment to reach the next intersection, and then going through \"the quickest path from that intersection to reach London\"." ]
+                            , ElmUI.paragraph [ ElmUI.paddingXY 20 0 ] [ ElmUI.text "2. Going through right segment to reach the next intersection, and then going through \"the quickest path from that intersection to reach London\"." ]
+                            , plainPara "It's similar if we are on the right side."
+                            ]
+                    , Input.option QuizPass <| plainPara "I'll pass."
+                    ]
+                , selected = Just qStatus.sel
+                , label = Input.labelAbove [] <| ElmUI.none
+                }
+
+        quiz3_SubmitButton qStatus =
+            mkQuizSubmitButton ( Part 4, 3 ) qStatus "Submit"
+
+        quiz3_Resp qStatus =
+            ElmUI.paragraph
+                [ ElmUI.paddingXY 0 15
+                , quizRespColor qStatus 1
+                ]
+                [ case qStatus.sub of
+                    QuizSel 1 ->
+                        ElmUI.text "That is correct!"
+
+                    QuizSel 2 ->
+                        ElmUI.text "This one doesn't make sense. It's saying we are always going through the middle segment. Starting from the left side, it means we'll then end up on the right side. But then if \"whichever of the following two is quicker\" turns out to be \"1. Going through left segment to ...\", we'd find ourselves having to teleport back to the left side!"
+
+                    QuizPass ->
+                        ElmUI.text "No problem. Maybe the mathematic representation later will be clearer to you. For now, know that the first option is correct."
+
+                    _ ->
+                        ElmUI.none
+                ]
+
+        quiz3 =
+            ElmUI.column
+                []
+                [ quiz3_RadioButtons quizThreeStatus
+                , quiz3_SubmitButton quizThreeStatus
+                , quiz3_Resp quizThreeStatus
+                ]
+
+        postQuiz3 =
+            ElmUI.column
+                []
+                [ ElmUI.textColumn
+                    [ paraSpacing ]
+                    [ plainPara "And... That's it! That describes our entire strategy!"
+                    , plainPara "For real. At any intersection, we have a definitive way to find out the quickest path. Even though it'll lead us to a new question, eventually we'll find ourselves reaching one of the last intersections (G or H). And from the base case, we know the quickest path from there. That in turn gives answer to the previous question, which gives answer to the previous question of the previous question, ... Eventually, the original question is answered."
+                    , plainPara "If you are not so convinced that a lazy, or even cheating way of problem-solving, that is recursion, can actually work, then the following pages will solidify our recursive strategy into mathematic expressions and code. And we'll get to compute the actual least time needed to go from Heathrow to London, according to the street map above. We can verify the correctness of the recursive strategy."
+                    ]
+                , ElmUI.el [ ElmUI.paddingXY 0 20 ] <| mkNextPageButton model
+                ]
+
+        preQuiz4 =
             ElmUI.column
                 []
                 [ ElmUI.textColumn
@@ -206,12 +301,12 @@ p4 model =
                     ]
                 ]
 
-        quiz3_RadioButtons qStatus =
+        quiz4_RadioButtons qStatus =
             Input.radio
                 quizRadioStyle
                 { onChange =
                     \option ->
-                        QuizRecvInput ( Part 4, 3 ) { sel = option, sub = qStatus.sub }
+                        QuizRecvInput ( Part 4, 4 ) { sel = option, sub = qStatus.sub }
                 , options =
                     [ Input.option (QuizSel 1) <|
                         ElmUI.textColumn
@@ -238,10 +333,10 @@ p4 model =
                 , label = Input.labelAbove [] <| ElmUI.none
                 }
 
-        quiz3_SubmitButton qStatus =
-            mkQuizSubmitButton ( Part 4, 3 ) qStatus "Submit"
+        quiz4_SubmitButton qStatus =
+            mkQuizSubmitButton ( Part 4, 4 ) qStatus "Submit"
 
-        quiz3_Resp qStatus =
+        quiz4_Resp qStatus =
             ElmUI.paragraph
                 [ ElmUI.paddingXY 0 15
                 , quizRespColor qStatus 2
@@ -263,13 +358,18 @@ p4 model =
                         ElmUI.none
                 ]
 
-        quiz3 =
+        quiz4 =
             ElmUI.column
                 []
-                [ quiz3_RadioButtons quizThreeStatus
-                , quiz3_SubmitButton quizThreeStatus
-                , quiz3_Resp quizThreeStatus
+                [ quiz4_RadioButtons quizFourStatus
+                , quiz4_SubmitButton quizFourStatus
+                , quiz4_Resp quizFourStatus
                 ]
+
+        postQuiz4 =
+            ElmUI.column
+                []
+                [ ElmUI.text "postQuiz4" ]
     in
     ElmUI.column
         []
