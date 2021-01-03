@@ -18,6 +18,7 @@ import P2 exposing (p2)
 import P3 exposing (p3)
 import P4 exposing (p4)
 import P5 exposing (p5)
+import P6 exposing (p6)
 import Types exposing (..)
 import Url exposing (Url)
 import Url.Builder
@@ -61,6 +62,7 @@ explainerIndex model =
         , ( 3, p3 model )
         , ( 4, p4 model )
         , ( 5, p5 model )
+        , ( 6, p6 model )
         ]
 
 

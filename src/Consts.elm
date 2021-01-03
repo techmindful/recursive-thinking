@@ -21,7 +21,7 @@ explainerUrlStrHead =
 
 
 maxPage =
-    5
+    6
 
 
 maxWidthPx =

@@ -16,7 +16,7 @@ import Types exposing (..)
 p5 : Model -> ElmUI.Element Msg
 p5 model =
     let
-        preQuiz1 =
+        body =
             let
                 qPara =
                     plainPara
@@ -154,11 +154,13 @@ p5 model =
                     , plainPara "Therefore, \"the quickest path starting from A\" is AB + BD + CD + CE + EF + FH + HK. It takes 75 minutes."
                     , aPara "And this path is equivalent to starting from B, taking AB (which takes 0 minute) out, and going through BD + CD + CE + EF + FH + HK."
                     ]
-                , plainPara "There we have it! The quickest path from Heathrow to London is to start from B, and go through BD + CD + CE + EF + FH + HK. It takes 75 minutes. Recursion actually works!"
+                , plainPara "There we have it! The quickest path from Heathrow to London is to start from B, and go through BD + CD + CE + EF + FH + HK. It takes 75 minutes."
+                , plainPara "Recursion actually works!"
                 ]
     in
     ElmUI.column
         []
         [ ElmUI.el defaultPrevPageBtnStyle <| mkPrevPageButton model
-        , preQuiz1
+        , body
+        , ElmUI.el defaultNextPageBtnStyle <| mkNextPageButton model
         ]
