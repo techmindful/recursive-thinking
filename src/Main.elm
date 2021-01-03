@@ -81,6 +81,7 @@ init () url navKey =
     ( { route = getRoute url
       , navKey = navKey
       , quizStatuses = AssocList.fromList allQuizStatuses
+      , demoCodeLang = Python
       }
     , Cmd.none
     )
@@ -110,6 +111,9 @@ update msg model =
 
         QuizErr ->
             ( model, Cmd.none )
+
+        SelectDemoCodeLang lang ->
+            ( { model | demoCodeLang = lang }, Cmd.none )
 
 
 view : Model -> Browser.Document Msg

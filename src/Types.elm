@@ -11,6 +11,7 @@ type alias Model =
     { route : Route
     , navKey : Nav.Key
     , quizStatuses : AssocList.Dict QuizID QuizStatus
+    , demoCodeLang : DemoCodeLang
     }
 
 
@@ -19,6 +20,7 @@ type Msg
     | UrlHasChanged Url
     | QuizRecvInput QuizID QuizStatus
     | QuizErr
+    | SelectDemoCodeLang DemoCodeLang
 
 
 type Route
@@ -45,3 +47,8 @@ type QuizInput
 
 type alias QuizStatus =
     { sel : QuizInput, sub : QuizInput }
+
+
+type DemoCodeLang
+    = Python
+    | Haskell
