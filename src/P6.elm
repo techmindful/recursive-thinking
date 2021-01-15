@@ -7,6 +7,7 @@ import Element.Border as Border
 import Element.Font as Font
 import Element.Input as Input
 import Html
+import Html.Attributes
 import List.Extra as List
 import PageNavButtons exposing (..)
 import Quiz exposing (..)
@@ -49,28 +50,35 @@ p6 model =
                     ]
                     [ langSelButton Python "Python"
                     , langSelButton Haskell "Haskell"
+                    , case model.demoCodeLang of
+                        Python ->
+                            ElmUI.none
+
+                        Haskell ->
+                            ElmUI.el
+                                [ Font.size 18
+                                , Font.color <| ElmUI.rgb255 80 80 80
+                                ]
+                                (ElmUI.text "Much less code..")
                     ]
                 , ElmUI.textColumn
                     [ ElmUI.padding 20
                     , Border.width 2
                     , Border.rounded 6
                     ]
-                    [ case model.demoCodeLang of
-                        Python ->
-                            ElmUI.textColumn
-                                []
-                                [ ElmUI.text <| "def f(side, segments):"
-                                , plainPara ""
-                                , ElmUI.text <| "    # Implement"
-                                ]
+                    [ ElmUI.el
+                        [ Font.size 16 ]
+                        (ElmUI.html <|
+                            Html.span [ Html.Attributes.style "white-space" "pre-wrap" ]
+                                [ Html.text <|
+                                    case model.demoCodeLang of
+                                        Python ->
+                                            pythonCode
 
-                        Haskell ->
-                            ElmUI.textColumn
-                                []
-                                [ ElmUI.text <| "f side segments ="
-                                , plainPara ""
-                                , ElmUI.text <| "    -- Implement"
+                                        Haskell ->
+                                            haskellCode
                                 ]
+                        )
                     ]
                 , ElmUI.paragraph
                     [ ElmUI.paddingEach { top = 20, left = 0, right = 0, bottom = 0 } ]
