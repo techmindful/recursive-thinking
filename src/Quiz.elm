@@ -41,7 +41,7 @@ quizRadioStyle =
 
 
 quizCorrectColor =
-    ElmUI.rgb255 0 255 0
+    ElmUI.rgb255 0 150 0
 
 
 quizWrongColor =

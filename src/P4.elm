@@ -61,8 +61,8 @@ p4 model =
                     [ ElmUI.text "Feel free to try to solve this problem on your own for a bit, if you so desire. You can explore both recursive and iterative (non-recursive) approaches. When you're ready, the guide below will step you through the recursive solution." ]
                 , ElmUI.textColumn
                     [ paraSpacing ]
-                    [ plainPara "When I saw this problem, I first attempted to solve it without recursion. And I wasn't even able to figure out where to start. The only thing I could think of is to just brute-force it, exhaust every possible path, and pick the one whose time sums up the least. That is to calculate the time needed of path A->C->E->G->J, and A->C->E->G->H->K, and A->C->E->F->H->K... And do the same again but starting at B. I felt like I need to be an algorithmic genius to come up with a better solution."
-                    , plainPara "But with recursion, I don't have to be a genius. I get to be the opposite of a genius, and solve it in a rather lazy way. Let's try the recursive approach together. As mentioned before, typically it's easier to figure out the base case in a recursion first, as it's usually also the most trivial case. What is the base case in this scenario?"
+                    [ plainPara "When I saw this problem, I first attempted to solve it without recursion. The only thing I could think of is to just brute-force it, exhaust every possible path, and pick the one whose time sums up the least. That is to calculate the time needed of path A->C->E->G->J, and A->C->E->G->H->K, and A->C->E->F->H->K... Sure, that works. But it didn't feel easy to translate that process to a computer program. Can it be done more pleasantly?"
+                    , plainPara "It turned out that with recursion, I can solve it in a rather lazy manner. Let's try it together. As mentioned before, typically it's easier to figure out the base case in a recursion first, as it's usually also the most trivial case. What is the base case in this scenario?"
                     ]
                 ]
 
@@ -73,8 +73,8 @@ p4 model =
                     \option ->
                         QuizRecvInput ( Part 4, 1 ) { sel = option, sub = qStatus.sub }
                 , options =
-                    [ Input.option (QuizSel 1) <| ElmUI.paragraph [] <| [ ElmUI.text "Figuring out how to decide between driving forward and reach London, versus driving across middle street, then forward and reach London, when you are at the last intersection." ]
-                    , Input.option (QuizSel 2) <| ElmUI.paragraph [] <| [ ElmUI.text "Figuring out how to decide between driving forward, versus driving across middle street, then forward, when you are at the starting point." ]
+                    [ Input.option (QuizSel 1) <| ElmUI.paragraph [] <| [ ElmUI.text "Figuring out how to decide between driving forward and reach London, versus driving across middle street, then forward and reach London, when you are at the last intersection (either G or H)." ]
+                    , Input.option (QuizSel 2) <| ElmUI.paragraph [] <| [ ElmUI.text "Figuring out how to decide between driving forward, versus driving across middle street, then forward, when you are at the starting point (either A or B)." ]
                     , Input.option (QuizSel 3) <| ElmUI.paragraph [] <| [ ElmUI.text "Figuring out how to decide between starting at A, versus starting at B." ]
                     , Input.option QuizPass <| ElmUI.text "I'll pass."
                     ]
@@ -94,8 +94,11 @@ p4 model =
                     QuizSel 1 ->
                         ElmUI.text "That is correct!"
 
-                    QuizSel _ ->
+                    QuizSel 2 ->
                         plainPara "Think again. It's not trivial to have this figured out. Remember that the base case is usually the most trivial (easiest) case. It's also usually the last step in the recursion."
+
+                    QuizSel _ ->
+                        plainPara "This doesn't need to be figured out. We can just solve the case where we start at A. If the final solution is a path like A->B->D->... We can just omit the A->B part. It takes 0 minute, and it's equivalent to saying the path starts at B."
 
                     QuizPass ->
                         plainPara "No problem. The first option is correct. Here's why:"
@@ -187,7 +190,6 @@ p4 model =
                 [ paraSpacing ]
                 [ plainPara "Let's verbalize this strategy: At the last intersection, if we are on the left side, the quickest path is whichever of these two takes less time: Going through left segment, versus going through middle segment, then right segment."
                 , plainPara "And it's similar if we are on the right side. The quickest path is whichever of these two takes less time: Going through right segment, versus going through middle segment, then left segment."
-                , plainPara "(It seems like it's going to be quite verbally convoluted to describe our strategies. So don't worry if the following verbalization isn't immediately making sense. Feel free to pass. The mathematic, or even coding representation later may be clearer to you.)"
                 , plainPara "Now let's tackle the more general, recursive case. With the solution of the base case at hand, can you answer the question \"At any intersection, what's the quickest path from there to reach London\"? Remember that in recursion, you can answer a question with a question!"
                 ]
 
@@ -243,7 +245,7 @@ p4 model =
                         ElmUI.text "This one doesn't make sense. It's saying we are always going through the middle segment. Starting from the left side, it means we'll then end up on the right side. But then if \"whichever of the following two is quicker\" turns out to be \"1. Going through left segment to ...\", we'd find ourselves having to teleport back to the left side!"
 
                     QuizPass ->
-                        ElmUI.text "No problem. Maybe the mathematic representation later will be clearer to you. For now, know that the first option is correct."
+                        ElmUI.text "No problem. For now, know that the first option is correct."
 
                     _ ->
                         ElmUI.none
@@ -264,7 +266,7 @@ p4 model =
                     [ paraSpacing ]
                     [ plainPara "And... That's it! That describes our entire strategy!"
                     , plainPara "For real. At any intersection, we have a definitive way to find out the quickest path. Even though it'll lead us to a new question, eventually we'll find ourselves reaching one of the last intersections (G or H). And from the base case, we know the quickest path from there. That in turn gives answer to the previous question, which gives answer to the previous question of the previous question, ... Eventually, the original question is answered."
-                    , plainPara "If you are not so convinced that a lazy, or even cheating way of problem-solving, that is recursion, can actually work, then the following pages will solidify our recursive strategy into mathematic expressions and code. And we'll get to compute the actual least time needed to go from Heathrow to London, according to the street map above. We can verify the correctness of the recursive strategy."
+                    , plainPara "If you are not so convinced that a lazy, or even cheating way of problem-solving can actually work, then the following pages will go through the strategy step by step, to verify the recursion is correct."
                     ]
                 , ElmUI.el [ ElmUI.paddingXY 0 20 ] <| mkNextPageButton model
                 ]

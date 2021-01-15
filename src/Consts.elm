@@ -78,6 +78,16 @@ disabledColor =
     ElmUI.rgb255 128 128 128
 
 
+externalLink urlStr labelStr =
+    ElmUI.newTabLink
+        [ Font.color <| ElmUI.rgb255 0 0 255
+        , Font.underline
+        ]
+        { url = urlStr
+        , label = ElmUI.text labelStr
+        }
+
+
 errPara : String -> ElmUI.Element m
 errPara errMsg =
     ElmUI.paragraph []

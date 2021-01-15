@@ -152,7 +152,7 @@ p5 model =
                         , plainPara "2. AB + BD followed by \"the quickest path starting from D\", which is actually AB + BD + (CD + CE + EF + FH + HK) and takes 0 + 10 + 65 = 75 minutes."
                         ]
                     , plainPara "Therefore, \"the quickest path starting from A\" is AB + BD + CD + CE + EF + FH + HK. It takes 75 minutes."
-                    , aPara "And this path is equivalent to starting from B, taking AB (which takes 0 minute) out, and going through BD + CD + CE + EF + FH + HK."
+                    , aPara "And this path is equivalent to omitting AB (which takes 0 minute), starting at B, and going through BD + CD + CE + EF + FH + HK."
                     ]
                 , plainPara "There we have it! The quickest path from Heathrow to London is to start from B, and go through BD + CD + CE + EF + FH + HK. It takes 75 minutes."
                 , plainPara "Recursion actually works!"
