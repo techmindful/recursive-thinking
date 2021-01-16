@@ -21,6 +21,7 @@ type Msg
     | QuizRecvInput QuizID QuizStatus
     | QuizErr
     | SelectDemoCodeLang DemoCodeLang
+    | Ignore
 
 
 type Route

@@ -2,6 +2,7 @@ module Main exposing (..)
 
 import AssocList
 import Browser
+import Browser.Dom
 import Browser.Navigation as Nav
 import Consts exposing (..)
 import Dict exposing (Dict)
@@ -21,6 +22,7 @@ import P4 exposing (p4)
 import P5 exposing (p5)
 import P6 exposing (p6)
 import P7 exposing (p7)
+import Task
 import Types exposing (..)
 import Url exposing (Url)
 import Url.Builder
@@ -102,7 +104,9 @@ update msg model =
                     ( model, Nav.load url )
 
         UrlHasChanged url ->
-            ( { model | route = getRoute url }, Cmd.none )
+            ( { model | route = getRoute url }
+            , Task.perform (\_ -> Ignore) (Browser.Dom.setViewport 0 0)
+            )
 
         QuizRecvInput quizID quizStatus ->
             ( { model
@@ -117,6 +121,9 @@ update msg model =
 
         SelectDemoCodeLang lang ->
             ( { model | demoCodeLang = lang }, Cmd.none )
+
+        Ignore ->
+            ( model, Cmd.none )
 
 
 view : Model -> Browser.Document Msg
