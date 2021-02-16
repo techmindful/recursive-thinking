@@ -7,6 +7,7 @@ import Element.Border as Border
 import Element.Font as Font
 import Element.Input as Input
 import Html
+import Html.Attributes
 import List.Extra as List
 import PageNavButtons exposing (..)
 import Quiz exposing (..)
@@ -373,13 +374,28 @@ p4 model =
                 []
                 [ ElmUI.text "postQuiz4" ]
     in
-    ElmUI.column
-        []
-        [ preQuiz1
-        , quiz1
-        , if quizOneStatus.sub == QuizSel 1 || quizOneStatus.sub == QuizPass then
-            postQuiz1
+    -- Don't know if it's bad to do Element -> Html -> Element,
+    -- Because inFront only gives a modal when put on a layout.
+    ElmUI.html <|
+        ElmUI.layoutWith
+            { options = [ ElmUI.noStaticStyleSheet ] }
+            [ ElmUI.inFront <|
+                ElmUI.image
+                    [ ElmUI.htmlAttribute <| Html.Attributes.style "display" "inline"
+                    , ElmUI.htmlAttribute <| Html.Attributes.style "position" "fixed"
+                    ]
+                    { src = "/static/img/heathrow-to-london.png"
+                    , description = "WIP text for assistive technology"
+                    }
+            ]
+        <|
+            ElmUI.column
+                []
+                [ preQuiz1
+                , quiz1
+                , if quizOneStatus.sub == QuizSel 1 || quizOneStatus.sub == QuizPass then
+                    postQuiz1
 
-          else
-            ElmUI.none
-        ]
+                  else
+                    ElmUI.none
+                ]
