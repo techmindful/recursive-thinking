@@ -32,41 +32,6 @@ p4 model =
         prevPageButton =
             ElmUI.el defaultPrevPageBtnStyle <| mkPrevPageButton model
 
-        preQuiz1 =
-            ElmUI.column
-                []
-                [ prevPageButton
-                , ElmUI.textColumn
-                    [ paraSpacing ]
-                    [ plainPara "At this point you may be thinking: Well all of this is fun, or even artistic. But does this have any practical use?"
-                    , plainPara "Let me present you the problem named \"Heathrow to London\". Imagine that you've just arrived at the Heathrow airport, and you need to drive to London. Below is the street map:"
-                    , ElmUI.image
-                        [ ElmUI.width ElmUI.fill ]
-                        { src = "/static/img/heathrow-to-london.png"
-                        , description = "WIP text for assistive technology"
-                        }
-                    , ElmUI.textColumn
-                        [ Border.width 2
-                        , Border.rounded 6
-                        , ElmUI.padding 12
-                        , paraSpacing
-                        ]
-                        [ plainPara "Heathrow is at the side of point A and point B. You can choose to start at either A or B. London is at the side of J and K. Arriving at either J or K completes the trip."
-                        , plainPara "At each point, you can choose to either drive forward, or to drive sideway across the middle street, and then drive forward. The number on each segment is the time needed to drive through that segment. So for example, if you are at point C, you can choose to either spend 5 minutes driving to E, or spend 30 + 90 = 120 minutes driving to D, then to F. Do notice that although it's much faster to just drive to E, the segment EG costs a lot more time than the segment FH."
-                        , plainPara "It makes sense to mark segment AB as costing 0 minute, because you can choose to start at either A or B. (So if you choose to start at A, you can choose to drive to C. Or you can choose to drive to B, then to D, which is equivalent of saying you chose to start at B.)"
-                        , plainPara "There exists a path where it costs you the least time to drive from Heathrow to London. The challenge is to compute how much time exactly does this path take."
-                        ]
-                    ]
-                , ElmUI.paragraph
-                    [ ElmUI.paddingEach { top = 20, left = 0, right = 0, bottom = 40 } ]
-                    [ ElmUI.text "Feel free to try to solve this problem on your own for a bit, if you so desire. You can explore both recursive and iterative (non-recursive) approaches. When you're ready, the guide below will step you through the recursive solution." ]
-                , ElmUI.textColumn
-                    [ paraSpacing ]
-                    [ plainPara "When I saw this problem, I first attempted to solve it without recursion. The only thing I could think of is to just brute-force it, exhaust every possible path, and pick the one whose time sums up the least. That is to calculate the time needed of path A->C->E->G->J, and A->C->E->G->H->K, and A->C->E->F->H->K... Sure, that works. But it didn't feel easy to translate that process to a computer program. Can it be done more pleasantly?"
-                    , plainPara "It turned out that with recursion, I can solve it in a rather lazy manner. Let's try it together. As mentioned before, typically it's easier to figure out the base case in a recursion first, as it's usually also the most trivial case. What is the base case in this scenario?"
-                    ]
-                ]
-
         quiz1_RadioButtons qStatus =
             Input.radio
                 quizRadioStyle
@@ -376,26 +341,45 @@ p4 model =
     in
     -- Don't know if it's bad to do Element -> Html -> Element,
     -- Because inFront only gives a modal when put on a layout.
-    ElmUI.html <|
-        ElmUI.layoutWith
-            { options = [ ElmUI.noStaticStyleSheet ] }
-            [ ElmUI.inFront <|
-                ElmUI.image
-                    [ ElmUI.htmlAttribute <| Html.Attributes.style "display" "inline"
-                    , ElmUI.htmlAttribute <| Html.Attributes.style "position" "fixed"
-                    ]
-                    { src = "/static/img/heathrow-to-london.png"
-                    , description = "WIP text for assistive technology"
-                    }
+    ElmUI.column
+        []
+        [ prevPageButton
+        , ElmUI.textColumn
+            [ paraSpacing ]
+            [ plainPara "At this point you may be thinking: Well all of this is fun, or even artistic. But does this have any practical use?"
+            , plainPara "Let me present you the problem named \"Heathrow to London\". Imagine that you've just arrived at the Heathrow airport, and you need to drive to London. Below is the street map:"
             ]
-        <|
-            ElmUI.column
-                []
-                [ preQuiz1
-                , quiz1
-                , if quizOneStatus.sub == QuizSel 1 || quizOneStatus.sub == QuizPass then
-                    postQuiz1
+        , ElmUI.image
+            [ ElmUI.width ElmUI.fill
+            , ElmUI.htmlAttribute <| Html.Attributes.style "position" "sticky"
+            , ElmUI.htmlAttribute <| Html.Attributes.style "top" "0"
+            ]
+            { src = "/static/img/heathrow-to-london.jpg"
+            , description = "WIP text for assistive technology"
+            }
+        , ElmUI.textColumn
+            [ Border.width 2
+            , Border.rounded 6
+            , ElmUI.padding 12
+            , paraSpacing
+            ]
+            [ plainPara "Heathrow is at the side of point A and point B. You can choose to start at either A or B. London is at the side of J and K. Arriving at either J or K completes the trip."
+            , plainPara "At each point, you can choose to either drive forward, or to drive sideway across the middle street, and then drive forward. The number on each segment is the time needed to drive through that segment. So for example, if you are at point C, you can choose to either spend 5 minutes driving to E, or spend 30 + 90 = 120 minutes driving to D, then to F. Do notice that although it's much faster to just drive to E, the segment EG costs a lot more time than the segment FH."
+            , plainPara "It makes sense to mark segment AB as costing 0 minute, because you can choose to start at either A or B. (So if you choose to start at A, you can choose to drive to C. Or you can choose to drive to B, then to D, which is equivalent of saying you chose to start at B.)"
+            , plainPara "There exists a path where it costs you the least time to drive from Heathrow to London. The challenge is to compute how much time exactly does this path take."
+            ]
+        , ElmUI.paragraph
+            [ ElmUI.paddingEach { top = 20, left = 0, right = 0, bottom = 40 } ]
+            [ ElmUI.text "Feel free to try to solve this problem on your own for a bit, if you so desire. You can explore both recursive and iterative (non-recursive) approaches. When you're ready, the guide below will step you through the recursive solution." ]
+        , ElmUI.textColumn
+            [ paraSpacing ]
+            [ plainPara "When I saw this problem, I first attempted to solve it without recursion. The only thing I could think of is to just brute-force it, exhaust every possible path, and pick the one whose time sums up the least. That is to calculate the time needed of path A->C->E->G->J, and A->C->E->G->H->K, and A->C->E->F->H->K... Sure, that works. But it didn't feel easy to translate that process to a computer program. Can it be done more pleasantly?"
+            , plainPara "It turned out that with recursion, I can solve it in a rather lazy manner. Let's try it together. As mentioned before, typically it's easier to figure out the base case in a recursion first, as it's usually also the most trivial case. What is the base case in this scenario?"
+            ]
+        , quiz1
+        , if quizOneStatus.sub == QuizSel 1 || quizOneStatus.sub == QuizPass then
+            postQuiz1
 
-                  else
-                    ElmUI.none
-                ]
+          else
+            ElmUI.none
+        ]
