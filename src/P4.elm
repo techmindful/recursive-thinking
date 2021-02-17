@@ -353,6 +353,7 @@ p4 model =
             [ ElmUI.width ElmUI.fill
             , ElmUI.htmlAttribute <| Html.Attributes.style "position" "sticky"
             , ElmUI.htmlAttribute <| Html.Attributes.style "top" "0"
+            , ElmUI.htmlAttribute <| Html.Attributes.style "z-index" "2"
             ]
             { src = "/static/img/heathrow-to-london.jpg"
             , description = "WIP text for assistive technology"
