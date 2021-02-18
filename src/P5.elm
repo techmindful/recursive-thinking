@@ -53,22 +53,23 @@ p5 model =
                     , description = "WIP text for assistive technology"
                     }
                 , plainPara "Let's execute our solution by hand, and see if it really works!"
+                , plainPara "To reduce clutter, I'm going to abbreviate \"the quickest path from X to either J or K\" into \"Path_X\"."
                 , qa
                     []
-                    [ qPara "Q: So, what is the quickest path from A, to either J or K?"
-                    , aPara "A: The quickest path from A is whichever of the following two paths takes less time: AC followed by \"the quickest path starting from C\", versus AB + BD followed by \"the quickest path starting from D\"."
+                    [ qPara "Q: So, what is Path_A?"
+                    , aPara "A: Path_A is the quicker of these two: AC + Path_C, versus AB + BD + Path_D."
                     ]
                 , qa
                     []
-                    [ qPara "Q: But what is \"the quickest path starting from C\"? And what is \"the quickest path starting from D\"?"
-                    , aPara "A: \"The quickest path starting from C\" is whichever of the following two paths takes less time: CE followed by \"the quickest path starting from E\", versus CD + DF followed by \"the quickest path starting from F\"."
-                    , aPara "A: And \"The quickest path starting from D\" is whichever of the following two paths takes less time: DF followed by \"the quickest path starting from F\", versus CD + CE followed by \"the quickest path starting from E\"."
+                    [ qPara "Q: But what is Path_C, and what is Path_D?"
+                    , aPara "A: Path_C is the quicker of these two: CE + Path_E, versus CD + DF + Path_F."
+                    , aPara "A: Path_D is the quicker of these two: DF + Path_F, versus CD + CE + Path_E."
                     ]
                 , qa
                     []
-                    [ qPara "Q: But what is \"the quickest path starting from E\", and what is \"the quickest path starting from F\"?"
-                    , aPara "A: \"The quickest path starting from E\" is whichever of the following two paths takes less time: EG followed by \"the quickest path starting from G\", versus EF + FH followed by \"the quickest path starting from H."
-                    , aPara "A: And \"the quickest path starting from F\" is whichever of the following two paths takes less time: FH followed by \"the quickest path starting from H\", versus EF + EG followed by \"the quickest path starting from G\"."
+                    [ qPara "Q: But what is Path_E, and what is Path_F?"
+                    , aPara "A: Path_E is the quicker of these two: EG + Path_G, versus EF + FH + Path_H."
+                    , aPara "A: Path_F is the quicker of these two: FH + Path_H, versus EF + EG + Path_G."
                     ]
 
                 -- Base case
@@ -85,50 +86,50 @@ p5 model =
                         , Font.color <| ElmUI.rgb255 47 158 91
                         ]
                         [ ElmUI.text "Base case!" ]
-                    , qPara "Q: But what is \"the quickest path starting from G\", and what is \"the quickest path starting from H\"?"
-                    , aPara "A: \"The quickest path starting from G\" is whichever of the following two paths takes less time: GJ, versus GH + HK. Since GJ takes 10 minutes, GH + HK takes 25 + 8 = 33 minutes, GJ is the quickest path starting from G."
-                    , aPara "A: \"The quickest path starting from H\" is whichever of the following two paths takes less time: HK, versus GH + GJ. Since HK takes 8 minutes, GH + GJ takes 25 + 10 = 35 minutes, HK is the quickest path starting from H."
+                    , qPara "Q: But what is Path_G, and what is Path_H?"
+                    , aPara "A: Path_G is the quicker of these two: GJ, versus GH + HK. Since GJ takes 10 minutes, GH + HK takes 25 + 8 = 33 minutes, we conclude that Path_G is GJ, and it takes 10 minutes."
+                    , aPara "A: Path_H is the quicker of these two: HK, versus GH + GJ. Since HK takes 8 minutes, GH + GJ takes 25 + 10 = 35 minutes, we conclude that Path_H is HK, and it takes 8 minutes."
                     ]
                 , qa
                     []
-                    [ plainPara "A: Since \"the quickest path starting from E\" is whichever of the following two paths takes less time:"
+                    [ plainPara "A: Since Path_E is the quicker of these two:"
                     , ElmUI.textColumn
                         vsOneTwoStyle
-                        [ plainPara "1. EG followed by \"the quickest path starting from G\", which is actually EG + GJ and takes 40 + 10 = 50 minutes;"
-                        , plainPara "2. EF + FH followed by \"the quickest path starting from H\", which is actually EF + FH + HK and takes 20 + 2 + 8 = 30 minutes."
+                        [ plainPara "1. EG + Path_G, which is just EG + GJ and takes 40 + 10 = 50 minutes;"
+                        , plainPara "2. EF + FH + Path_H, which is just EF + FH + HK and takes 20 + 2 + 8 = 30 minutes."
                         ]
-                    , aPara "Therefore, \"the quickest path starting from E\" is EF + FH + HK. It takes 30 minutes."
+                    , aPara "Therefore, Path_E is EF + FH + HK. It takes 30 minutes."
                     ]
                 , qa
                     []
-                    [ plainPara "A: Since \"the quickest path starting from F\" is whichever of the following two paths takes less time:"
+                    [ plainPara "A: Since Path_F is the quicker of these two:"
                     , ElmUI.textColumn
                         vsOneTwoStyle
-                        [ plainPara "1. FH followed by \"the quickest path starting from H\", which is actually FH + HK and takes 2 + 8 = 10 minutes;"
-                        , plainPara "2. EF + EG followed by \"the quickest path starting from G\", which is actually EF + EG + GJ and takes 20 + 40 + 10 = 70 minutes."
+                        [ plainPara "1. FH + Path_H, which is just FH + HK and takes 2 + 8 = 10 minutes;"
+                        , plainPara "2. EF + EG + Path_G, which is just EF + EG + GJ and takes 20 + 40 + 10 = 70 minutes."
                         ]
-                    , aPara "Therefore, \"the quickest path starting from H\" is FH + HK. It takes 10 minutes."
+                    , aPara "Therefore, Path_F is FH + HK. It takes 10 minutes."
                     ]
                 , qa
                     []
-                    [ plainPara "A: Since \"the quickest path starting from C\" is whichever of the following two paths takes less time:"
+                    [ plainPara "A: Since Path_C is the quicker of these two:"
                     , ElmUI.textColumn
                         vsOneTwoStyle
-                        [ plainPara "1. CE followed by \"the quickest path starting from E\", which is actually CE + (EF + FH + HK) and takes 5 + 30 = 35 minutes;"
-                        , plainPara "2. CD + DF followed by \"the quickest path starting from F\", which is actually CD + DF + (FH + HK) and takes 30 + 90 + 10 = 130 minutes."
+                        [ plainPara "1. CE + Path_E, which is just CE + (EF + FH + HK) and takes 5 + 30 = 35 minutes;"
+                        , plainPara "2. CD + DF + Path_F, which is just CD + DF + (FH + HK) and takes 30 + 90 + 10 = 130 minutes."
                         ]
-                    , aPara "Therefore, \"the quickest path starting from C\" is CE + EF + FH + HK. It takes 35 minutes."
+                    , aPara "Therefore, Path_C is CE + EF + FH + HK. It takes 35 minutes."
                     ]
                 , qa
                     []
                     [ plainPara
-                        "A: Since \"the quickest path starting from D\" is whichever of the following two paths takes less time:"
+                        "A: Since Path_D is the quicker of these two:"
                     , ElmUI.textColumn
                         vsOneTwoStyle
-                        [ plainPara "1. DF followed by \"the quickest path starting from F\", which is actually DF + (FH + HK) and takes 90 + 10 = 100 minutes;"
-                        , plainPara "2. CD + CE followed by \"the quickest path starting from E\", which is actually CD + CE + (EF + FH + HK) and takes 30 + 5 + 30 = 65 minutes."
+                        [ plainPara "1. DF + Path_F, which is just DF + (FH + HK) and takes 90 + 10 = 100 minutes;"
+                        , plainPara "2. CD + CE + Path_E, which is just CD + CE + (EF + FH + HK) and takes 30 + 5 + 30 = 65 minutes."
                         ]
-                    , aPara "Therefore, \"the quickest path starting from D\" is CD + CE + EF + FH + HK. It takes 65 minutes."
+                    , aPara "Therefore, Path_D is CD + CE + EF + FH + HK. It takes 65 minutes."
                     ]
 
                 -- Final answer
@@ -145,13 +146,13 @@ p5 model =
                         , Font.color <| ElmUI.rgb255 47 158 91
                         ]
                         [ ElmUI.text "Final answer!" ]
-                    , plainPara "A: Since \"the quickest path starting from A\" is whichever of the following two paths takes less time:"
+                    , plainPara "A: Since Path_A is the quicker of these two:"
                     , ElmUI.textColumn
                         vsOneTwoStyle
-                        [ plainPara "1. AC followed by \"the quickest path starting from C\", which is actually AC + (CE + EF + FH + HK) and takes 50 + 35 = 85 minutes;"
-                        , plainPara "2. AB + BD followed by \"the quickest path starting from D\", which is actually AB + BD + (CD + CE + EF + FH + HK) and takes 0 + 10 + 65 = 75 minutes."
+                        [ plainPara "1. AC + Path_C, which is just AC + (CE + EF + FH + HK) and takes 50 + 35 = 85 minutes;"
+                        , plainPara "2. AB + BD + Path_D, which is just AB + BD + (CD + CE + EF + FH + HK) and takes 0 + 10 + 65 = 75 minutes."
                         ]
-                    , plainPara "Therefore, \"the quickest path starting from A\" is AB + BD + CD + CE + EF + FH + HK. It takes 75 minutes."
+                    , plainPara "Therefore, Path_A, the quickest path from A to either J or K, is AB + BD + CD + CE + EF + FH + HK. It takes 75 minutes."
                     , aPara "And this path is equivalent to omitting AB (which takes 0 minute), starting at B, and going through BD + CD + CE + EF + FH + HK."
                     ]
                 , plainPara "There we have it! The quickest path from Heathrow to London is to start from B, and go through BD + CD + CE + EF + FH + HK. It takes 75 minutes."
