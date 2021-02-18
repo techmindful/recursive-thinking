@@ -47,12 +47,12 @@ p5 model =
             in
             ElmUI.textColumn
                 [ paraSpacing ]
-                [ plainPara "Let's execute our solution by hand, and see if it really works! For reference, here's the picture of the street map:"
-                , ElmUI.image
-                    [ ElmUI.width ElmUI.fill ]
-                    { src = "/static/img/heathrow-to-london.png"
+                [ ElmUI.image
+                    ([ ElmUI.width ElmUI.fill ] ++ stickyAttrs)
+                    { src = "/static/img/heathrow-to-london.jpg"
                     , description = "WIP text for assistive technology"
                     }
+                , plainPara "Let's execute our solution by hand, and see if it really works!"
                 , qa
                     []
                     [ qPara "Q: So, what is the quickest path from A, to either J or K?"
@@ -62,7 +62,7 @@ p5 model =
                     []
                     [ qPara "Q: But what is \"the quickest path starting from C\"? And what is \"the quickest path starting from D\"?"
                     , aPara "A: \"The quickest path starting from C\" is whichever of the following two paths takes less time: CE followed by \"the quickest path starting from E\", versus CD + DF followed by \"the quickest path starting from F\"."
-                    , aPara "A: And \"The quickest path starting from D\" is whichever of the following two paths takes less time: DF followed by \"the quickest path starting from F\", versus CD + DE followed by \"the quickest path starting from E\"."
+                    , aPara "A: And \"The quickest path starting from D\" is whichever of the following two paths takes less time: DF followed by \"the quickest path starting from F\", versus CD + CE followed by \"the quickest path starting from E\"."
                     ]
                 , qa
                     []

@@ -350,11 +350,7 @@ p4 model =
             , plainPara "Let me present you the problem named \"Heathrow to London\". Imagine that you've just arrived at the Heathrow airport, and you need to drive to London. Below is the street map:"
             ]
         , ElmUI.image
-            [ ElmUI.width ElmUI.fill
-            , ElmUI.htmlAttribute <| Html.Attributes.style "position" "sticky"
-            , ElmUI.htmlAttribute <| Html.Attributes.style "top" "0"
-            , ElmUI.htmlAttribute <| Html.Attributes.style "z-index" "2"
-            ]
+            ([ ElmUI.width ElmUI.fill ] ++ stickyAttrs)
             { src = "/static/img/heathrow-to-london.jpg"
             , description = "WIP text for assistive technology"
             }

@@ -4,6 +4,7 @@ import Element as ElmUI
 import Element.Border as Border
 import Element.Font as Font
 import Element.Input as Input
+import Html.Attributes
 import Tuple
 import Types exposing (..)
 
@@ -71,6 +72,14 @@ multiMathExpStyle =
     [ ElmUI.paddingXY 40 36
     , ElmUI.spacingXY 0 10
     , Font.size 24
+    ]
+
+
+stickyAttrs : List (ElmUI.Attribute Msg)
+stickyAttrs =
+    [ ElmUI.htmlAttribute <| Html.Attributes.style "position" "sticky"
+    , ElmUI.htmlAttribute <| Html.Attributes.style "top" "0"
+    , ElmUI.htmlAttribute <| Html.Attributes.style "z-index" "2"
     ]
 
 

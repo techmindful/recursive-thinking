@@ -20,15 +20,18 @@ p6 model =
         body =
             ElmUI.column
                 []
-                [ ElmUI.textColumn
+                [ ElmUI.image
+                    ([ ElmUI.width ElmUI.fill
+                     , ElmUI.paddingEach { bottom = 20, top = 0, left = 0, right = 0 }
+                     ]
+                        ++ stickyAttrs
+                    )
+                    { src = "/static/img/heathrow-to-london.jpg"
+                    , description = "WIP text for assistive technology"
+                    }
+                , ElmUI.textColumn
                     [ paraSpacing ]
                     [ plainPara "This last page is for those among the readers who are interested in programming, and implementing our recursive solution into code."
-                    , plainPara "Here's the street map again:"
-                    , ElmUI.image
-                        [ ElmUI.width ElmUI.fill ]
-                        { src = "/static/img/heathrow-to-london.png"
-                        , description = "WIP text for assistive technology"
-                        }
                     , plainPara "We will be encoding all the time lengths of the segments into a list of integers. And they will come in triplets, in the order of left first, middle second, right third. For example, the time lengths of segments starting from G or H are [10, 25, 8]. The ones starting from E or F are [40, 20, 2, 10, 25, 8]. Starting from A or B, the complete list is [50, 0, 10, 5, 30, 90, 40, 20, 2, 10, 25, 8]."
                     , plainPara "The list of the time lengths of the segments ahead, added with a note on the side, are enough to describe an intersection. For example, point G is equivalent to (LEFT, [10, 25, 8]). Point F is equivalent to (RIGHT, [40, 20, 2, 10, 25, 8]). Point A is equivalent to (LEFT, [50, 0, 10, 5, 30, 90, 40, 20, 2, 10, 25, 8])."
                     , plainPara "We are writing a recursive function that takes in a side, and a list of the time lengths of the segments ahead, and returns the least time needed to reach J or K."
