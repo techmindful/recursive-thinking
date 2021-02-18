@@ -70,7 +70,12 @@ p6 model =
                     , Border.rounded 6
                     ]
                     [ ElmUI.el
-                        [ Font.size 16 ]
+                        [ Font.size 16
+                        , Font.family
+                            [ Font.typeface "Courier New"
+                            , Font.sansSerif
+                            ]
+                        ]
                         (ElmUI.html <|
                             Html.span [ Html.Attributes.style "white-space" "pre-wrap" ]
                                 [ Html.text <|

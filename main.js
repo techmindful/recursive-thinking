@@ -13518,6 +13518,18 @@ var $author$project$Consts$multiMathExpStyle = _List_fromArray(
 		A2($mdgriffith$elm_ui$Element$spacingXY, 0, 10),
 		$mdgriffith$elm_ui$Element$Font$size(24)
 	]);
+var $mdgriffith$elm_ui$Element$htmlAttribute = $mdgriffith$elm_ui$Internal$Model$Attr;
+var $elm$virtual_dom$VirtualDom$style = _VirtualDom_style;
+var $elm$html$Html$Attributes$style = $elm$virtual_dom$VirtualDom$style;
+var $author$project$Consts$stickyAttrs = _List_fromArray(
+	[
+		$mdgriffith$elm_ui$Element$htmlAttribute(
+		A2($elm$html$Html$Attributes$style, 'position', 'sticky')),
+		$mdgriffith$elm_ui$Element$htmlAttribute(
+		A2($elm$html$Html$Attributes$style, 'top', '0')),
+		$mdgriffith$elm_ui$Element$htmlAttribute(
+		A2($elm$html$Html$Attributes$style, 'z-index', '2'))
+	]);
 var $author$project$P4$p4 = function (model) {
 	var quizTwoStatus = A2(
 		$author$project$Quiz$getQuizStatus,
@@ -14058,65 +14070,6 @@ var $author$project$P4$p4 = function (model) {
 			[
 				$author$project$Consts$plainPara('Despite the whole problem being difficult, when we\'ve reached the last intersection (either G or H), the one last choice we need to make is fairly simple. If we are already at G, then we should just go along segment GJ, which will take us 10 minutes. If we are already at H, then we should just go along HK, which will take us 8 minutes. What\'s the reasoning behind this strategy?')
 			]));
-	var preQuiz1 = A2(
-		$mdgriffith$elm_ui$Element$column,
-		_List_Nil,
-		_List_fromArray(
-			[
-				prevPageButton,
-				A2(
-				$mdgriffith$elm_ui$Element$textColumn,
-				_List_fromArray(
-					[$author$project$Consts$paraSpacing]),
-				_List_fromArray(
-					[
-						$author$project$Consts$plainPara('At this point you may be thinking: Well all of this is fun, or even artistic. But does this have any practical use?'),
-						$author$project$Consts$plainPara('Let me present you the problem named \"Heathrow to London\". Imagine that you\'ve just arrived at the Heathrow airport, and you need to drive to London. Below is the street map:'),
-						A2(
-						$mdgriffith$elm_ui$Element$image,
-						_List_fromArray(
-							[
-								$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill)
-							]),
-						{description: 'WIP text for assistive technology', src: '/static/img/heathrow-to-london.png'}),
-						A2(
-						$mdgriffith$elm_ui$Element$textColumn,
-						_List_fromArray(
-							[
-								$mdgriffith$elm_ui$Element$Border$width(2),
-								$mdgriffith$elm_ui$Element$Border$rounded(6),
-								$mdgriffith$elm_ui$Element$padding(12),
-								$author$project$Consts$paraSpacing
-							]),
-						_List_fromArray(
-							[
-								$author$project$Consts$plainPara('Heathrow is at the side of point A and point B. You can choose to start at either A or B. London is at the side of J and K. Arriving at either J or K completes the trip.'),
-								$author$project$Consts$plainPara('At each point, you can choose to either drive forward, or to drive sideway across the middle street, and then drive forward. The number on each segment is the time needed to drive through that segment. So for example, if you are at point C, you can choose to either spend 5 minutes driving to E, or spend 30 + 90 = 120 minutes driving to D, then to F. Do notice that although it\'s much faster to just drive to E, the segment EG costs a lot more time than the segment FH.'),
-								$author$project$Consts$plainPara('It makes sense to mark segment AB as costing 0 minute, because you can choose to start at either A or B. (So if you choose to start at A, you can choose to drive to C. Or you can choose to drive to B, then to D, which is equivalent of saying you chose to start at B.)'),
-								$author$project$Consts$plainPara('There exists a path where it costs you the least time to drive from Heathrow to London. The challenge is to compute how much time exactly does this path take.')
-							]))
-					])),
-				A2(
-				$mdgriffith$elm_ui$Element$paragraph,
-				_List_fromArray(
-					[
-						$mdgriffith$elm_ui$Element$paddingEach(
-						{bottom: 40, left: 0, right: 0, top: 20})
-					]),
-				_List_fromArray(
-					[
-						$mdgriffith$elm_ui$Element$text('Feel free to try to solve this problem on your own for a bit, if you so desire. You can explore both recursive and iterative (non-recursive) approaches. When you\'re ready, the guide below will step you through the recursive solution.')
-					])),
-				A2(
-				$mdgriffith$elm_ui$Element$textColumn,
-				_List_fromArray(
-					[$author$project$Consts$paraSpacing]),
-				_List_fromArray(
-					[
-						$author$project$Consts$plainPara('When I saw this problem, I first attempted to solve it without recursion. The only thing I could think of is to just brute-force it, exhaust every possible path, and pick the one whose time sums up the least. That is to calculate the time needed of path A->C->E->G->J, and A->C->E->G->H->K, and A->C->E->F->H->K... Sure, that works. But it didn\'t feel easy to translate that process to a computer program. Can it be done more pleasantly?'),
-						$author$project$Consts$plainPara('It turned out that with recursion, I can solve it in a rather lazy manner. Let\'s try it together. As mentioned before, typically it\'s easier to figure out the base case in a recursion first, as it\'s usually also the most trivial case. What is the base case in this scenario?')
-					]))
-			]));
 	var postQuiz4 = A2(
 		$mdgriffith$elm_ui$Element$column,
 		_List_Nil,
@@ -14174,7 +14127,61 @@ var $author$project$P4$p4 = function (model) {
 		_List_Nil,
 		_List_fromArray(
 			[
-				preQuiz1,
+				prevPageButton,
+				A2(
+				$mdgriffith$elm_ui$Element$textColumn,
+				_List_fromArray(
+					[$author$project$Consts$paraSpacing]),
+				_List_fromArray(
+					[
+						$author$project$Consts$plainPara('At this point you may be thinking: Well all of this is fun, or even artistic. But does this have any practical use?'),
+						$author$project$Consts$plainPara('Let me present you the problem named \"Heathrow to London\". Imagine that you\'ve just arrived at the Heathrow airport, and you need to drive to London. Below is the street map:')
+					])),
+				A2(
+				$mdgriffith$elm_ui$Element$image,
+				_Utils_ap(
+					_List_fromArray(
+						[
+							$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill)
+						]),
+					$author$project$Consts$stickyAttrs),
+				{description: 'WIP text for assistive technology', src: '/static/img/heathrow-to-london.jpg'}),
+				A2(
+				$mdgriffith$elm_ui$Element$textColumn,
+				_List_fromArray(
+					[
+						$mdgriffith$elm_ui$Element$Border$width(2),
+						$mdgriffith$elm_ui$Element$Border$rounded(6),
+						$mdgriffith$elm_ui$Element$padding(12),
+						$author$project$Consts$paraSpacing
+					]),
+				_List_fromArray(
+					[
+						$author$project$Consts$plainPara('Heathrow is at the side of point A and point B. You can choose to start at either A or B. London is at the side of J and K. Arriving at either J or K completes the trip.'),
+						$author$project$Consts$plainPara('At each point, you can choose to either drive forward, or to drive sideway across the middle street, and then drive forward. The number on each segment is the time needed to drive through that segment. So for example, if you are at point C, you can choose to either spend 5 minutes driving to E, or spend 30 + 90 = 120 minutes driving to D, then to F. Do notice that although it\'s much faster to just drive to E, the segment EG costs a lot more time than the segment FH.'),
+						$author$project$Consts$plainPara('It makes sense to mark segment AB as costing 0 minute, because you can choose to start at either A or B. (So if you choose to start at A, you can choose to drive to C. Or you can choose to drive to B, then to D, which is equivalent of saying you chose to start at B.)'),
+						$author$project$Consts$plainPara('There exists a path where it costs you the least time to drive from Heathrow to London. The challenge is to compute how much time exactly does this path take.')
+					])),
+				A2(
+				$mdgriffith$elm_ui$Element$paragraph,
+				_List_fromArray(
+					[
+						$mdgriffith$elm_ui$Element$paddingEach(
+						{bottom: 40, left: 0, right: 0, top: 20})
+					]),
+				_List_fromArray(
+					[
+						$mdgriffith$elm_ui$Element$text('Feel free to try to solve this problem on your own for a bit, if you so desire. You can explore both recursive and iterative (non-recursive) approaches. When you\'re ready, the guide below will step you through the recursive solution.')
+					])),
+				A2(
+				$mdgriffith$elm_ui$Element$textColumn,
+				_List_fromArray(
+					[$author$project$Consts$paraSpacing]),
+				_List_fromArray(
+					[
+						$author$project$Consts$plainPara('When I saw this problem, I first attempted to solve it without recursion. The only thing I could think of is to just brute-force it, exhaust every possible path, and pick the one whose time sums up the least. That is to calculate the time needed of path A->C->E->G->J, and A->C->E->G->H->K, and A->C->E->F->H->K... Sure, that works. But it didn\'t feel easy to translate that process to a computer program. Can it be done more pleasantly?'),
+						$author$project$Consts$plainPara('It turned out that with recursion, I can solve it in a rather lazy manner. Let\'s try it together. As mentioned before, typically it\'s easier to figure out the base case in a recursion first, as it\'s usually also the most trivial case. What is the base case in this scenario?')
+					])),
 				quiz1,
 				(_Utils_eq(
 				quizOneStatus.sub,
@@ -14227,14 +14234,16 @@ var $author$project$P5$p5 = function (model) {
 				[$author$project$Consts$paraSpacing]),
 			_List_fromArray(
 				[
-					$author$project$Consts$plainPara('Let\'s execute our solution by hand, and see if it really works! For reference, here\'s the picture of the street map:'),
 					A2(
 					$mdgriffith$elm_ui$Element$image,
-					_List_fromArray(
-						[
-							$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill)
-						]),
-					{description: 'WIP text for assistive technology', src: '/static/img/heathrow-to-london.png'}),
+					_Utils_ap(
+						_List_fromArray(
+							[
+								$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill)
+							]),
+						$author$project$Consts$stickyAttrs),
+					{description: 'WIP text for assistive technology', src: '/static/img/heathrow-to-london.jpg'}),
+					$author$project$Consts$plainPara('Let\'s execute our solution by hand, and see if it really works!'),
 					A2(
 					qa,
 					_List_Nil,
@@ -14250,7 +14259,7 @@ var $author$project$P5$p5 = function (model) {
 						[
 							qPara('Q: But what is \"the quickest path starting from C\"? And what is \"the quickest path starting from D\"?'),
 							aPara('A: \"The quickest path starting from C\" is whichever of the following two paths takes less time: CE followed by \"the quickest path starting from E\", versus CD + DF followed by \"the quickest path starting from F\".'),
-							aPara('A: And \"The quickest path starting from D\" is whichever of the following two paths takes less time: DF followed by \"the quickest path starting from F\", versus CD + DE followed by \"the quickest path starting from E\".')
+							aPara('A: And \"The quickest path starting from D\" is whichever of the following two paths takes less time: DF followed by \"the quickest path starting from F\", versus CD + CE followed by \"the quickest path starting from E\".')
 						])),
 					A2(
 					qa,
@@ -14417,6 +14426,59 @@ var $author$project$Types$Haskell = {$: 'Haskell'};
 var $author$project$Types$SelectDemoCodeLang = function (a) {
 	return {$: 'SelectDemoCodeLang', a: a};
 };
+var $mdgriffith$elm_ui$Internal$Model$FontFamily = F2(
+	function (a, b) {
+		return {$: 'FontFamily', a: a, b: b};
+	});
+var $mdgriffith$elm_ui$Internal$Flag$fontFamily = $mdgriffith$elm_ui$Internal$Flag$flag(5);
+var $elm$core$String$toLower = _String_toLower;
+var $elm$core$String$words = _String_words;
+var $mdgriffith$elm_ui$Internal$Model$renderFontClassName = F2(
+	function (font, current) {
+		return _Utils_ap(
+			current,
+			function () {
+				switch (font.$) {
+					case 'Serif':
+						return 'serif';
+					case 'SansSerif':
+						return 'sans-serif';
+					case 'Monospace':
+						return 'monospace';
+					case 'Typeface':
+						var name = font.a;
+						return A2(
+							$elm$core$String$join,
+							'-',
+							$elm$core$String$words(
+								$elm$core$String$toLower(name)));
+					case 'ImportFont':
+						var name = font.a;
+						var url = font.b;
+						return A2(
+							$elm$core$String$join,
+							'-',
+							$elm$core$String$words(
+								$elm$core$String$toLower(name)));
+					default:
+						var name = font.a.name;
+						return A2(
+							$elm$core$String$join,
+							'-',
+							$elm$core$String$words(
+								$elm$core$String$toLower(name)));
+				}
+			}());
+	});
+var $mdgriffith$elm_ui$Element$Font$family = function (families) {
+	return A2(
+		$mdgriffith$elm_ui$Internal$Model$StyleClass,
+		$mdgriffith$elm_ui$Internal$Flag$fontFamily,
+		A2(
+			$mdgriffith$elm_ui$Internal$Model$FontFamily,
+			A3($elm$core$List$foldl, $mdgriffith$elm_ui$Internal$Model$renderFontClassName, 'ff-', families),
+			families));
+};
 var $author$project$Consts$haskellCode = 'module Main  where\n\n\ndata Side = LEFT | RIGHT\n\n\nf :: Side -> [Int] -> Int\nf LEFT  (l : m : r : []) = min l (m + r)\nf RIGHT (l : m : r : []) = min r (m + l)\nf LEFT  (l : m : r : xs) = min (l + f LEFT xs) (m + r + f RIGHT xs)\nf RIGHT (l : m : r : xs) = min (r + f RIGHT xs) (m + l + f LEFT xs)\n\nmain :: IO ()\nmain =\n  putStrLn $ show $ f LEFT [50, 0, 10, 5, 30, 90, 40, 20, 2, 10, 25, 8]';
 var $elm$core$Basics$always = F2(
 	function (a, _v0) {
@@ -14424,10 +14486,14 @@ var $elm$core$Basics$always = F2(
 	});
 var $mdgriffith$elm_ui$Internal$Model$unstyled = A2($elm$core$Basics$composeL, $mdgriffith$elm_ui$Internal$Model$Unstyled, $elm$core$Basics$always);
 var $mdgriffith$elm_ui$Element$html = $mdgriffith$elm_ui$Internal$Model$unstyled;
-var $author$project$Consts$pythonCode = 'from enum import Enum\n\nclass Side(Enum):\n    LEFT = 1\n    RIGHT = 2\n\n\nclass Intersection:\n    def __init__(self, side, segments):\n        self.side = side\n        self.segments = segments\n\n\ndef f(intersection):\n\n    l = intersection.segments[0]\n    m = intersection.segments[1]\n    r = intersection.segments[2]\n\n    # Base case\n    if len(intersection.segments) == 3:\n        if intersection.side == Side.LEFT:\n            return min(l, m + r)\n        elif intersection.side == Side.RIGHT:\n            return min(r, m + l)\n\n    further_segments = intersection.segments[3:]\n\n    next_intersection_on_left = Intersection(side = Side.LEFT, segments = further_segments)\n    next_intersection_on_right = Intersection(side = Side.RIGHT, segments = further_segments)\n\n    if intersection.side == Side.LEFT:\n\n        best_path_going_left = l + f(next_intersection_on_left)\n        best_path_going_right = m + r + f(next_intersection_on_right)\n\n        return min(best_path_going_left, best_path_going_right)\n\n    elif intersection.side == Side.RIGHT:\n\n        best_path_going_left = m + l + f(next_intersection_on_left)\n        best_path_going_right = r + f(next_intersection_on_right)\n\n        return min(best_path_going_left, best_path_going_right)\n    \n\nintersection_A = Intersection(\n    side = Side.LEFT,\n    segments = [50, 0, 10, 5, 30, 90, 40, 20, 2, 10, 25, 8]\n)\n\nleast_time_needed = f(intersection_A)\n\nprint(least_time_needed)\n';
+var $author$project$Consts$pythonCode = 'from enum import Enum\n\nclass Side(Enum):\n    LEFT = 1\n    RIGHT = 2\n\n\nclass Intersection:\n    def __init__(self, side, segments):\n        self.side = side\n        self.segments = segments\n\n\ndef f(intersection):\n\n    l = intersection.segments[0]\n    m = intersection.segments[1]\n    r = intersection.segments[2]\n\n    # Base case\n    if len(intersection.segments) == 3:\n        if intersection.side == Side.LEFT:\n            return min(l, m + r)\n        elif intersection.side == Side.RIGHT:\n            return min(r, m + l)\n\n    further_segments = intersection.segments[3:]\n\n    next_intersection_on_left  = Intersection(\n        side = Side.LEFT,  segments = further_segments\n    )\n\n    next_intersection_on_right = Intersection(\n        side = Side.RIGHT, segments = further_segments\n    )\n\n    if intersection.side == Side.LEFT:\n\n        best_path_going_left = l + f(next_intersection_on_left)\n        best_path_going_right = m + r + f(next_intersection_on_right)\n\n        return min(best_path_going_left, best_path_going_right)\n\n    elif intersection.side == Side.RIGHT:\n\n        best_path_going_left = m + l + f(next_intersection_on_left)\n        best_path_going_right = r + f(next_intersection_on_right)\n\n        return min(best_path_going_left, best_path_going_right)\n    \n\nintersection_A = Intersection(\n    side = Side.LEFT,\n    segments = [50, 0, 10, 5, 30, 90, 40, 20, 2, 10, 25, 8]\n)\n\nleast_time_needed = f(intersection_A)\n\nprint(least_time_needed)\n';
+var $mdgriffith$elm_ui$Internal$Model$SansSerif = {$: 'SansSerif'};
+var $mdgriffith$elm_ui$Element$Font$sansSerif = $mdgriffith$elm_ui$Internal$Model$SansSerif;
 var $elm$html$Html$span = _VirtualDom_node('span');
-var $elm$virtual_dom$VirtualDom$style = _VirtualDom_style;
-var $elm$html$Html$Attributes$style = $elm$virtual_dom$VirtualDom$style;
+var $mdgriffith$elm_ui$Internal$Model$Typeface = function (a) {
+	return {$: 'Typeface', a: a};
+};
+var $mdgriffith$elm_ui$Element$Font$typeface = $mdgriffith$elm_ui$Internal$Model$Typeface;
 var $author$project$P6$p6 = function (model) {
 	var body = A2(
 		$mdgriffith$elm_ui$Element$column,
@@ -14435,20 +14501,23 @@ var $author$project$P6$p6 = function (model) {
 		_List_fromArray(
 			[
 				A2(
+				$mdgriffith$elm_ui$Element$image,
+				_Utils_ap(
+					_List_fromArray(
+						[
+							$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill),
+							$mdgriffith$elm_ui$Element$paddingEach(
+							{bottom: 20, left: 0, right: 0, top: 0})
+						]),
+					$author$project$Consts$stickyAttrs),
+				{description: 'WIP text for assistive technology', src: '/static/img/heathrow-to-london.jpg'}),
+				A2(
 				$mdgriffith$elm_ui$Element$textColumn,
 				_List_fromArray(
 					[$author$project$Consts$paraSpacing]),
 				_List_fromArray(
 					[
 						$author$project$Consts$plainPara('This last page is for those among the readers who are interested in programming, and implementing our recursive solution into code.'),
-						$author$project$Consts$plainPara('Here\'s the street map again:'),
-						A2(
-						$mdgriffith$elm_ui$Element$image,
-						_List_fromArray(
-							[
-								$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill)
-							]),
-						{description: 'WIP text for assistive technology', src: '/static/img/heathrow-to-london.png'}),
 						$author$project$Consts$plainPara('We will be encoding all the time lengths of the segments into a list of integers. And they will come in triplets, in the order of left first, middle second, right third. For example, the time lengths of segments starting from G or H are [10, 25, 8]. The ones starting from E or F are [40, 20, 2, 10, 25, 8]. Starting from A or B, the complete list is [50, 0, 10, 5, 30, 90, 40, 20, 2, 10, 25, 8].'),
 						$author$project$Consts$plainPara('The list of the time lengths of the segments ahead, added with a note on the side, are enough to describe an intersection. For example, point G is equivalent to (LEFT, [10, 25, 8]). Point F is equivalent to (RIGHT, [40, 20, 2, 10, 25, 8]). Point A is equivalent to (LEFT, [50, 0, 10, 5, 30, 90, 40, 20, 2, 10, 25, 8]).'),
 						$author$project$Consts$plainPara('We are writing a recursive function that takes in a side, and a list of the time lengths of the segments ahead, and returns the least time needed to reach J or K.')
@@ -14513,7 +14582,13 @@ var $author$project$P6$p6 = function (model) {
 						$mdgriffith$elm_ui$Element$el,
 						_List_fromArray(
 							[
-								$mdgriffith$elm_ui$Element$Font$size(16)
+								$mdgriffith$elm_ui$Element$Font$size(16),
+								$mdgriffith$elm_ui$Element$Font$family(
+								_List_fromArray(
+									[
+										$mdgriffith$elm_ui$Element$Font$typeface('Courier New'),
+										$mdgriffith$elm_ui$Element$Font$sansSerif
+									]))
 							]),
 						$mdgriffith$elm_ui$Element$html(
 							A2(
@@ -14633,59 +14708,6 @@ var $author$project$Main$explainerIndex = function (model) {
 				7,
 				$author$project$P7$p7(model))
 			]));
-};
-var $mdgriffith$elm_ui$Internal$Model$FontFamily = F2(
-	function (a, b) {
-		return {$: 'FontFamily', a: a, b: b};
-	});
-var $mdgriffith$elm_ui$Internal$Flag$fontFamily = $mdgriffith$elm_ui$Internal$Flag$flag(5);
-var $elm$core$String$toLower = _String_toLower;
-var $elm$core$String$words = _String_words;
-var $mdgriffith$elm_ui$Internal$Model$renderFontClassName = F2(
-	function (font, current) {
-		return _Utils_ap(
-			current,
-			function () {
-				switch (font.$) {
-					case 'Serif':
-						return 'serif';
-					case 'SansSerif':
-						return 'sans-serif';
-					case 'Monospace':
-						return 'monospace';
-					case 'Typeface':
-						var name = font.a;
-						return A2(
-							$elm$core$String$join,
-							'-',
-							$elm$core$String$words(
-								$elm$core$String$toLower(name)));
-					case 'ImportFont':
-						var name = font.a;
-						var url = font.b;
-						return A2(
-							$elm$core$String$join,
-							'-',
-							$elm$core$String$words(
-								$elm$core$String$toLower(name)));
-					default:
-						var name = font.a.name;
-						return A2(
-							$elm$core$String$join,
-							'-',
-							$elm$core$String$words(
-								$elm$core$String$toLower(name)));
-				}
-			}());
-	});
-var $mdgriffith$elm_ui$Element$Font$family = function (families) {
-	return A2(
-		$mdgriffith$elm_ui$Internal$Model$StyleClass,
-		$mdgriffith$elm_ui$Internal$Flag$fontFamily,
-		A2(
-			$mdgriffith$elm_ui$Internal$Model$FontFamily,
-			A3($elm$core$List$foldl, $mdgriffith$elm_ui$Internal$Model$renderFontClassName, 'ff-', families),
-			families));
 };
 var $author$project$Consts$homeUrlStr = '/';
 var $mdgriffith$elm_ui$Internal$Model$OnlyDynamic = F2(
@@ -14832,10 +14854,6 @@ var $mdgriffith$elm_ui$Internal$Model$renderRoot = F3(
 					_List_fromArray(
 						[child]))));
 	});
-var $mdgriffith$elm_ui$Internal$Model$SansSerif = {$: 'SansSerif'};
-var $mdgriffith$elm_ui$Internal$Model$Typeface = function (a) {
-	return {$: 'Typeface', a: a};
-};
 var $mdgriffith$elm_ui$Internal$Model$rootStyle = function () {
 	var families = _List_fromArray(
 		[
@@ -15050,7 +15068,6 @@ var $author$project$P0$p0 = A2(
 		]));
 var $mdgriffith$elm_ui$Internal$Model$Serif = {$: 'Serif'};
 var $mdgriffith$elm_ui$Element$Font$serif = $mdgriffith$elm_ui$Internal$Model$Serif;
-var $mdgriffith$elm_ui$Element$Font$typeface = $mdgriffith$elm_ui$Internal$Model$Typeface;
 var $author$project$Main$view = function (model) {
 	return {
 		body: _List_fromArray(
