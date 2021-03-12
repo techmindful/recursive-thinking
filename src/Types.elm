@@ -21,7 +21,7 @@ type Msg
     | UrlHasChanged Url
     | QuizRecvInput QuizID QuizStatus
     | QuizErr
-    | GotPartFiveDomElements (Result Dom.Error (List Dom.Element))
+    | GotPartFiveDomElement String (Result Dom.Error Dom.Element)
     | SelectDemoCodeLang DemoCodeLang
     | Ignore
 

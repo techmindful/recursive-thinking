@@ -108,11 +108,9 @@ update msg model =
                 resetViewportCmd =
                     Task.perform (\_ -> Ignore) (Browser.Dom.setViewport 0 0)
 
-                getPartFiveDomElementsTask =
-                    Task.sequence
-                        [ Browser.Dom.getElement id_q_cd
-                        , Browser.Dom.getElement id_q_ef
-                        ]
+                getPartFiveDomElementCmd : String -> Cmd Msg
+                getPartFiveDomElementCmd id =
+                    Task.attempt (GotPartFiveDomElement id) (Browser.Dom.getElement id)
 
                 route =
                     getRoute url
@@ -123,7 +121,8 @@ update msg model =
                         Part 5 ->
                             Cmd.batch
                                 [ resetViewportCmd
-                                , Task.attempt GotPartFiveDomElements getPartFiveDomElementsTask
+                                , getPartFiveDomElementCmd id_q_cd
+                                , getPartFiveDomElementCmd id_q_ef
                                 ]
 
                         _ ->
@@ -144,7 +143,7 @@ update msg model =
         QuizErr ->
             ( model, Cmd.none )
 
-        GotPartFiveDomElements result ->
+        GotPartFiveDomElement id result ->
             ( model, Cmd.none )
 
         SelectDemoCodeLang lang ->
