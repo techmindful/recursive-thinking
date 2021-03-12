@@ -19,7 +19,7 @@ import P1 exposing (p1)
 import P2 exposing (p2)
 import P3 exposing (p3)
 import P4 exposing (p4)
-import P5 exposing (p5)
+import P5 exposing (..)
 import P6 exposing (p6)
 import P7 exposing (p7)
 import Task
@@ -104,8 +104,33 @@ update msg model =
                     ( model, Nav.load url )
 
         UrlHasChanged url ->
+            let
+                resetViewportCmd =
+                    Task.perform (\_ -> Ignore) (Browser.Dom.setViewport 0 0)
+
+                getPartFiveDomElementsTask =
+                    Task.sequence
+                        [ Browser.Dom.getElement id_q_cd
+                        , Browser.Dom.getElement id_q_ef
+                        ]
+
+                route =
+                    getRoute url
+
+                cmds =
+                    -- If user navigates to Part 5, get its DOM element positions.
+                    case route of
+                        Part 5 ->
+                            Cmd.batch
+                                [ resetViewportCmd
+                                , Task.attempt GotPartFiveDomElements getPartFiveDomElementsTask
+                                ]
+
+                        _ ->
+                            resetViewportCmd
+            in
             ( { model | route = getRoute url }
-            , Task.perform (\_ -> Ignore) (Browser.Dom.setViewport 0 0)
+            , cmds
             )
 
         QuizRecvInput quizID quizStatus ->
@@ -117,6 +142,9 @@ update msg model =
             )
 
         QuizErr ->
+            ( model, Cmd.none )
+
+        GotPartFiveDomElements result ->
             ( model, Cmd.none )
 
         SelectDemoCodeLang lang ->

@@ -1,16 +1,29 @@
-module P5 exposing (p5)
+module P5 exposing (id_q_cd, id_q_ef, p5)
 
 import AssocList
+import Browser.Dom as Dom
 import Consts exposing (..)
 import Element as ElmUI
 import Element.Border as Border
 import Element.Font as Font
 import Element.Input as Input
 import Html
+import Html.Attributes
 import List.Extra as List
 import PageNavButtons exposing (..)
 import Quiz exposing (..)
+import Svg
 import Types exposing (..)
+
+
+{-| HTML ID of the question of Path\_E and Path\_F
+-}
+id_q_cd =
+    "q_cd"
+
+
+id_q_ef =
+    "q_ef"
 
 
 p5 : Model -> ElmUI.Element Msg
@@ -91,7 +104,7 @@ p5 model =
                     , aPara "A: Path_H is the quicker of these two: HK, versus GH + GJ. Since HK takes 8 minutes, GH + GJ takes 25 + 10 = 35 minutes, we conclude that Path_H is HK, and it takes 8 minutes."
                     ]
                 , qa
-                    []
+                    [ ElmUI.htmlAttribute <| Html.Attributes.id id_q_ef ]
                     [ plainPara "A: Since Path_E is the quicker of these two:"
                     , ElmUI.textColumn
                         vsOneTwoStyle
@@ -165,3 +178,8 @@ p5 model =
         , body
         , ElmUI.el defaultNextPageBtnStyle <| mkNextPageButton model
         ]
+
+
+drawArrow : String -> String -> ElmUI.Element Msg
+drawArrow startId endId =
+    ElmUI.none

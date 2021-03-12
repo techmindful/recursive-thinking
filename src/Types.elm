@@ -2,6 +2,7 @@ module Types exposing (..)
 
 import AssocList
 import Browser
+import Browser.Dom as Dom
 import Browser.Navigation as Nav
 import List
 import Url exposing (Url)
@@ -20,6 +21,7 @@ type Msg
     | UrlHasChanged Url
     | QuizRecvInput QuizID QuizStatus
     | QuizErr
+    | GotPartFiveDomElements (Result Dom.Error (List Dom.Element))
     | SelectDemoCodeLang DemoCodeLang
     | Ignore
 
