@@ -2,7 +2,7 @@ module Main exposing (..)
 
 import AssocList
 import Browser
-import Browser.Dom
+import Browser.Dom as Dom
 import Browser.Navigation as Nav
 import Consts exposing (..)
 import Dict exposing (Dict)
@@ -22,6 +22,8 @@ import P4 exposing (p4)
 import P5 exposing (..)
 import P6 exposing (p6)
 import P7 exposing (p7)
+import Svg
+import Svg.Attributes as Svg
 import Task
 import Types exposing (..)
 import Url exposing (Url)
@@ -86,6 +88,7 @@ init () url navKey =
     ( { route = getRoute url
       , navKey = navKey
       , quizStatuses = AssocList.fromList allQuizStatuses
+      , domIdElements = AssocList.empty
       , demoCodeLang = Python
       }
     , Cmd.none
@@ -106,11 +109,11 @@ update msg model =
         UrlHasChanged url ->
             let
                 resetViewportCmd =
-                    Task.perform (\_ -> Ignore) (Browser.Dom.setViewport 0 0)
+                    Task.perform (\_ -> Ignore) (Dom.setViewport 0 0)
 
                 getPartFiveDomElementCmd : String -> Cmd Msg
                 getPartFiveDomElementCmd id =
-                    Task.attempt (GotPartFiveDomElement id) (Browser.Dom.getElement id)
+                    Task.attempt (GotPartFiveDomElement id) (Dom.getElement id)
 
                 route =
                     getRoute url
@@ -144,7 +147,17 @@ update msg model =
             ( model, Cmd.none )
 
         GotPartFiveDomElement id result ->
-            ( model, Cmd.none )
+            case result of
+                Err _ ->
+                    ( model, Cmd.none )
+
+                Ok domElement ->
+                    ( { model
+                        | domIdElements =
+                            AssocList.insert id domElement model.domIdElements
+                      }
+                    , Cmd.none
+                    )
 
         SelectDemoCodeLang lang ->
             ( { model | demoCodeLang = lang }, Cmd.none )
@@ -157,7 +170,16 @@ view : Model -> Browser.Document Msg
 view model =
     { title = "Recursive Thinking"
     , body =
-        [ ElmUI.layout [] <|
+        [ -- Part 5 SVG.
+          ElmUI.layout
+            (case model.route of
+                Part 5 ->
+                    [ ElmUI.behindContent <| partFiveSvg model ]
+
+                _ ->
+                    []
+            )
+          <|
             let
                 banner =
                     ElmUI.textColumn
@@ -254,3 +276,40 @@ view model =
                        )
         ]
     }
+
+
+partFiveSvg : Model -> ElmUI.Element Msg
+partFiveSvg model =
+    let
+        domElementToPos : Dom.Element -> ( Float, Float )
+        domElementToPos domElement =
+            ( domElement.element.x, domElement.element.y )
+
+        maybe_q_ef_pos =
+            Maybe.map domElementToPos <| AssocList.get id_q_ef model.domIdElements
+
+        maybe_q_cd_pos =
+            Maybe.map domElementToPos <| AssocList.get id_q_cd model.domIdElements
+    in
+    case Maybe.map2 drawArrow maybe_q_ef_pos maybe_q_cd_pos of
+        Nothing ->
+            ElmUI.text <| Debug.toString model.domIdElements
+
+        Just e ->
+            e
+
+
+drawArrow : ( Float, Float ) -> ( Float, Float ) -> ElmUI.Element Msg
+drawArrow ( startX, startY ) ( endX, endY ) =
+    ElmUI.html <|
+        Svg.svg
+            []
+            [ Svg.line
+                [ Svg.x1 <| String.fromFloat startX
+                , Svg.y1 <| String.fromFloat startY
+                , Svg.x2 <| String.fromFloat endX
+                , Svg.y2 <| String.fromFloat endY
+                , Svg.stroke "black"
+                ]
+                []
+            ]

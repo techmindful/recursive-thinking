@@ -12,6 +12,7 @@ type alias Model =
     { route : Route
     , navKey : Nav.Key
     , quizStatuses : AssocList.Dict QuizID QuizStatus
+    , domIdElements : AssocList.Dict String Dom.Element
     , demoCodeLang : DemoCodeLang
     }
 

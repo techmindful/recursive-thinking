@@ -13,6 +13,7 @@ import List.Extra as List
 import PageNavButtons exposing (..)
 import Quiz exposing (..)
 import Svg
+import Svg.Attributes as Svg
 import Types exposing (..)
 
 
@@ -73,13 +74,13 @@ p5 model =
                     , aPara "A: Path_A is the quicker of these two: AC + Path_C, versus AB + BD + Path_D."
                     ]
                 , qa
-                    []
+                    [ ElmUI.htmlAttribute <| Html.Attributes.id id_q_cd ]
                     [ qPara "Q: But what is Path_C, and what is Path_D?"
                     , aPara "A: Path_C is the quicker of these two: CE + Path_E, versus CD + DF + Path_F."
                     , aPara "A: Path_D is the quicker of these two: DF + Path_F, versus CD + CE + Path_E."
                     ]
                 , qa
-                    []
+                    [ ElmUI.htmlAttribute <| Html.Attributes.id id_q_ef ]
                     [ qPara "Q: But what is Path_E, and what is Path_F?"
                     , aPara "A: Path_E is the quicker of these two: EG + Path_G, versus EF + FH + Path_H."
                     , aPara "A: Path_F is the quicker of these two: FH + Path_H, versus EF + EG + Path_G."
@@ -104,7 +105,7 @@ p5 model =
                     , aPara "A: Path_H is the quicker of these two: HK, versus GH + GJ. Since HK takes 8 minutes, GH + GJ takes 25 + 10 = 35 minutes, we conclude that Path_H is HK, and it takes 8 minutes."
                     ]
                 , qa
-                    [ ElmUI.htmlAttribute <| Html.Attributes.id id_q_ef ]
+                    []
                     [ plainPara "A: Since Path_E is the quicker of these two:"
                     , ElmUI.textColumn
                         vsOneTwoStyle
