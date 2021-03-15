@@ -23,7 +23,7 @@ import P5 exposing (..)
 import P6 exposing (p6)
 import P7 exposing (p7)
 import Svg
-import Svg.Attributes as Svg
+import Svg.Attributes as SvgAttr
 import Task
 import Types exposing (..)
 import Url exposing (Url)
@@ -291,7 +291,7 @@ partFiveSvg model =
         maybe_q_cd_pos =
             Maybe.map domElementToPos <| AssocList.get id_q_cd model.domIdElements
     in
-    case Maybe.map2 drawArrow maybe_q_ef_pos maybe_q_cd_pos of
+    case Maybe.map2 (drawArrow -30) maybe_q_ef_pos maybe_q_cd_pos of
         Nothing ->
             ElmUI.text <| Debug.toString model.domIdElements
 
@@ -299,17 +299,33 @@ partFiveSvg model =
             e
 
 
-drawArrow : ( Float, Float ) -> ( Float, Float ) -> ElmUI.Element Msg
-drawArrow ( startX, startY ) ( endX, endY ) =
+drawArrow : Float -> ( Float, Float ) -> ( Float, Float ) -> ElmUI.Element Msg
+drawArrow xOffset ( startX, startY ) ( endX, endY ) =
     ElmUI.html <|
         Svg.svg
-            []
-            [ Svg.line
-                [ Svg.x1 <| String.fromFloat startX
-                , Svg.y1 <| String.fromFloat startY
-                , Svg.x2 <| String.fromFloat endX
-                , Svg.y2 <| String.fromFloat endY
-                , Svg.stroke "black"
+            [ SvgAttr.width "100%"
+            , SvgAttr.height "100%"
+            ]
+            [ Svg.path
+                [ SvgAttr.d <|
+                    "M "
+                        ++ String.fromFloat startX
+                        ++ " "
+                        ++ String.fromFloat startY
+                        ++ "h "
+                        ++ String.fromFloat xOffset
+                        ++ "V "
+                        ++ String.fromFloat endY
+                        ++ "h "
+                        ++ String.fromFloat -xOffset
+                , SvgAttr.stroke "black"
+                , SvgAttr.fill "white"
+                ]
+                []
+            , Svg.circle
+                [ SvgAttr.cx <| "950"
+                , SvgAttr.cy <| "950"
+                , SvgAttr.r "100"
                 ]
                 []
             ]
