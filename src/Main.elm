@@ -289,7 +289,7 @@ partFiveSvg : Model -> ElmUI.Element Msg
 partFiveSvg model =
     let
         arrowOffset_Y =
-            60
+            40
 
         domElementToPos : Dom.Element -> ( Float, Float )
         domElementToPos domElement =
@@ -356,11 +356,11 @@ leftArrowHeadId =
 
 arrowHeadAttrs id =
     [ SvgAttr.id id
-    , SvgAttr.refX "5"
-    , SvgAttr.refY "5"
-    , SvgAttr.viewBox "0 0 10 10"
-    , SvgAttr.markerWidth "6"
-    , SvgAttr.markerHeight "6"
+    , SvgAttr.refX "10"
+    , SvgAttr.refY "10"
+    , SvgAttr.viewBox "0 0 20 20"
+    , SvgAttr.markerWidth "20"
+    , SvgAttr.markerHeight "20"
     ]
 
 
@@ -368,7 +368,7 @@ rightArrowHead =
     Svg.marker
         (arrowHeadAttrs rightArrowHeadId)
         [ Svg.path
-            [ SvgAttr.d "M 0 0 L 10 5 L 0 10 Z" ]
+            [ SvgAttr.d "M 0 0 L 20 10 L 0 20 Z" ]
             []
         ]
 
@@ -377,6 +377,6 @@ leftArrowHead =
     Svg.marker
         (arrowHeadAttrs leftArrowHeadId)
         [ Svg.path
-            [ SvgAttr.d "M 10 0 L 0 5 L 10 10 Z" ]
+            [ SvgAttr.d "M 20 0 L 0 10 L 20 20 Z" ]
             []
         ]
