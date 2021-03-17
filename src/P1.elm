@@ -42,9 +42,9 @@ p1 model =
                         \option ->
                             QuizRecvInput ( Part 1, 1 ) { sel = option, sub = quizOneStatus.sub }
                     , options =
-                        [ Input.option QuizPass <| ElmUI.text "I'll pass."
-                        , Input.option (QuizSel 1) <| ElmUI.text "n! = n * (n - 1)! * (n - 2)! * ... * 1!"
+                        [ Input.option (QuizSel 1) <| ElmUI.text "n! = n * (n - 1)! * (n - 2)! * ... * 1!"
                         , Input.option (QuizSel 2) <| ElmUI.text "n! = n * (n - 1)!"
+                        , Input.option QuizPass <| ElmUI.text "I'll pass."
                         ]
                     , selected = Just quizOneStatus.sel
                     , label = Input.labelAbove [] <| ElmUI.text ""

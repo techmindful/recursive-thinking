@@ -18,18 +18,6 @@ more =
     ElmUI.column
         [ ElmUI.spacingXY 0 40 ]
         [ ElmUI.textColumn
-            [ ElmUI.spacingXY 0 10 ]
-            [ plainPara "The author of this website is: Me."
-            , ElmUI.paragraph
-                []
-                [ ElmUI.text "The tool used to build this website is: "
-                , externalLink
-                    "https://elm-lang.org/"
-                    "Elm"
-                , ElmUI.text "."
-                ]
-            ]
-        , ElmUI.textColumn
             []
             [ ElmUI.paragraph
                 []
@@ -37,6 +25,10 @@ more =
                 , externalLink
                     "https://en.wikipedia.org/wiki/Functional_programming"
                     "functional programming"
+                , ElmUI.text ", which is the paradigm of the language that's used to build this website: "
+                , externalLink
+                    "https://elm-lang.org/"
+                    "Elm"
                 , ElmUI.text ". My favorite guide to functional programming with Haskell is "
                 , externalLink
                     "http://learnyouahaskell.com/"

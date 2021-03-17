@@ -4415,6 +4415,10 @@ var $author$project$Types$UrlHasChanged = function (a) {
 var $author$project$Types$UserClickedLink = function (a) {
 	return {$: 'UserClickedLink', a: a};
 };
+var $author$project$Types$WindowResized = F2(
+	function (a, b) {
+		return {$: 'WindowResized', a: a, b: b};
+	});
 var $elm$core$Basics$EQ = {$: 'EQ'};
 var $elm$core$Basics$GT = {$: 'GT'};
 var $elm$core$Basics$LT = {$: 'LT'};
@@ -5212,6 +5216,7 @@ var $author$project$Types$QuizNoInput = {$: 'QuizNoInput'};
 var $pzp1997$assoc_list$AssocList$D = function (a) {
 	return {$: 'D', a: a};
 };
+var $pzp1997$assoc_list$AssocList$empty = $pzp1997$assoc_list$AssocList$D(_List_Nil);
 var $elm$core$List$filter = F2(
 	function (isGood, list) {
 		return A3(
@@ -6115,15 +6120,368 @@ var $author$project$Main$init = F3(
 		return _Utils_Tuple2(
 			{
 				demoCodeLang: $author$project$Types$Python,
+				domIdElements: $pzp1997$assoc_list$AssocList$empty,
 				navKey: navKey,
 				quizStatuses: $pzp1997$assoc_list$AssocList$fromList(allQuizStatuses),
 				route: $author$project$Main$getRoute(url)
 			},
 			$elm$core$Platform$Cmd$none);
 	});
-var $elm$core$Platform$Sub$batch = _Platform_batch;
-var $elm$core$Platform$Sub$none = $elm$core$Platform$Sub$batch(_List_Nil);
+var $elm$browser$Browser$Events$Window = {$: 'Window'};
+var $elm$json$Json$Decode$field = _Json_decodeField;
+var $elm$json$Json$Decode$int = _Json_decodeInt;
+var $elm$browser$Browser$Events$MySub = F3(
+	function (a, b, c) {
+		return {$: 'MySub', a: a, b: b, c: c};
+	});
+var $elm$browser$Browser$Events$State = F2(
+	function (subs, pids) {
+		return {pids: pids, subs: subs};
+	});
+var $elm$browser$Browser$Events$init = $elm$core$Task$succeed(
+	A2($elm$browser$Browser$Events$State, _List_Nil, $elm$core$Dict$empty));
+var $elm$browser$Browser$Events$nodeToKey = function (node) {
+	if (node.$ === 'Document') {
+		return 'd_';
+	} else {
+		return 'w_';
+	}
+};
+var $elm$browser$Browser$Events$addKey = function (sub) {
+	var node = sub.a;
+	var name = sub.b;
+	return _Utils_Tuple2(
+		_Utils_ap(
+			$elm$browser$Browser$Events$nodeToKey(node),
+			name),
+		sub);
+};
+var $elm$core$Dict$fromList = function (assocs) {
+	return A3(
+		$elm$core$List$foldl,
+		F2(
+			function (_v0, dict) {
+				var key = _v0.a;
+				var value = _v0.b;
+				return A3($elm$core$Dict$insert, key, value, dict);
+			}),
+		$elm$core$Dict$empty,
+		assocs);
+};
+var $elm$core$Process$kill = _Scheduler_kill;
+var $elm$core$Dict$foldl = F3(
+	function (func, acc, dict) {
+		foldl:
+		while (true) {
+			if (dict.$ === 'RBEmpty_elm_builtin') {
+				return acc;
+			} else {
+				var key = dict.b;
+				var value = dict.c;
+				var left = dict.d;
+				var right = dict.e;
+				var $temp$func = func,
+					$temp$acc = A3(
+					func,
+					key,
+					value,
+					A3($elm$core$Dict$foldl, func, acc, left)),
+					$temp$dict = right;
+				func = $temp$func;
+				acc = $temp$acc;
+				dict = $temp$dict;
+				continue foldl;
+			}
+		}
+	});
+var $elm$core$Dict$merge = F6(
+	function (leftStep, bothStep, rightStep, leftDict, rightDict, initialResult) {
+		var stepState = F3(
+			function (rKey, rValue, _v0) {
+				stepState:
+				while (true) {
+					var list = _v0.a;
+					var result = _v0.b;
+					if (!list.b) {
+						return _Utils_Tuple2(
+							list,
+							A3(rightStep, rKey, rValue, result));
+					} else {
+						var _v2 = list.a;
+						var lKey = _v2.a;
+						var lValue = _v2.b;
+						var rest = list.b;
+						if (_Utils_cmp(lKey, rKey) < 0) {
+							var $temp$rKey = rKey,
+								$temp$rValue = rValue,
+								$temp$_v0 = _Utils_Tuple2(
+								rest,
+								A3(leftStep, lKey, lValue, result));
+							rKey = $temp$rKey;
+							rValue = $temp$rValue;
+							_v0 = $temp$_v0;
+							continue stepState;
+						} else {
+							if (_Utils_cmp(lKey, rKey) > 0) {
+								return _Utils_Tuple2(
+									list,
+									A3(rightStep, rKey, rValue, result));
+							} else {
+								return _Utils_Tuple2(
+									rest,
+									A4(bothStep, lKey, lValue, rValue, result));
+							}
+						}
+					}
+				}
+			});
+		var _v3 = A3(
+			$elm$core$Dict$foldl,
+			stepState,
+			_Utils_Tuple2(
+				$elm$core$Dict$toList(leftDict),
+				initialResult),
+			rightDict);
+		var leftovers = _v3.a;
+		var intermediateResult = _v3.b;
+		return A3(
+			$elm$core$List$foldl,
+			F2(
+				function (_v4, result) {
+					var k = _v4.a;
+					var v = _v4.b;
+					return A3(leftStep, k, v, result);
+				}),
+			intermediateResult,
+			leftovers);
+	});
+var $elm$browser$Browser$Events$Event = F2(
+	function (key, event) {
+		return {event: event, key: key};
+	});
+var $elm$core$Platform$sendToSelf = _Platform_sendToSelf;
+var $elm$browser$Browser$Events$spawn = F3(
+	function (router, key, _v0) {
+		var node = _v0.a;
+		var name = _v0.b;
+		var actualNode = function () {
+			if (node.$ === 'Document') {
+				return _Browser_doc;
+			} else {
+				return _Browser_window;
+			}
+		}();
+		return A2(
+			$elm$core$Task$map,
+			function (value) {
+				return _Utils_Tuple2(key, value);
+			},
+			A3(
+				_Browser_on,
+				actualNode,
+				name,
+				function (event) {
+					return A2(
+						$elm$core$Platform$sendToSelf,
+						router,
+						A2($elm$browser$Browser$Events$Event, key, event));
+				}));
+	});
+var $elm$core$Dict$union = F2(
+	function (t1, t2) {
+		return A3($elm$core$Dict$foldl, $elm$core$Dict$insert, t2, t1);
+	});
+var $elm$browser$Browser$Events$onEffects = F3(
+	function (router, subs, state) {
+		var stepRight = F3(
+			function (key, sub, _v6) {
+				var deads = _v6.a;
+				var lives = _v6.b;
+				var news = _v6.c;
+				return _Utils_Tuple3(
+					deads,
+					lives,
+					A2(
+						$elm$core$List$cons,
+						A3($elm$browser$Browser$Events$spawn, router, key, sub),
+						news));
+			});
+		var stepLeft = F3(
+			function (_v4, pid, _v5) {
+				var deads = _v5.a;
+				var lives = _v5.b;
+				var news = _v5.c;
+				return _Utils_Tuple3(
+					A2($elm$core$List$cons, pid, deads),
+					lives,
+					news);
+			});
+		var stepBoth = F4(
+			function (key, pid, _v2, _v3) {
+				var deads = _v3.a;
+				var lives = _v3.b;
+				var news = _v3.c;
+				return _Utils_Tuple3(
+					deads,
+					A3($elm$core$Dict$insert, key, pid, lives),
+					news);
+			});
+		var newSubs = A2($elm$core$List$map, $elm$browser$Browser$Events$addKey, subs);
+		var _v0 = A6(
+			$elm$core$Dict$merge,
+			stepLeft,
+			stepBoth,
+			stepRight,
+			state.pids,
+			$elm$core$Dict$fromList(newSubs),
+			_Utils_Tuple3(_List_Nil, $elm$core$Dict$empty, _List_Nil));
+		var deadPids = _v0.a;
+		var livePids = _v0.b;
+		var makeNewPids = _v0.c;
+		return A2(
+			$elm$core$Task$andThen,
+			function (pids) {
+				return $elm$core$Task$succeed(
+					A2(
+						$elm$browser$Browser$Events$State,
+						newSubs,
+						A2(
+							$elm$core$Dict$union,
+							livePids,
+							$elm$core$Dict$fromList(pids))));
+			},
+			A2(
+				$elm$core$Task$andThen,
+				function (_v1) {
+					return $elm$core$Task$sequence(makeNewPids);
+				},
+				$elm$core$Task$sequence(
+					A2($elm$core$List$map, $elm$core$Process$kill, deadPids))));
+	});
+var $elm$core$List$maybeCons = F3(
+	function (f, mx, xs) {
+		var _v0 = f(mx);
+		if (_v0.$ === 'Just') {
+			var x = _v0.a;
+			return A2($elm$core$List$cons, x, xs);
+		} else {
+			return xs;
+		}
+	});
+var $elm$core$List$filterMap = F2(
+	function (f, xs) {
+		return A3(
+			$elm$core$List$foldr,
+			$elm$core$List$maybeCons(f),
+			_List_Nil,
+			xs);
+	});
+var $elm$browser$Browser$Events$onSelfMsg = F3(
+	function (router, _v0, state) {
+		var key = _v0.key;
+		var event = _v0.event;
+		var toMessage = function (_v2) {
+			var subKey = _v2.a;
+			var _v3 = _v2.b;
+			var node = _v3.a;
+			var name = _v3.b;
+			var decoder = _v3.c;
+			return _Utils_eq(subKey, key) ? A2(_Browser_decodeEvent, decoder, event) : $elm$core$Maybe$Nothing;
+		};
+		var messages = A2($elm$core$List$filterMap, toMessage, state.subs);
+		return A2(
+			$elm$core$Task$andThen,
+			function (_v1) {
+				return $elm$core$Task$succeed(state);
+			},
+			$elm$core$Task$sequence(
+				A2(
+					$elm$core$List$map,
+					$elm$core$Platform$sendToApp(router),
+					messages)));
+	});
+var $elm$browser$Browser$Events$subMap = F2(
+	function (func, _v0) {
+		var node = _v0.a;
+		var name = _v0.b;
+		var decoder = _v0.c;
+		return A3(
+			$elm$browser$Browser$Events$MySub,
+			node,
+			name,
+			A2($elm$json$Json$Decode$map, func, decoder));
+	});
+_Platform_effectManagers['Browser.Events'] = _Platform_createManager($elm$browser$Browser$Events$init, $elm$browser$Browser$Events$onEffects, $elm$browser$Browser$Events$onSelfMsg, 0, $elm$browser$Browser$Events$subMap);
+var $elm$browser$Browser$Events$subscription = _Platform_leaf('Browser.Events');
+var $elm$browser$Browser$Events$on = F3(
+	function (node, name, decoder) {
+		return $elm$browser$Browser$Events$subscription(
+			A3($elm$browser$Browser$Events$MySub, node, name, decoder));
+	});
+var $elm$browser$Browser$Events$onResize = function (func) {
+	return A3(
+		$elm$browser$Browser$Events$on,
+		$elm$browser$Browser$Events$Window,
+		'resize',
+		A2(
+			$elm$json$Json$Decode$field,
+			'target',
+			A3(
+				$elm$json$Json$Decode$map2,
+				func,
+				A2($elm$json$Json$Decode$field, 'innerWidth', $elm$json$Json$Decode$int),
+				A2($elm$json$Json$Decode$field, 'innerHeight', $elm$json$Json$Decode$int))));
+};
 var $author$project$Types$Ignore = {$: 'Ignore'};
+var $author$project$Types$GotPartFiveDomElement = F2(
+	function (a, b) {
+		return {$: 'GotPartFiveDomElement', a: a, b: b};
+	});
+var $elm$core$Basics$composeL = F3(
+	function (g, f, x) {
+		return g(
+			f(x));
+	});
+var $elm$core$Task$onError = _Scheduler_onError;
+var $elm$core$Task$attempt = F2(
+	function (resultToMessage, task) {
+		return $elm$core$Task$command(
+			$elm$core$Task$Perform(
+				A2(
+					$elm$core$Task$onError,
+					A2(
+						$elm$core$Basics$composeL,
+						A2($elm$core$Basics$composeL, $elm$core$Task$succeed, resultToMessage),
+						$elm$core$Result$Err),
+					A2(
+						$elm$core$Task$andThen,
+						A2(
+							$elm$core$Basics$composeL,
+							A2($elm$core$Basics$composeL, $elm$core$Task$succeed, resultToMessage),
+							$elm$core$Result$Ok),
+						task))));
+	});
+var $elm$browser$Browser$Dom$getElement = _Browser_getElement;
+var $author$project$Main$getPartFiveDomElementCmd = function (id) {
+	return A2(
+		$elm$core$Task$attempt,
+		$author$project$Types$GotPartFiveDomElement(id),
+		$elm$browser$Browser$Dom$getElement(id));
+};
+var $author$project$P5$id_a_a = 'a_a';
+var $author$project$P5$id_a_c = 'a_c';
+var $author$project$P5$id_a_d = 'a_d';
+var $author$project$P5$id_a_e = 'a_e';
+var $author$project$P5$id_a_f = 'a_f';
+var $author$project$P5$id_q_a = 'q_a';
+var $author$project$P5$id_q_cd = 'q_cd';
+var $author$project$P5$id_q_ef = 'q_ef';
+var $author$project$Main$getPartFiveDomElementsCmd = $elm$core$Platform$Cmd$batch(
+	A2(
+		$elm$core$List$map,
+		$author$project$Main$getPartFiveDomElementCmd,
+		_List_fromArray(
+			[$author$project$P5$id_q_a, $author$project$P5$id_q_cd, $author$project$P5$id_q_ef, $author$project$P5$id_a_e, $author$project$P5$id_a_f, $author$project$P5$id_a_c, $author$project$P5$id_a_d, $author$project$P5$id_a_a])));
 var $elm$browser$Browser$Navigation$load = _Browser_load;
 var $elm$browser$Browser$Navigation$pushUrl = _Browser_pushUrl;
 var $elm$browser$Browser$Dom$setViewport = _Browser_setViewport;
@@ -6249,18 +6607,19 @@ var $author$project$Main$update = F2(
 				}
 			case 'UrlHasChanged':
 				var url = msg.a;
+				var resetViewportCmd = A2(
+					$elm$core$Task$perform,
+					function (_v2) {
+						return $author$project$Types$Ignore;
+					},
+					A2($elm$browser$Browser$Dom$setViewport, 0, 0));
 				return _Utils_Tuple2(
 					_Utils_update(
 						model,
 						{
 							route: $author$project$Main$getRoute(url)
 						}),
-					A2(
-						$elm$core$Task$perform,
-						function (_v2) {
-							return $author$project$Types$Ignore;
-						},
-						A2($elm$browser$Browser$Dom$setViewport, 0, 0)));
+					resetViewportCmd);
 			case 'QuizRecvInput':
 				var quizID = msg.a;
 				var quizStatus = msg.b;
@@ -6279,6 +6638,23 @@ var $author$project$Main$update = F2(
 					$elm$core$Platform$Cmd$none);
 			case 'QuizErr':
 				return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
+			case 'LoadedPartFiveImg':
+				return _Utils_Tuple2(model, $author$project$Main$getPartFiveDomElementsCmd);
+			case 'GotPartFiveDomElement':
+				var id = msg.a;
+				var result = msg.b;
+				if (result.$ === 'Err') {
+					return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
+				} else {
+					var domElement = result.a;
+					return _Utils_Tuple2(
+						_Utils_update(
+							model,
+							{
+								domIdElements: A3($pzp1997$assoc_list$AssocList$insert, id, domElement, model.domIdElements)
+							}),
+						$elm$core$Platform$Cmd$none);
+				}
 			case 'SelectDemoCodeLang':
 				var lang = msg.a;
 				return _Utils_Tuple2(
@@ -6286,10 +6662,31 @@ var $author$project$Main$update = F2(
 						model,
 						{demoCodeLang: lang}),
 					$elm$core$Platform$Cmd$none);
+			case 'WindowResized':
+				var width = msg.a;
+				var height = msg.b;
+				return _Utils_Tuple2(model, $author$project$Main$getPartFiveDomElementsCmd);
 			default:
 				return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
 		}
 	});
+var $mdgriffith$elm_ui$Internal$Model$Behind = {$: 'Behind'};
+var $mdgriffith$elm_ui$Internal$Model$Nearby = F2(
+	function (a, b) {
+		return {$: 'Nearby', a: a, b: b};
+	});
+var $mdgriffith$elm_ui$Internal$Model$NoAttribute = {$: 'NoAttribute'};
+var $mdgriffith$elm_ui$Element$createNearby = F2(
+	function (loc, element) {
+		if (element.$ === 'Empty') {
+			return $mdgriffith$elm_ui$Internal$Model$NoAttribute;
+		} else {
+			return A2($mdgriffith$elm_ui$Internal$Model$Nearby, loc, element);
+		}
+	});
+var $mdgriffith$elm_ui$Element$behindContent = function (element) {
+	return A2($mdgriffith$elm_ui$Element$createNearby, $mdgriffith$elm_ui$Internal$Model$Behind, element);
+};
 var $mdgriffith$elm_ui$Internal$Model$Class = F2(
 	function (a, b) {
 		return {$: 'Class', a: a, b: b};
@@ -6627,24 +7024,6 @@ var $mdgriffith$elm_ui$Internal$Model$Style = F2(
 var $mdgriffith$elm_ui$Internal$Style$dot = function (c) {
 	return '.' + c;
 };
-var $elm$core$List$maybeCons = F3(
-	function (f, mx, xs) {
-		var _v0 = f(mx);
-		if (_v0.$ === 'Just') {
-			var x = _v0.a;
-			return A2($elm$core$List$cons, x, xs);
-		} else {
-			return xs;
-		}
-	});
-var $elm$core$List$filterMap = F2(
-	function (f, xs) {
-		return A3(
-			$elm$core$List$foldr,
-			$elm$core$List$maybeCons(f),
-			_List_Nil,
-			xs);
-	});
 var $elm$core$String$fromFloat = _String_fromNumber;
 var $mdgriffith$elm_ui$Internal$Model$formatColor = function (_v0) {
 	var red = _v0.a;
@@ -11850,18 +12229,6 @@ var $author$project$Consts$errPara = function (errMsg) {
 				$mdgriffith$elm_ui$Element$text('Error: I made a mistake when making this website. I was about to blame javascript but I remembered I\'m using Elm.. Can you contact me about this? ' + ('ErrMsg: \"' + (errMsg + '\"')))
 			]));
 };
-var $elm$core$Dict$fromList = function (assocs) {
-	return A3(
-		$elm$core$List$foldl,
-		F2(
-			function (_v0, dict) {
-				var key = _v0.a;
-				var value = _v0.b;
-				return A3($elm$core$Dict$insert, key, value, dict);
-			}),
-		$elm$core$Dict$empty,
-		assocs);
-};
 var $author$project$Types$QuizPass = {$: 'QuizPass'};
 var $author$project$Types$QuizRecvInput = F2(
 	function (a, b) {
@@ -11943,7 +12310,6 @@ var $elm$html$Html$Attributes$boolProperty = F2(
 	});
 var $elm$html$Html$Attributes$disabled = $elm$html$Html$Attributes$boolProperty('disabled');
 var $mdgriffith$elm_ui$Element$Input$enter = 'Enter';
-var $mdgriffith$elm_ui$Internal$Model$NoAttribute = {$: 'NoAttribute'};
 var $mdgriffith$elm_ui$Element$Input$hasFocusStyle = function (attr) {
 	if (((attr.$ === 'StyleClass') && (attr.b.$ === 'PseudoSelector')) && (attr.b.a.$ === 'Focus')) {
 		var _v1 = attr.b;
@@ -11956,11 +12322,6 @@ var $mdgriffith$elm_ui$Element$Input$hasFocusStyle = function (attr) {
 var $mdgriffith$elm_ui$Element$Input$focusDefault = function (attrs) {
 	return A2($elm$core$List$any, $mdgriffith$elm_ui$Element$Input$hasFocusStyle, attrs) ? $mdgriffith$elm_ui$Internal$Model$NoAttribute : $mdgriffith$elm_ui$Internal$Model$htmlClass('focusable');
 };
-var $elm$core$Basics$composeL = F3(
-	function (g, f, x) {
-		return g(
-			f(x));
-	});
 var $elm$virtual_dom$VirtualDom$Normal = function (a) {
 	return {$: 'Normal', a: a};
 };
@@ -11981,7 +12342,6 @@ var $elm$html$Html$Events$onClick = function (msg) {
 var $mdgriffith$elm_ui$Element$Events$onClick = A2($elm$core$Basics$composeL, $mdgriffith$elm_ui$Internal$Model$Attr, $elm$html$Html$Events$onClick);
 var $elm$json$Json$Decode$andThen = _Json_andThen;
 var $elm$json$Json$Decode$fail = _Json_fail;
-var $elm$json$Json$Decode$field = _Json_decodeField;
 var $elm$virtual_dom$VirtualDom$MayPreventDefault = function (a) {
 	return {$: 'MayPreventDefault', a: a};
 };
@@ -12982,16 +13342,16 @@ var $author$project$P1$p1 = function (model) {
 								[
 									A2(
 									$mdgriffith$elm_ui$Element$Input$option,
-									$author$project$Types$QuizPass,
-									$mdgriffith$elm_ui$Element$text('I\'ll pass.')),
-									A2(
-									$mdgriffith$elm_ui$Element$Input$option,
 									$author$project$Types$QuizSel(1),
 									$mdgriffith$elm_ui$Element$text('n! = n * (n - 1)! * (n - 2)! * ... * 1!')),
 									A2(
 									$mdgriffith$elm_ui$Element$Input$option,
 									$author$project$Types$QuizSel(2),
-									$mdgriffith$elm_ui$Element$text('n! = n * (n - 1)!'))
+									$mdgriffith$elm_ui$Element$text('n! = n * (n - 1)!')),
+									A2(
+									$mdgriffith$elm_ui$Element$Input$option,
+									$author$project$Types$QuizPass,
+									$mdgriffith$elm_ui$Element$text('I\'ll pass.'))
 								]),
 							selected: $elm$core$Maybe$Just(quizOneStatus.sel)
 						}),
@@ -13180,10 +13540,6 @@ var $author$project$P2$p2 = function (model) {
 					[
 						A2(
 						$mdgriffith$elm_ui$Element$Input$option,
-						$author$project$Types$QuizPass,
-						$mdgriffith$elm_ui$Element$text('I\'ll pass.')),
-						A2(
-						$mdgriffith$elm_ui$Element$Input$option,
 						$author$project$Types$QuizSel(1),
 						$mdgriffith$elm_ui$Element$text('n! = n * (n - 1)! only when n - 1 is still a positive integer.')),
 						A2(
@@ -13193,7 +13549,11 @@ var $author$project$P2$p2 = function (model) {
 						A2(
 						$mdgriffith$elm_ui$Element$Input$option,
 						$author$project$Types$QuizSel(3),
-						$mdgriffith$elm_ui$Element$text('1! = 1'))
+						$mdgriffith$elm_ui$Element$text('1! = 1')),
+						A2(
+						$mdgriffith$elm_ui$Element$Input$option,
+						$author$project$Types$QuizPass,
+						$mdgriffith$elm_ui$Element$text('I\'ll pass.'))
 					]),
 				selected: $elm$core$Maybe$Just(quizTwoStatus.sel)
 			});
@@ -13267,16 +13627,16 @@ var $author$project$P2$p2 = function (model) {
 					[
 						A2(
 						$mdgriffith$elm_ui$Element$Input$option,
-						$author$project$Types$QuizPass,
-						$mdgriffith$elm_ui$Element$text('I\'ll pass.')),
-						A2(
-						$mdgriffith$elm_ui$Element$Input$option,
 						$author$project$Types$QuizSel(1),
 						$author$project$Consts$plainPara('Every time it answers what the factorial of an integer n is, a new question will be raised about what the factorial of (n - 1) is.')),
 						A2(
 						$mdgriffith$elm_ui$Element$Input$option,
 						$author$project$Types$QuizSel(2),
-						$author$project$Consts$plainPara('It\'s too simple and can\'t describe a complicated computation like factorial, which can involve a lot of numbers and multiplications.'))
+						$author$project$Consts$plainPara('It\'s too simple and can\'t describe a complicated computation like factorial, which can involve a lot of numbers and multiplications.')),
+						A2(
+						$mdgriffith$elm_ui$Element$Input$option,
+						$author$project$Types$QuizPass,
+						$mdgriffith$elm_ui$Element$text('I\'ll pass.'))
 					]),
 				selected: $elm$core$Maybe$Just(quizOneStatus.sel)
 			});
@@ -13521,15 +13881,13 @@ var $author$project$Consts$multiMathExpStyle = _List_fromArray(
 var $mdgriffith$elm_ui$Element$htmlAttribute = $mdgriffith$elm_ui$Internal$Model$Attr;
 var $elm$virtual_dom$VirtualDom$style = _VirtualDom_style;
 var $elm$html$Html$Attributes$style = $elm$virtual_dom$VirtualDom$style;
-var $author$project$Consts$stickyAttrs = _List_fromArray(
+var $author$project$Consts$stickyAttrs_Raw = _List_fromArray(
 	[
-		$mdgriffith$elm_ui$Element$htmlAttribute(
-		A2($elm$html$Html$Attributes$style, 'position', 'sticky')),
-		$mdgriffith$elm_ui$Element$htmlAttribute(
-		A2($elm$html$Html$Attributes$style, 'top', '0')),
-		$mdgriffith$elm_ui$Element$htmlAttribute(
-		A2($elm$html$Html$Attributes$style, 'z-index', '2'))
+		A2($elm$html$Html$Attributes$style, 'position', 'sticky'),
+		A2($elm$html$Html$Attributes$style, 'top', '0'),
+		A2($elm$html$Html$Attributes$style, 'z-index', '2')
 	]);
+var $author$project$Consts$stickyAttrs = A2($elm$core$List$map, $mdgriffith$elm_ui$Element$htmlAttribute, $author$project$Consts$stickyAttrs_Raw);
 var $author$project$P4$p4 = function (model) {
 	var quizTwoStatus = A2(
 		$author$project$Quiz$getQuizStatus,
@@ -14188,9 +14546,18 @@ var $author$project$P4$p4 = function (model) {
 				$author$project$Types$QuizSel(1)) || _Utils_eq(quizOneStatus.sub, $author$project$Types$QuizPass)) ? postQuiz1 : $mdgriffith$elm_ui$Element$none
 			]));
 };
+var $author$project$Types$LoadedPartFiveImg = {$: 'LoadedPartFiveImg'};
 var $mdgriffith$elm_ui$Internal$Flag$fontWeight = $mdgriffith$elm_ui$Internal$Flag$flag(13);
 var $mdgriffith$elm_ui$Element$Font$bold = A2($mdgriffith$elm_ui$Internal$Model$Class, $mdgriffith$elm_ui$Internal$Flag$fontWeight, $mdgriffith$elm_ui$Internal$Style$classes.bold);
 var $author$project$PageNavButtons$defaultNextPageBtnStyle = $author$project$PageNavButtons$defaultPrevPageBtnStyle;
+var $elm$core$Basics$always = F2(
+	function (a, _v0) {
+		return a;
+	});
+var $mdgriffith$elm_ui$Internal$Model$unstyled = A2($elm$core$Basics$composeL, $mdgriffith$elm_ui$Internal$Model$Unstyled, $elm$core$Basics$always);
+var $mdgriffith$elm_ui$Element$html = $mdgriffith$elm_ui$Internal$Model$unstyled;
+var $elm$html$Html$Attributes$id = $elm$html$Html$Attributes$stringProperty('id');
+var $elm$html$Html$img = _VirtualDom_node('img');
 var $author$project$P5$p5 = function (model) {
 	var body = function () {
 		var vsOneTwoStyle = _List_fromArray(
@@ -14234,20 +14601,33 @@ var $author$project$P5$p5 = function (model) {
 				[$author$project$Consts$paraSpacing]),
 			_List_fromArray(
 				[
+					$mdgriffith$elm_ui$Element$html(
 					A2(
-					$mdgriffith$elm_ui$Element$image,
-					_Utils_ap(
-						_List_fromArray(
-							[
-								$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill)
-							]),
-						$author$project$Consts$stickyAttrs),
-					{description: 'WIP text for assistive technology', src: '/static/img/heathrow-to-london.jpg'}),
+						$elm$html$Html$img,
+						$elm$core$List$concat(
+							_List_fromArray(
+								[
+									_List_fromArray(
+									[
+										$elm$html$Html$Attributes$src('/static/img/heathrow-to-london.jpg'),
+										A2($elm$html$Html$Attributes$style, 'width', '100%'),
+										A2(
+										$elm$html$Html$Events$on,
+										'load',
+										$elm$json$Json$Decode$succeed($author$project$Types$LoadedPartFiveImg))
+									]),
+									$author$project$Consts$stickyAttrs_Raw
+								])),
+						_List_Nil)),
 					$author$project$Consts$plainPara('Let\'s execute our solution by hand, and see if it really works!'),
 					$author$project$Consts$plainPara('To reduce clutter, I\'m going to abbreviate \"the quickest path from X to either J or K\" into \"Path_X\".'),
 					A2(
 					qa,
-					_List_Nil,
+					_List_fromArray(
+						[
+							$mdgriffith$elm_ui$Element$htmlAttribute(
+							$elm$html$Html$Attributes$id($author$project$P5$id_q_a))
+						]),
 					_List_fromArray(
 						[
 							qPara('Q: So, what is Path_A?'),
@@ -14255,7 +14635,11 @@ var $author$project$P5$p5 = function (model) {
 						])),
 					A2(
 					qa,
-					_List_Nil,
+					_List_fromArray(
+						[
+							$mdgriffith$elm_ui$Element$htmlAttribute(
+							$elm$html$Html$Attributes$id($author$project$P5$id_q_cd))
+						]),
 					_List_fromArray(
 						[
 							qPara('Q: But what is Path_C, and what is Path_D?'),
@@ -14264,7 +14648,11 @@ var $author$project$P5$p5 = function (model) {
 						])),
 					A2(
 					qa,
-					_List_Nil,
+					_List_fromArray(
+						[
+							$mdgriffith$elm_ui$Element$htmlAttribute(
+							$elm$html$Html$Attributes$id($author$project$P5$id_q_ef))
+						]),
 					_List_fromArray(
 						[
 							qPara('Q: But what is Path_E, and what is Path_F?'),
@@ -14303,7 +14691,11 @@ var $author$project$P5$p5 = function (model) {
 						])),
 					A2(
 					qa,
-					_List_Nil,
+					_List_fromArray(
+						[
+							$mdgriffith$elm_ui$Element$htmlAttribute(
+							$elm$html$Html$Attributes$id($author$project$P5$id_a_e))
+						]),
 					_List_fromArray(
 						[
 							$author$project$Consts$plainPara('A: Since Path_E is the quicker of these two:'),
@@ -14319,7 +14711,11 @@ var $author$project$P5$p5 = function (model) {
 						])),
 					A2(
 					qa,
-					_List_Nil,
+					_List_fromArray(
+						[
+							$mdgriffith$elm_ui$Element$htmlAttribute(
+							$elm$html$Html$Attributes$id($author$project$P5$id_a_f))
+						]),
 					_List_fromArray(
 						[
 							$author$project$Consts$plainPara('A: Since Path_F is the quicker of these two:'),
@@ -14335,7 +14731,11 @@ var $author$project$P5$p5 = function (model) {
 						])),
 					A2(
 					qa,
-					_List_Nil,
+					_List_fromArray(
+						[
+							$mdgriffith$elm_ui$Element$htmlAttribute(
+							$elm$html$Html$Attributes$id($author$project$P5$id_a_c))
+						]),
 					_List_fromArray(
 						[
 							$author$project$Consts$plainPara('A: Since Path_C is the quicker of these two:'),
@@ -14351,7 +14751,11 @@ var $author$project$P5$p5 = function (model) {
 						])),
 					A2(
 					qa,
-					_List_Nil,
+					_List_fromArray(
+						[
+							$mdgriffith$elm_ui$Element$htmlAttribute(
+							$elm$html$Html$Attributes$id($author$project$P5$id_a_d))
+						]),
 					_List_fromArray(
 						[
 							$author$project$Consts$plainPara('A: Since Path_D is the quicker of these two:'),
@@ -14374,7 +14778,9 @@ var $author$project$P5$p5 = function (model) {
 							$mdgriffith$elm_ui$Element$Border$width(4),
 							$mdgriffith$elm_ui$Element$Border$rounded(5),
 							$mdgriffith$elm_ui$Element$Border$color(
-							A3($mdgriffith$elm_ui$Element$rgb255, 47, 158, 91))
+							A3($mdgriffith$elm_ui$Element$rgb255, 47, 158, 91)),
+							$mdgriffith$elm_ui$Element$htmlAttribute(
+							$elm$html$Html$Attributes$id($author$project$P5$id_a_a))
 						]),
 					_List_fromArray(
 						[
@@ -14481,12 +14887,6 @@ var $mdgriffith$elm_ui$Element$Font$family = function (families) {
 			families));
 };
 var $author$project$Consts$haskellCode = 'module Main  where\n\n\ndata Side = LEFT | RIGHT\n\n\nf :: Side -> [Int] -> Int\nf LEFT  (l : m : r : []) = min l (m + r)\nf RIGHT (l : m : r : []) = min r (m + l)\nf LEFT  (l : m : r : xs) = min (l + f LEFT xs) (m + r + f RIGHT xs)\nf RIGHT (l : m : r : xs) = min (r + f RIGHT xs) (m + l + f LEFT xs)\n\nmain :: IO ()\nmain =\n  putStrLn $ show $ f LEFT [50, 0, 10, 5, 30, 90, 40, 20, 2, 10, 25, 8]';
-var $elm$core$Basics$always = F2(
-	function (a, _v0) {
-		return a;
-	});
-var $mdgriffith$elm_ui$Internal$Model$unstyled = A2($elm$core$Basics$composeL, $mdgriffith$elm_ui$Internal$Model$Unstyled, $elm$core$Basics$always);
-var $mdgriffith$elm_ui$Element$html = $mdgriffith$elm_ui$Internal$Model$unstyled;
 var $author$project$Consts$pythonCode = 'from enum import Enum\n\nclass Side(Enum):\n    LEFT = 1\n    RIGHT = 2\n\n\nclass Intersection:\n    def __init__(self, side, segments):\n        self.side = side\n        self.segments = segments\n\n\ndef f(intersection):\n\n    l = intersection.segments[0]\n    m = intersection.segments[1]\n    r = intersection.segments[2]\n\n    # Base case\n    if len(intersection.segments) == 3:\n        if intersection.side == Side.LEFT:\n            return min(l, m + r)\n        elif intersection.side == Side.RIGHT:\n            return min(r, m + l)\n\n    further_segments = intersection.segments[3:]\n\n    next_intersection_on_left  = Intersection(\n        side = Side.LEFT,  segments = further_segments\n    )\n\n    next_intersection_on_right = Intersection(\n        side = Side.RIGHT, segments = further_segments\n    )\n\n    if intersection.side == Side.LEFT:\n\n        best_path_going_left = l + f(next_intersection_on_left)\n        best_path_going_right = m + r + f(next_intersection_on_right)\n\n        return min(best_path_going_left, best_path_going_right)\n\n    elif intersection.side == Side.RIGHT:\n\n        best_path_going_left = m + l + f(next_intersection_on_left)\n        best_path_going_right = r + f(next_intersection_on_right)\n\n        return min(best_path_going_left, best_path_going_right)\n    \n\nintersection_A = Intersection(\n    side = Side.LEFT,\n    segments = [50, 0, 10, 5, 30, 90, 40, 20, 2, 10, 25, 8]\n)\n\nleast_time_needed = f(intersection_A)\n\nprint(least_time_needed)\n';
 var $mdgriffith$elm_ui$Internal$Model$SansSerif = {$: 'SansSerif'};
 var $mdgriffith$elm_ui$Element$Font$sansSerif = $mdgriffith$elm_ui$Internal$Model$SansSerif;
@@ -14977,25 +15377,6 @@ var $author$project$More$more = A2(
 		[
 			A2(
 			$mdgriffith$elm_ui$Element$textColumn,
-			_List_fromArray(
-				[
-					A2($mdgriffith$elm_ui$Element$spacingXY, 0, 10)
-				]),
-			_List_fromArray(
-				[
-					$author$project$Consts$plainPara('The author of this website is: Me.'),
-					A2(
-					$mdgriffith$elm_ui$Element$paragraph,
-					_List_Nil,
-					_List_fromArray(
-						[
-							$mdgriffith$elm_ui$Element$text('The tool used to build this website is: '),
-							A2($author$project$Consts$externalLink, 'https://elm-lang.org/', 'Elm'),
-							$mdgriffith$elm_ui$Element$text('.')
-						]))
-				])),
-			A2(
-			$mdgriffith$elm_ui$Element$textColumn,
 			_List_Nil,
 			_List_fromArray(
 				[
@@ -15006,6 +15387,8 @@ var $author$project$More$more = A2(
 						[
 							$mdgriffith$elm_ui$Element$text('Recursion is also a key concept in '),
 							A2($author$project$Consts$externalLink, 'https://en.wikipedia.org/wiki/Functional_programming', 'functional programming'),
+							$mdgriffith$elm_ui$Element$text(', which is the paradigm of the language that\'s used to build this website: '),
+							A2($author$project$Consts$externalLink, 'https://elm-lang.org/', 'Elm'),
 							$mdgriffith$elm_ui$Element$text('. My favorite guide to functional programming with Haskell is '),
 							A2($author$project$Consts$externalLink, 'http://learnyouahaskell.com/', 'Learn You a Haskell for Great Good'),
 							$mdgriffith$elm_ui$Element$text(' (As much as I love it, it\'s non-https, so be very careful about security issues! Generally, don\'t make payments, input sensitive data, or trust any links on non-https websites.)')
@@ -15067,6 +15450,165 @@ var $author$project$P0$p0 = A2(
 					url: '/part/1'
 				}))
 		]));
+var $elm$svg$Svg$trustedNode = _VirtualDom_nodeNS('http://www.w3.org/2000/svg');
+var $elm$svg$Svg$defs = $elm$svg$Svg$trustedNode('defs');
+var $elm$svg$Svg$Attributes$d = _VirtualDom_attribute('d');
+var $elm$svg$Svg$Attributes$fillOpacity = _VirtualDom_attribute('fill-opacity');
+var $elm$svg$Svg$Attributes$markerEnd = _VirtualDom_attribute('marker-end');
+var $elm$svg$Svg$path = $elm$svg$Svg$trustedNode('path');
+var $author$project$Main$rightArrowHeadId = 'rightArrowHead';
+var $elm$svg$Svg$Attributes$stroke = _VirtualDom_attribute('stroke');
+var $author$project$Main$drawArrow = F3(
+	function (xOffset, _v0, _v1) {
+		var startX = _v0.a;
+		var startY = _v0.b;
+		var endX = _v1.a;
+		var endY = _v1.b;
+		return A2(
+			$elm$svg$Svg$path,
+			_List_fromArray(
+				[
+					$elm$svg$Svg$Attributes$d(
+					'M ' + ($elm$core$String$fromFloat(startX) + (' ' + ($elm$core$String$fromFloat(startY) + ('h ' + ($elm$core$String$fromFloat(xOffset) + ('V ' + ($elm$core$String$fromFloat(endY) + ('h ' + $elm$core$String$fromFloat(-xOffset)))))))))),
+					$elm$svg$Svg$Attributes$stroke('black'),
+					$elm$svg$Svg$Attributes$fillOpacity('0'),
+					$elm$svg$Svg$Attributes$markerEnd('url(#' + ($author$project$Main$rightArrowHeadId + ')'))
+				]),
+			_List_Nil);
+	});
+var $elm$svg$Svg$Attributes$height = _VirtualDom_attribute('height');
+var $elm$svg$Svg$Attributes$id = _VirtualDom_attribute('id');
+var $elm$svg$Svg$Attributes$markerHeight = _VirtualDom_attribute('markerHeight');
+var $elm$svg$Svg$Attributes$markerWidth = _VirtualDom_attribute('markerWidth');
+var $elm$svg$Svg$Attributes$refX = _VirtualDom_attribute('refX');
+var $elm$svg$Svg$Attributes$refY = _VirtualDom_attribute('refY');
+var $elm$svg$Svg$Attributes$viewBox = _VirtualDom_attribute('viewBox');
+var $author$project$Main$arrowHeadAttrs = function (id) {
+	return _List_fromArray(
+		[
+			$elm$svg$Svg$Attributes$id(id),
+			$elm$svg$Svg$Attributes$refX('10'),
+			$elm$svg$Svg$Attributes$refY('10'),
+			$elm$svg$Svg$Attributes$viewBox('0 0 20 20'),
+			$elm$svg$Svg$Attributes$markerWidth('20'),
+			$elm$svg$Svg$Attributes$markerHeight('20')
+		]);
+};
+var $author$project$Main$leftArrowHeadId = 'leftArrowHead';
+var $elm$svg$Svg$marker = $elm$svg$Svg$trustedNode('marker');
+var $author$project$Main$leftArrowHead = A2(
+	$elm$svg$Svg$marker,
+	$author$project$Main$arrowHeadAttrs($author$project$Main$leftArrowHeadId),
+	_List_fromArray(
+		[
+			A2(
+			$elm$svg$Svg$path,
+			_List_fromArray(
+				[
+					$elm$svg$Svg$Attributes$d('M 20 0 L 0 10 L 20 20 Z')
+				]),
+			_List_Nil)
+		]));
+var $elm$core$Maybe$map2 = F3(
+	function (func, ma, mb) {
+		if (ma.$ === 'Nothing') {
+			return $elm$core$Maybe$Nothing;
+		} else {
+			var a = ma.a;
+			if (mb.$ === 'Nothing') {
+				return $elm$core$Maybe$Nothing;
+			} else {
+				var b = mb.a;
+				return $elm$core$Maybe$Just(
+					A2(func, a, b));
+			}
+		}
+	});
+var $author$project$Main$rightArrowHead = A2(
+	$elm$svg$Svg$marker,
+	$author$project$Main$arrowHeadAttrs($author$project$Main$rightArrowHeadId),
+	_List_fromArray(
+		[
+			A2(
+			$elm$svg$Svg$path,
+			_List_fromArray(
+				[
+					$elm$svg$Svg$Attributes$d('M 0 0 L 20 10 L 0 20 Z')
+				]),
+			_List_Nil)
+		]));
+var $elm$svg$Svg$svg = $elm$svg$Svg$trustedNode('svg');
+var $elm$svg$Svg$text = $elm$virtual_dom$VirtualDom$text;
+var $elm$core$Debug$toString = _Debug_toString;
+var $elm$svg$Svg$Attributes$width = _VirtualDom_attribute('width');
+var $author$project$Main$partFiveSvg = function (model) {
+	var tryDrawArrow = F3(
+		function (xOffset, maybeStartPos, maybeEndPos) {
+			var _v0 = A3(
+				$elm$core$Maybe$map2,
+				$author$project$Main$drawArrow(xOffset),
+				maybeStartPos,
+				maybeEndPos);
+			if (_v0.$ === 'Nothing') {
+				return $elm$svg$Svg$text(
+					$elm$core$Debug$toString(model.domIdElements));
+			} else {
+				var e = _v0.a;
+				return e;
+			}
+		});
+	var arrowOffset_Y = 40;
+	var domElementToPos = function (domElement) {
+		return _Utils_Tuple2(domElement.element.x, domElement.element.y + arrowOffset_Y);
+	};
+	var idToMaybePos = function (id) {
+		return A2(
+			$elm$core$Maybe$map,
+			domElementToPos,
+			A2($pzp1997$assoc_list$AssocList$get, id, model.domIdElements));
+	};
+	return $mdgriffith$elm_ui$Element$html(
+		A2(
+			$elm$svg$Svg$svg,
+			_List_fromArray(
+				[
+					$elm$svg$Svg$Attributes$width('100%'),
+					$elm$svg$Svg$Attributes$height('100%')
+				]),
+			_List_fromArray(
+				[
+					A2(
+					$elm$svg$Svg$defs,
+					_List_Nil,
+					_List_fromArray(
+						[$author$project$Main$rightArrowHead, $author$project$Main$leftArrowHead])),
+					A3(
+					tryDrawArrow,
+					-30,
+					idToMaybePos($author$project$P5$id_a_e),
+					idToMaybePos($author$project$P5$id_q_ef)),
+					A3(
+					tryDrawArrow,
+					-30,
+					idToMaybePos($author$project$P5$id_a_f),
+					idToMaybePos($author$project$P5$id_q_ef)),
+					A3(
+					tryDrawArrow,
+					-90,
+					idToMaybePos($author$project$P5$id_a_c),
+					idToMaybePos($author$project$P5$id_q_cd)),
+					A3(
+					tryDrawArrow,
+					-90,
+					idToMaybePos($author$project$P5$id_a_d),
+					idToMaybePos($author$project$P5$id_q_cd)),
+					A3(
+					tryDrawArrow,
+					-150,
+					idToMaybePos($author$project$P5$id_a_a),
+					idToMaybePos($author$project$P5$id_q_a))
+				])));
+};
 var $mdgriffith$elm_ui$Internal$Model$Serif = {$: 'Serif'};
 var $mdgriffith$elm_ui$Element$Font$serif = $mdgriffith$elm_ui$Internal$Model$Serif;
 var $author$project$Main$view = function (model) {
@@ -15075,7 +15617,18 @@ var $author$project$Main$view = function (model) {
 			[
 				A2(
 				$mdgriffith$elm_ui$Element$layout,
-				_List_Nil,
+				function () {
+					var _v0 = model.route;
+					if ((_v0.$ === 'Part') && (_v0.a === 5)) {
+						return _List_fromArray(
+							[
+								$mdgriffith$elm_ui$Element$behindContent(
+								$author$project$Main$partFiveSvg(model))
+							]);
+					} else {
+						return _List_Nil;
+					}
+				}(),
 				function () {
 					var navBar = function () {
 						var navBarButton = F2(
@@ -15111,9 +15664,9 @@ var $author$project$Main$view = function (model) {
 								]));
 					}();
 					var currentPartNum = function () {
-						var _v2 = model.route;
-						if (_v2.$ === 'Part') {
-							var p = _v2.a;
+						var _v3 = model.route;
+						if (_v3.$ === 'Part') {
+							var p = _v3.a;
 							return p;
 						} else {
 							return -1;
@@ -15127,12 +15680,12 @@ var $author$project$Main$view = function (model) {
 								$mdgriffith$elm_ui$Element$padding(10)
 							]),
 						function () {
-							var _v1 = A2(
+							var _v2 = A2(
 								$elm$core$Dict$get,
 								currentPartNum,
 								$author$project$Main$explainerIndex(model));
-							if (_v1.$ === 'Just') {
-								var e = _v1.a;
+							if (_v2.$ === 'Just') {
+								var e = _v2.a;
 								return e;
 							} else {
 								return $author$project$Consts$errPara('p exceeds boundary of explainerIndex.');
@@ -15183,13 +15736,13 @@ var $author$project$Main$view = function (model) {
 							_List_fromArray(
 								[banner, navBar]),
 							function () {
-								var _v0 = model.route;
-								switch (_v0.$) {
+								var _v1 = model.route;
+								switch (_v1.$) {
 									case 'Home':
 										return _List_fromArray(
 											[$author$project$P0$p0]);
 									case 'Part':
-										var p = _v0.a;
+										var p = _v1.a;
 										return _List_fromArray(
 											[explainer]);
 									case 'More':
@@ -15213,7 +15766,11 @@ var $author$project$Main$main = $elm$browser$Browser$application(
 		onUrlChange: $author$project$Types$UrlHasChanged,
 		onUrlRequest: $author$project$Types$UserClickedLink,
 		subscriptions: function (_v0) {
-			return $elm$core$Platform$Sub$none;
+			return $elm$browser$Browser$Events$onResize(
+				F2(
+					function (width, height) {
+						return A2($author$project$Types$WindowResized, width, height);
+					}));
 		},
 		update: $author$project$Main$update,
 		view: $author$project$Main$view

@@ -33,9 +33,9 @@ p2 model =
                     \option ->
                         QuizRecvInput ( Part 2, 1 ) { sel = option, sub = quizOneStatus.sub }
                 , options =
-                    [ Input.option QuizPass <| ElmUI.text "I'll pass."
-                    , Input.option (QuizSel 1) <| plainPara "Every time it answers what the factorial of an integer n is, a new question will be raised about what the factorial of (n - 1) is."
+                    [ Input.option (QuizSel 1) <| plainPara "Every time it answers what the factorial of an integer n is, a new question will be raised about what the factorial of (n - 1) is."
                     , Input.option (QuizSel 2) <| plainPara "It's too simple and can't describe a complicated computation like factorial, which can involve a lot of numbers and multiplications."
+                    , Input.option QuizPass <| ElmUI.text "I'll pass."
                     ]
                 , selected = Just quizOneStatus.sel
                 , label = Input.labelAbove [] <| ElmUI.text ""
@@ -105,8 +105,7 @@ p2 model =
                         QuizRecvInput ( Part 2, 2 )
                             { sel = option, sub = quizTwoStatus.sub }
                 , options =
-                    [ Input.option QuizPass <| ElmUI.text "I'll pass."
-                    , Input.option (QuizSel 1) <|
+                    [ Input.option (QuizSel 1) <|
                         ElmUI.text
                             "n! = n * (n - 1)! only when n - 1 is still a positive integer."
                     , Input.option (QuizSel 2) <|
@@ -115,6 +114,7 @@ p2 model =
                     , Input.option (QuizSel 3) <|
                         ElmUI.text
                             "1! = 1"
+                    , Input.option QuizPass <| ElmUI.text "I'll pass."
                     ]
                 , selected = Just quizTwoStatus.sel
                 , label = Input.labelAbove [] <| ElmUI.text ""
