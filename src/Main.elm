@@ -22,7 +22,7 @@ import P4 exposing (p4)
 import P5 exposing (..)
 import P6 exposing (p6)
 import P7 exposing (p7)
-import Svg
+import Svg as Svg exposing (Svg)
 import Svg.Attributes as SvgAttr
 import Task
 import Types exposing (..)
@@ -122,11 +122,18 @@ update msg model =
                     -- If user navigates to Part 5, get its DOM element positions.
                     case route of
                         Part 5 ->
-                            Cmd.batch
-                                [ resetViewportCmd
-                                , getPartFiveDomElementCmd id_q_cd
-                                , getPartFiveDomElementCmd id_q_ef
-                                ]
+                            Cmd.batch <|
+                                resetViewportCmd
+                                    :: List.map getPartFiveDomElementCmd
+                                        [ id_q_a
+                                        , id_q_cd
+                                        , id_q_ef
+                                        , id_a_e
+                                        , id_a_f
+                                        , id_a_c
+                                        , id_a_d
+                                        , id_a_a
+                                        ]
 
                         _ ->
                             resetViewportCmd
@@ -285,53 +292,17 @@ partFiveSvg model =
         domElementToPos domElement =
             ( domElement.element.x, domElement.element.y )
 
-        maybe_q_ef_pos =
-            Maybe.map domElementToPos <| AssocList.get id_q_ef model.domIdElements
+        idToMaybePos : String -> Maybe ( Float, Float )
+        idToMaybePos id =
+            Maybe.map domElementToPos <| AssocList.get id model.domIdElements
 
-        maybe_q_cd_pos =
-            Maybe.map domElementToPos <| AssocList.get id_q_cd model.domIdElements
-    in
-    case Maybe.map2 (drawArrow -30) maybe_q_ef_pos maybe_q_cd_pos of
-        Nothing ->
-            ElmUI.text <| Debug.toString model.domIdElements
+        tryDrawArrow xOffset maybeStartPos maybeEndPos =
+            case Maybe.map2 (drawArrow xOffset) maybeStartPos maybeEndPos of
+                Nothing ->
+                    Svg.text <| Debug.toString model.domIdElements
 
-        Just e ->
-            e
-
-
-drawArrow : Float -> ( Float, Float ) -> ( Float, Float ) -> ElmUI.Element Msg
-drawArrow xOffset ( startX, startY ) ( endX, endY ) =
-    let
-        rightArrowHeadId =
-            "rightArrowHead"
-
-        leftArrowHeadId =
-            "leftArrowHead"
-
-        arrowHeadAttrs id =
-            [ SvgAttr.id id
-            , SvgAttr.refX "5"
-            , SvgAttr.refY "5"
-            , SvgAttr.viewBox "0 0 10 10"
-            , SvgAttr.markerWidth "6"
-            , SvgAttr.markerHeight "6"
-            ]
-
-        rightArrowHead =
-            Svg.marker
-                (arrowHeadAttrs rightArrowHeadId)
-                [ Svg.path
-                    [ SvgAttr.d "M 0 0 L 10 5 L 0 10 Z" ]
-                    []
-                ]
-
-        leftArrowHead =
-            Svg.marker
-                (arrowHeadAttrs leftArrowHeadId)
-                [ Svg.path
-                    [ SvgAttr.d "M 10 0 L 0 5 L 10 10 Z" ]
-                    []
-                ]
+                Just e ->
+                    e
     in
     ElmUI.html <|
         Svg.svg
@@ -343,27 +314,63 @@ drawArrow xOffset ( startX, startY ) ( endX, endY ) =
                 [ rightArrowHead
                 , leftArrowHead
                 ]
-            , Svg.path
-                [ SvgAttr.d <|
-                    "M "
-                        ++ String.fromFloat startX
-                        ++ " "
-                        ++ String.fromFloat startY
-                        ++ "h "
-                        ++ String.fromFloat xOffset
-                        ++ "V "
-                        ++ String.fromFloat endY
-                        ++ "h "
-                        ++ String.fromFloat -xOffset
-                , SvgAttr.stroke "black"
-                , SvgAttr.fill "white"
-                , SvgAttr.markerEnd <| "url(#" ++ rightArrowHeadId ++ ")"
-                ]
-                []
-            , Svg.circle
-                [ SvgAttr.cx <| "950"
-                , SvgAttr.cy <| "950"
-                , SvgAttr.r "100"
-                ]
-                []
+            , tryDrawArrow -30 (idToMaybePos id_a_e) (idToMaybePos id_q_ef)
+            , tryDrawArrow -30 (idToMaybePos id_a_f) (idToMaybePos id_q_ef)
             ]
+
+
+drawArrow : Float -> ( Float, Float ) -> ( Float, Float ) -> Svg Msg
+drawArrow xOffset ( startX, startY ) ( endX, endY ) =
+    Svg.path
+        [ SvgAttr.d <|
+            "M "
+                ++ String.fromFloat startX
+                ++ " "
+                ++ String.fromFloat startY
+                ++ "h "
+                ++ String.fromFloat xOffset
+                ++ "V "
+                ++ String.fromFloat endY
+                ++ "h "
+                ++ String.fromFloat -xOffset
+        , SvgAttr.stroke "black"
+        , SvgAttr.fillOpacity "0"
+        , SvgAttr.markerEnd <| "url(#" ++ rightArrowHeadId ++ ")"
+        ]
+        []
+
+
+rightArrowHeadId =
+    "rightArrowHead"
+
+
+leftArrowHeadId =
+    "leftArrowHead"
+
+
+arrowHeadAttrs id =
+    [ SvgAttr.id id
+    , SvgAttr.refX "5"
+    , SvgAttr.refY "5"
+    , SvgAttr.viewBox "0 0 10 10"
+    , SvgAttr.markerWidth "6"
+    , SvgAttr.markerHeight "6"
+    ]
+
+
+rightArrowHead =
+    Svg.marker
+        (arrowHeadAttrs rightArrowHeadId)
+        [ Svg.path
+            [ SvgAttr.d "M 0 0 L 10 5 L 0 10 Z" ]
+            []
+        ]
+
+
+leftArrowHead =
+    Svg.marker
+        (arrowHeadAttrs leftArrowHeadId)
+        [ Svg.path
+            [ SvgAttr.d "M 10 0 L 0 5 L 10 10 Z" ]
+            []
+        ]

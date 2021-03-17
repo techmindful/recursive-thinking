@@ -1,4 +1,14 @@
-module P5 exposing (id_q_cd, id_q_ef, p5)
+module P5 exposing
+    ( id_a_a
+    , id_a_c
+    , id_a_d
+    , id_a_e
+    , id_a_f
+    , id_q_a
+    , id_q_cd
+    , id_q_ef
+    , p5
+    )
 
 import AssocList
 import Browser.Dom as Dom
@@ -17,14 +27,38 @@ import Svg.Attributes as Svg
 import Types exposing (..)
 
 
-{-| HTML ID of the question of Path\_E and Path\_F
+{-| HTML ID of the question of Path A
 -}
+id_q_a =
+    "q_a"
+
+
 id_q_cd =
     "q_cd"
 
 
 id_q_ef =
     "q_ef"
+
+
+id_a_e =
+    "a_e"
+
+
+id_a_f =
+    "a_f"
+
+
+id_a_c =
+    "a_c"
+
+
+id_a_d =
+    "a_d"
+
+
+id_a_a =
+    "a_a"
 
 
 p5 : Model -> ElmUI.Element Msg
@@ -69,7 +103,7 @@ p5 model =
                 , plainPara "Let's execute our solution by hand, and see if it really works!"
                 , plainPara "To reduce clutter, I'm going to abbreviate \"the quickest path from X to either J or K\" into \"Path_X\"."
                 , qa
-                    []
+                    [ ElmUI.htmlAttribute <| Html.Attributes.id id_q_a ]
                     [ qPara "Q: So, what is Path_A?"
                     , aPara "A: Path_A is the quicker of these two: AC + Path_C, versus AB + BD + Path_D."
                     ]
@@ -105,7 +139,7 @@ p5 model =
                     , aPara "A: Path_H is the quicker of these two: HK, versus GH + GJ. Since HK takes 8 minutes, GH + GJ takes 25 + 10 = 35 minutes, we conclude that Path_H is HK, and it takes 8 minutes."
                     ]
                 , qa
-                    []
+                    [ ElmUI.htmlAttribute <| Html.Attributes.id id_a_e ]
                     [ plainPara "A: Since Path_E is the quicker of these two:"
                     , ElmUI.textColumn
                         vsOneTwoStyle
@@ -115,7 +149,7 @@ p5 model =
                     , aPara "Therefore, Path_E is EF + FH + HK. It takes 30 minutes."
                     ]
                 , qa
-                    []
+                    [ ElmUI.htmlAttribute <| Html.Attributes.id id_a_f ]
                     [ plainPara "A: Since Path_F is the quicker of these two:"
                     , ElmUI.textColumn
                         vsOneTwoStyle
@@ -125,7 +159,7 @@ p5 model =
                     , aPara "Therefore, Path_F is FH + HK. It takes 10 minutes."
                     ]
                 , qa
-                    []
+                    [ ElmUI.htmlAttribute <| Html.Attributes.id id_a_c ]
                     [ plainPara "A: Since Path_C is the quicker of these two:"
                     , ElmUI.textColumn
                         vsOneTwoStyle
@@ -135,7 +169,7 @@ p5 model =
                     , aPara "Therefore, Path_C is CE + EF + FH + HK. It takes 35 minutes."
                     ]
                 , qa
-                    []
+                    [ ElmUI.htmlAttribute <| Html.Attributes.id id_a_d ]
                     [ plainPara
                         "A: Since Path_D is the quicker of these two:"
                     , ElmUI.textColumn
@@ -153,6 +187,7 @@ p5 model =
                     , Border.width 4
                     , Border.rounded 5
                     , Border.color <| ElmUI.rgb255 47 158 91
+                    , ElmUI.htmlAttribute <| Html.Attributes.id id_a_a
                     ]
                     [ ElmUI.paragraph
                         [ Font.size 24
