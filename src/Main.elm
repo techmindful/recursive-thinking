@@ -129,18 +129,9 @@ update msg model =
             let
                 resetViewportCmd =
                     Task.perform (\_ -> Ignore) (Dom.setViewport 0 0)
-
-                cmds =
-                    -- If user navigates to Part 5, get its DOM element positions.
-                    case getRoute url of
-                        Part 5 ->
-                            Cmd.batch [ resetViewportCmd, getPartFiveDomElementsCmd ]
-
-                        _ ->
-                            resetViewportCmd
             in
             ( { model | route = getRoute url }
-            , cmds
+            , resetViewportCmd
             )
 
         QuizRecvInput quizID quizStatus ->
