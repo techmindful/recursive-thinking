@@ -288,9 +288,12 @@ view model =
 partFiveSvg : Model -> ElmUI.Element Msg
 partFiveSvg model =
     let
+        arrowOffset_Y =
+            60
+
         domElementToPos : Dom.Element -> ( Float, Float )
         domElementToPos domElement =
-            ( domElement.element.x, domElement.element.y )
+            ( domElement.element.x, domElement.element.y + arrowOffset_Y )
 
         idToMaybePos : String -> Maybe ( Float, Float )
         idToMaybePos id =
@@ -316,6 +319,9 @@ partFiveSvg model =
                 ]
             , tryDrawArrow -30 (idToMaybePos id_a_e) (idToMaybePos id_q_ef)
             , tryDrawArrow -30 (idToMaybePos id_a_f) (idToMaybePos id_q_ef)
+            , tryDrawArrow -90 (idToMaybePos id_a_c) (idToMaybePos id_q_cd)
+            , tryDrawArrow -90 (idToMaybePos id_a_d) (idToMaybePos id_q_cd)
+            , tryDrawArrow -150 (idToMaybePos id_a_a) (idToMaybePos id_q_a)
             ]
 
 
