@@ -25,6 +25,7 @@ type Msg
     | LoadedPartFiveImg
     | GotPartFiveDomElement String (Result Dom.Error Dom.Element)
     | SelectDemoCodeLang DemoCodeLang
+    | WindowResized Int Int
     | Ignore
 
 

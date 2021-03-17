@@ -3,6 +3,7 @@ module Main exposing (..)
 import AssocList
 import Browser
 import Browser.Dom as Dom
+import Browser.Events
 import Browser.Navigation as Nav
 import Consts exposing (..)
 import Dict exposing (Dict)
@@ -40,7 +41,8 @@ main =
         { init = init
         , update = update
         , view = view
-        , subscriptions = \_ -> Sub.none
+        , subscriptions =
+            \_ -> Browser.Events.onResize (\width height -> WindowResized width height)
         , onUrlRequest = UserClickedLink
         , onUrlChange = UrlHasChanged
         }
@@ -163,6 +165,9 @@ update msg model =
 
         SelectDemoCodeLang lang ->
             ( { model | demoCodeLang = lang }, Cmd.none )
+
+        WindowResized width height ->
+            ( model, getPartFiveDomElementsCmd )
 
         Ignore ->
             ( model, Cmd.none )
