@@ -73,6 +73,25 @@ explainerIndex model =
         ]
 
 
+getPartFiveDomElementCmd : String -> Cmd Msg
+getPartFiveDomElementCmd id =
+    Task.attempt (GotPartFiveDomElement id) (Dom.getElement id)
+
+
+getPartFiveDomElementsCmd =
+    Cmd.batch <|
+        List.map getPartFiveDomElementCmd
+            [ id_q_a
+            , id_q_cd
+            , id_q_ef
+            , id_a_e
+            , id_a_f
+            , id_a_c
+            , id_a_d
+            , id_a_a
+            ]
+
+
 init : () -> Url -> Nav.Key -> ( Model, Cmd Msg )
 init () url navKey =
     let
@@ -111,29 +130,11 @@ update msg model =
                 resetViewportCmd =
                     Task.perform (\_ -> Ignore) (Dom.setViewport 0 0)
 
-                getPartFiveDomElementCmd : String -> Cmd Msg
-                getPartFiveDomElementCmd id =
-                    Task.attempt (GotPartFiveDomElement id) (Dom.getElement id)
-
-                route =
-                    getRoute url
-
                 cmds =
                     -- If user navigates to Part 5, get its DOM element positions.
-                    case route of
+                    case getRoute url of
                         Part 5 ->
-                            Cmd.batch <|
-                                resetViewportCmd
-                                    :: List.map getPartFiveDomElementCmd
-                                        [ id_q_a
-                                        , id_q_cd
-                                        , id_q_ef
-                                        , id_a_e
-                                        , id_a_f
-                                        , id_a_c
-                                        , id_a_d
-                                        , id_a_a
-                                        ]
+                            Cmd.batch [ resetViewportCmd, getPartFiveDomElementsCmd ]
 
                         _ ->
                             resetViewportCmd
@@ -152,6 +153,9 @@ update msg model =
 
         QuizErr ->
             ( model, Cmd.none )
+
+        LoadedPartFiveImg ->
+            ( model, getPartFiveDomElementsCmd )
 
         GotPartFiveDomElement id result ->
             case result of

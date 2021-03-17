@@ -19,6 +19,8 @@ import Element.Font as Font
 import Element.Input as Input
 import Html
 import Html.Attributes
+import Html.Events
+import Json.Decode
 import List.Extra as List
 import PageNavButtons exposing (..)
 import Quiz exposing (..)
@@ -95,11 +97,16 @@ p5 model =
             in
             ElmUI.textColumn
                 [ paraSpacing ]
-                [ ElmUI.image
-                    ([ ElmUI.width ElmUI.fill ] ++ stickyAttrs)
-                    { src = "/static/img/heathrow-to-london.jpg"
-                    , description = "WIP text for assistive technology"
-                    }
+                [ ElmUI.html <|
+                    Html.img
+                        [ Html.Attributes.src "/static/img/heathrow-to-london.jpg"
+                        , Html.Attributes.style "width" "100%"
+                        , Html.Attributes.style "position" "sticky"
+                        , Html.Attributes.style "top" "0"
+                        , Html.Attributes.style "z-index" "2"
+                        , Html.Events.on "load" (Json.Decode.succeed LoadedPartFiveImg)
+                        ]
+                        []
                 , plainPara "Let's execute our solution by hand, and see if it really works!"
                 , plainPara "To reduce clutter, I'm going to abbreviate \"the quickest path from X to either J or K\" into \"Path_X\"."
                 , qa
