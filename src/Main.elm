@@ -301,12 +301,49 @@ partFiveSvg model =
 
 drawArrow : Float -> ( Float, Float ) -> ( Float, Float ) -> ElmUI.Element Msg
 drawArrow xOffset ( startX, startY ) ( endX, endY ) =
+    let
+        rightArrowHeadId =
+            "rightArrowHead"
+
+        leftArrowHeadId =
+            "leftArrowHead"
+
+        arrowHeadAttrs id =
+            [ SvgAttr.id id
+            , SvgAttr.refX "5"
+            , SvgAttr.refY "5"
+            , SvgAttr.viewBox "0 0 10 10"
+            , SvgAttr.markerWidth "6"
+            , SvgAttr.markerHeight "6"
+            ]
+
+        rightArrowHead =
+            Svg.marker
+                (arrowHeadAttrs rightArrowHeadId)
+                [ Svg.path
+                    [ SvgAttr.d "M 0 0 L 10 5 L 0 10 Z" ]
+                    []
+                ]
+
+        leftArrowHead =
+            Svg.marker
+                (arrowHeadAttrs leftArrowHeadId)
+                [ Svg.path
+                    [ SvgAttr.d "M 10 0 L 0 5 L 10 10 Z" ]
+                    []
+                ]
+    in
     ElmUI.html <|
         Svg.svg
             [ SvgAttr.width "100%"
             , SvgAttr.height "100%"
             ]
-            [ Svg.path
+            [ Svg.defs
+                []
+                [ rightArrowHead
+                , leftArrowHead
+                ]
+            , Svg.path
                 [ SvgAttr.d <|
                     "M "
                         ++ String.fromFloat startX
@@ -320,6 +357,7 @@ drawArrow xOffset ( startX, startY ) ( endX, endY ) =
                         ++ String.fromFloat -xOffset
                 , SvgAttr.stroke "black"
                 , SvgAttr.fill "white"
+                , SvgAttr.markerEnd <| "url(#" ++ rightArrowHeadId ++ ")"
                 ]
                 []
             , Svg.circle
