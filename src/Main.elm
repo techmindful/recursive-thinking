@@ -193,10 +193,6 @@ view model =
                         [ ElmUI.centerX
                         , ElmUI.padding 60
                         , ElmUI.spacingXY 0 40
-                        , Font.family
-                            [ Font.typeface "Z003"
-                            , Font.serif
-                            ]
                         ]
                         [ ElmUI.el
                             [ Font.center

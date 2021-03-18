@@ -14537,7 +14537,7 @@ var $author$project$P4$p4 = function (model) {
 					[$author$project$Consts$paraSpacing]),
 				_List_fromArray(
 					[
-						$author$project$Consts$plainPara('When I saw this problem, I first attempted to solve it without recursion. The only thing I could think of is to just brute-force it, exhaust every possible path, and pick the one whose time sums up the least. That is to calculate the time needed of path A->C->E->G->J, and A->C->E->G->H->K, and A->C->E->F->H->K... Sure, that works. But it didn\'t feel easy to translate that process to a computer program. Can it be done more pleasantly?'),
+						$author$project$Consts$plainPara('The non-recursive way I can think of is to just brute-force it, exhaust every possible path, and pick the one whose time sums up the least. That is to calculate the time needed of path A->C->E->G->J, and A->C->E->G->H->K, and A->C->E->F->H->K... Sure, that works. But being an average programmer, I didn\'t find it intuitive to translate that approach into code. Is there a more natural way?'),
 						$author$project$Consts$plainPara('It turned out that with recursion, I can solve it in a rather lazy manner. Let\'s try it together. As mentioned before, typically it\'s easier to figure out the base case in a recursion first, as it\'s usually also the most trivial case. What is the base case in this scenario?')
 					])),
 				quiz1,
@@ -15609,8 +15609,6 @@ var $author$project$Main$partFiveSvg = function (model) {
 					idToMaybePos($author$project$P5$id_q_a))
 				])));
 };
-var $mdgriffith$elm_ui$Internal$Model$Serif = {$: 'Serif'};
-var $mdgriffith$elm_ui$Element$Font$serif = $mdgriffith$elm_ui$Internal$Model$Serif;
 var $author$project$Main$view = function (model) {
 	return {
 		body: _List_fromArray(
@@ -15697,13 +15695,7 @@ var $author$project$Main$view = function (model) {
 							[
 								$mdgriffith$elm_ui$Element$centerX,
 								$mdgriffith$elm_ui$Element$padding(60),
-								A2($mdgriffith$elm_ui$Element$spacingXY, 0, 40),
-								$mdgriffith$elm_ui$Element$Font$family(
-								_List_fromArray(
-									[
-										$mdgriffith$elm_ui$Element$Font$typeface('Z003'),
-										$mdgriffith$elm_ui$Element$Font$serif
-									]))
+								A2($mdgriffith$elm_ui$Element$spacingXY, 0, 40)
 							]),
 						_List_fromArray(
 							[

@@ -370,7 +370,7 @@ p4 model =
             [ ElmUI.text "Feel free to try to solve this problem on your own for a bit, if you so desire. You can explore both recursive and iterative (non-recursive) approaches. When you're ready, the guide below will step you through the recursive solution." ]
         , ElmUI.textColumn
             [ paraSpacing ]
-            [ plainPara "When I saw this problem, I first attempted to solve it without recursion. The only thing I could think of is to just brute-force it, exhaust every possible path, and pick the one whose time sums up the least. That is to calculate the time needed of path A->C->E->G->J, and A->C->E->G->H->K, and A->C->E->F->H->K... Sure, that works. But it didn't feel easy to translate that process to a computer program. Can it be done more pleasantly?"
+            [ plainPara "The non-recursive way I can think of is to just brute-force it, exhaust every possible path, and pick the one whose time sums up the least. That is to calculate the time needed of path A->C->E->G->J, and A->C->E->G->H->K, and A->C->E->F->H->K... Sure, that works. But being an average programmer, I didn't find it intuitive to translate that approach into code. Is there a more natural way?"
             , plainPara "It turned out that with recursion, I can solve it in a rather lazy manner. Let's try it together. As mentioned before, typically it's easier to figure out the base case in a recursion first, as it's usually also the most trivial case. What is the base case in this scenario?"
             ]
         , quiz1
