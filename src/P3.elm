@@ -41,9 +41,25 @@ p3 model =
             , plainPara "3! = 3 * 2! = 3 * 2 = 6. Therefore,"
             , plainPara "4! = 4 * 3! = 4 * 6 = 24."
             ]
-        , plainPara "In our recursive definition, 1! = 1 is called the \"base case\" (or \"edge condition\"). The base case is critical in any recursive definition. Recursion without a base case is just silliness. But typically, the base case is also the most trivial case. Therefore, when making a recursive definition, people usually try to nail down the base case first."
+        , plainPara "In our recursive definition, 1! = 1 is called the \"base case\" (or \"edge condition\").* The base case is critical in any recursive definition. Recursion without a base case is just silliness. But typically, the base case is also the most trivial case. Therefore, when making a recursive definition, people usually try to nail down the base case first."
+        , ElmUI.paragraph
+            [ ElmUI.paddingEach { top = 20, bottom = 0, left = 0, right = 0 }
+            , Font.size 16
+            ]
+            [ ElmUI.text "* "
+            , ElmUI.el
+                [ Font.underline ]
+                (ElmUI.text "For advanced readers")
+            , ElmUI.text
+                ": More commonly, the base case of factorial is actually defined to be 0! = 1. This plays out nicely with other formulas, like the combinatorial formula. "
+            , externalLink
+                "https://math.stackexchange.com/questions/20969/prove-0-1-from-first-principles/20975#20975"
+                "This StackExchange answer"
+            , ElmUI.text
+                " has a brief explanation. But since we are just learning factorial here, let's stick with our more intuitive definition, where 1! = 1."
+            ]
         , ElmUI.el
-            [ ElmUI.paddingXY 0 15 ]
+            [ ElmUI.paddingXY 0 20 ]
           <|
             mkNextPageButton model
         ]

@@ -13760,6 +13760,57 @@ var $author$project$P2$p2 = function (model) {
 				}
 			}()));
 };
+var $elm$html$Html$Attributes$target = $elm$html$Html$Attributes$stringProperty('target');
+var $mdgriffith$elm_ui$Element$newTabLink = F2(
+	function (attrs, _v0) {
+		var url = _v0.url;
+		var label = _v0.label;
+		return A4(
+			$mdgriffith$elm_ui$Internal$Model$element,
+			$mdgriffith$elm_ui$Internal$Model$asEl,
+			$mdgriffith$elm_ui$Internal$Model$NodeName('a'),
+			A2(
+				$elm$core$List$cons,
+				$mdgriffith$elm_ui$Internal$Model$Attr(
+					$elm$html$Html$Attributes$href(url)),
+				A2(
+					$elm$core$List$cons,
+					$mdgriffith$elm_ui$Internal$Model$Attr(
+						$elm$html$Html$Attributes$rel('noopener noreferrer')),
+					A2(
+						$elm$core$List$cons,
+						$mdgriffith$elm_ui$Internal$Model$Attr(
+							$elm$html$Html$Attributes$target('_blank')),
+						A2(
+							$elm$core$List$cons,
+							$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$shrink),
+							A2(
+								$elm$core$List$cons,
+								$mdgriffith$elm_ui$Element$height($mdgriffith$elm_ui$Element$shrink),
+								A2(
+									$elm$core$List$cons,
+									$mdgriffith$elm_ui$Internal$Model$htmlClass($mdgriffith$elm_ui$Internal$Style$classes.contentCenterX + (' ' + ($mdgriffith$elm_ui$Internal$Style$classes.contentCenterY + (' ' + $mdgriffith$elm_ui$Internal$Style$classes.link)))),
+									attrs)))))),
+			$mdgriffith$elm_ui$Internal$Model$Unkeyed(
+				_List_fromArray(
+					[label])));
+	});
+var $mdgriffith$elm_ui$Element$Font$underline = $mdgriffith$elm_ui$Internal$Model$htmlClass($mdgriffith$elm_ui$Internal$Style$classes.underline);
+var $author$project$Consts$externalLink = F2(
+	function (urlStr, labelStr) {
+		return A2(
+			$mdgriffith$elm_ui$Element$newTabLink,
+			_List_fromArray(
+				[
+					$mdgriffith$elm_ui$Element$Font$color(
+					A3($mdgriffith$elm_ui$Element$rgb255, 0, 0, 255)),
+					$mdgriffith$elm_ui$Element$Font$underline
+				]),
+			{
+				label: $mdgriffith$elm_ui$Element$text(labelStr),
+				url: urlStr
+			});
+	});
 var $author$project$P3$p3 = function (model) {
 	var prevPageButton = A2(
 		$mdgriffith$elm_ui$Element$el,
@@ -13803,12 +13854,32 @@ var $author$project$P3$p3 = function (model) {
 						$author$project$Consts$plainPara('3! = 3 * 2! = 3 * 2 = 6. Therefore,'),
 						$author$project$Consts$plainPara('4! = 4 * 3! = 4 * 6 = 24.')
 					])),
-				$author$project$Consts$plainPara('In our recursive definition, 1! = 1 is called the \"base case\" (or \"edge condition\"). The base case is critical in any recursive definition. Recursion without a base case is just silliness. But typically, the base case is also the most trivial case. Therefore, when making a recursive definition, people usually try to nail down the base case first.'),
+				$author$project$Consts$plainPara('In our recursive definition, 1! = 1 is called the \"base case\" (or \"edge condition\").* The base case is critical in any recursive definition. Recursion without a base case is just silliness. But typically, the base case is also the most trivial case. Therefore, when making a recursive definition, people usually try to nail down the base case first.'),
+				A2(
+				$mdgriffith$elm_ui$Element$paragraph,
+				_List_fromArray(
+					[
+						$mdgriffith$elm_ui$Element$paddingEach(
+						{bottom: 0, left: 0, right: 0, top: 20}),
+						$mdgriffith$elm_ui$Element$Font$size(16)
+					]),
+				_List_fromArray(
+					[
+						$mdgriffith$elm_ui$Element$text('* '),
+						A2(
+						$mdgriffith$elm_ui$Element$el,
+						_List_fromArray(
+							[$mdgriffith$elm_ui$Element$Font$underline]),
+						$mdgriffith$elm_ui$Element$text('For advanced readers')),
+						$mdgriffith$elm_ui$Element$text(': More commonly, the base case of factorial is actually defined to be 0! = 1. This plays out nicely with other formulas, like the combinatorial formula. '),
+						A2($author$project$Consts$externalLink, 'https://math.stackexchange.com/questions/20969/prove-0-1-from-first-principles/20975#20975', 'This StackExchange answer'),
+						$mdgriffith$elm_ui$Element$text(' has a brief explanation. But since we are just learning factorial here, let\'s stick with our more intuitive definition, where 1! = 1.')
+					])),
 				A2(
 				$mdgriffith$elm_ui$Element$el,
 				_List_fromArray(
 					[
-						A2($mdgriffith$elm_ui$Element$paddingXY, 0, 15)
+						A2($mdgriffith$elm_ui$Element$paddingXY, 0, 20)
 					]),
 				$author$project$PageNavButtons$mkNextPageButton(model))
 			]));
@@ -15316,57 +15387,6 @@ var $mdgriffith$elm_ui$Element$layoutWith = F3(
 var $mdgriffith$elm_ui$Element$layout = $mdgriffith$elm_ui$Element$layoutWith(
 	{options: _List_Nil});
 var $author$project$Consts$maxWidthPx = 768;
-var $elm$html$Html$Attributes$target = $elm$html$Html$Attributes$stringProperty('target');
-var $mdgriffith$elm_ui$Element$newTabLink = F2(
-	function (attrs, _v0) {
-		var url = _v0.url;
-		var label = _v0.label;
-		return A4(
-			$mdgriffith$elm_ui$Internal$Model$element,
-			$mdgriffith$elm_ui$Internal$Model$asEl,
-			$mdgriffith$elm_ui$Internal$Model$NodeName('a'),
-			A2(
-				$elm$core$List$cons,
-				$mdgriffith$elm_ui$Internal$Model$Attr(
-					$elm$html$Html$Attributes$href(url)),
-				A2(
-					$elm$core$List$cons,
-					$mdgriffith$elm_ui$Internal$Model$Attr(
-						$elm$html$Html$Attributes$rel('noopener noreferrer')),
-					A2(
-						$elm$core$List$cons,
-						$mdgriffith$elm_ui$Internal$Model$Attr(
-							$elm$html$Html$Attributes$target('_blank')),
-						A2(
-							$elm$core$List$cons,
-							$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$shrink),
-							A2(
-								$elm$core$List$cons,
-								$mdgriffith$elm_ui$Element$height($mdgriffith$elm_ui$Element$shrink),
-								A2(
-									$elm$core$List$cons,
-									$mdgriffith$elm_ui$Internal$Model$htmlClass($mdgriffith$elm_ui$Internal$Style$classes.contentCenterX + (' ' + ($mdgriffith$elm_ui$Internal$Style$classes.contentCenterY + (' ' + $mdgriffith$elm_ui$Internal$Style$classes.link)))),
-									attrs)))))),
-			$mdgriffith$elm_ui$Internal$Model$Unkeyed(
-				_List_fromArray(
-					[label])));
-	});
-var $mdgriffith$elm_ui$Element$Font$underline = $mdgriffith$elm_ui$Internal$Model$htmlClass($mdgriffith$elm_ui$Internal$Style$classes.underline);
-var $author$project$Consts$externalLink = F2(
-	function (urlStr, labelStr) {
-		return A2(
-			$mdgriffith$elm_ui$Element$newTabLink,
-			_List_fromArray(
-				[
-					$mdgriffith$elm_ui$Element$Font$color(
-					A3($mdgriffith$elm_ui$Element$rgb255, 0, 0, 255)),
-					$mdgriffith$elm_ui$Element$Font$underline
-				]),
-			{
-				label: $mdgriffith$elm_ui$Element$text(labelStr),
-				url: urlStr
-			});
-	});
 var $author$project$More$more = A2(
 	$mdgriffith$elm_ui$Element$column,
 	_List_fromArray(
